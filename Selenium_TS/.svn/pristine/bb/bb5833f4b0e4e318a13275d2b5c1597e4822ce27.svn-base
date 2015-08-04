@@ -1,0 +1,17 @@
+[Course]
+Course_Creator = AICC
+Course_ID = 123456
+Course_System = 
+Course_Title = AICC Flash Workshop - PPT to web examples
+Level = 1
+Max_Fields_CST = 3
+Total_AUs = 2
+Total_Blocks = 0
+Total_Objectives = 0
+Version=2.2
+
+[Course_Behavior]
+Max_Normal=99
+
+[Course_Description]
+

@@ -1,0 +1,10 @@
+# Required metadata
+sonar.projectKey=java-sonar-runner-simple
+sonar.projectName=Selenium TS 103
+sonar.projectVersion=2.0
+# Comma-separated paths to directories with sources (required)
+sonar.sources=src
+# Language
+sonar.language=java
+# Encoding of the source files
+sonar.sourceEncoding=UTF-8

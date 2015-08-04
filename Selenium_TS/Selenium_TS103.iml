@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="EclipseModuleManager">
+    <libelement value="jar://$MODULE_DIR$/lib/libs/sikuli-ide.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/dom4j-1.6.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/JSErrorCollector-0.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/junit-4.11.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/mysql-connector-java-5.1.27-bin.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/ojdbc6.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/poi-3.10-FINAL-20140208.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/poi-examples-3.10-FINAL-20140208.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/poi-excelant-3.10-FINAL-20140208.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/poi-ooxml-3.10-FINAL-20140208.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/poi-ooxml-schemas-3.10-FINAL-20140208.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/poi-scratchpad-3.10-FINAL-20140208.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/selenium-server-standalone-2.40.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/sikuli-api-1.0.2-standalone.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/sikuli-fuzz-0.9.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/sikuli-ide.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/sikuli-slides-1.2.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/sikuli-webdriver-1.0.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/sqljdbc.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/stax-api-1.0.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/xmlbeans-2.3.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/javax.mail.jar!/" />
+    <src_description expected_position="0">
+      <src_folder value="file://$MODULE_DIR$/src" expected_position="0" />
+    </src_description>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/bin" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="module-library">
+      <library name="sikuli-ide.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/libs/sikuli-ide.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="dom4j-1.6.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/dom4j-1.6.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="JSErrorCollector-0.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/JSErrorCollector-0.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="junit-4.11.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/junit-4.11.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="mysql-connector-java-5.1.27-bin.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/mysql-connector-java-5.1.27-bin.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="ojdbc6.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/ojdbc6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="poi-3.10-FINAL-20140208.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/poi-3.10-FINAL-20140208.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="poi-examples-3.10-FINAL-20140208.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/poi-examples-3.10-FINAL-20140208.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="poi-excelant-3.10-FINAL-20140208.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/poi-excelant-3.10-FINAL-20140208.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="poi-ooxml-3.10-FINAL-20140208.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/poi-ooxml-3.10-FINAL-20140208.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="poi-ooxml-schemas-3.10-FINAL-20140208.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/poi-ooxml-schemas-3.10-FINAL-20140208.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="poi-scratchpad-3.10-FINAL-20140208.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/poi-scratchpad-3.10-FINAL-20140208.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="selenium-server-standalone-2.40.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/selenium-server-standalone-2.40.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="sikuli-api-1.0.2-standalone.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/sikuli-api-1.0.2-standalone.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="sikuli-fuzz-0.9.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/sikuli-fuzz-0.9.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lib/sikuli-ide.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/sikuli-ide.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="sikuli-slides-1.2.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/sikuli-slides-1.2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="sikuli-webdriver-1.0.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/sikuli-webdriver-1.0.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="sqljdbc.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/sqljdbc.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="stax-api-1.0.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/stax-api-1.0.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="xmlbeans-2.3.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/xmlbeans-2.3.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="javax.mail.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/javax.mail.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>

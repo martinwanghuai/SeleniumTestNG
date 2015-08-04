@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<Navigation>
+   <LearningCenter XPath="//a[@Id='home-btn']/i" Parameter="0" >
+      <HOME LinkText="menu.my.home" Parameter="LabelKey" TopMenu="True"/>
+      <MYLEARNING LinkText="menu.my.learning" Parameter="LabelKey" TopMenu="True">
+		<Learning LinkText="menu.my.learning_tab" Parameter="LabelKey">
+		  <MyCurrentCourses XPath="//a[descendant::span[text()='menu.my.current.courses']]" Parameter="LabelKey" />
+		  <MyTrainingHistory XPath="//a[descendant::span[text()='menu.my.training.history']]" Parameter="LabelKey" />
+		  <ExternalTrainingRecords XPath="//a[descendant::span[text()='label.externalTraining']]" Parameter="LabelKey" />
+		</Learning>
+		<MyCert LinkText="menu.my.certificates" Parameter="LabelKey"/>
+		<MyTokens LinkText="menu.my.tokens" Parameter="LabelKey"/>
+		<BrowseCatalog LinkText="menu.browse.a.catalog" Parameter="LabelKey"/>
+		<EnrollRequest LinkText="menu.my.course.requests" Parameter="LabelKey"/>
+		<LearningPath LinkText="menu.my.learning.path" Parameter="LabelKey"/>
+		<Search LinkText="menu.search" Parameter="LabelKey"/>
+	  </MYLEARNING>
+	  <SOCIALTOOLS LinkText="menu.social.tools" Parameter="LabelKey" TopMenu="True">
+		<MyEmails LinkText="menu.my.notifications" Parameter="LabelKey"/>
+		<MyForum LinkText="menu.discussion.forums" Parameter="LabelKey"/>
+	  </SOCIALTOOLS>
+	  <MYCAREER LinkText="menu.my.career" Parameter="LabelKey" TopMenu="True">
+	   <MyAppraisal LinkText="menu.my.appraisals" Parameter="LabelKey"/>
+	   <JobProfile LinkText="menu.my.job.profile" Parameter="LabelKey"/>
+	   <MyCompetency LinkText="menu.my.competencies" Parameter="LabelKey"/>
+	   <MyGoals LinkText="menu.my.goals" Parameter="LabelKey">
+		<MyPerformanceGoals XPath="//a[descendant::span[text()='menu.my.performance.goals']]" Parameter="LabelKey">
+			<BtnCreatePerfGoal XPath="//button[descendant::span[text()='button.personal_goal.new']]" Parameter="LabelKey"/>
+		</MyPerformanceGoals>
+		<MyDevelopmentGoals XPath="//a[descendant::span[text()='menu.my.development.goals']]" Parameter="LabelKey">
+			<BtnCreateDevGoal XPath="//button[descendant::span[text()='button.development_goal.new']]" Parameter="LabelKey"/>
+		</MyDevelopmentGoals>
+		<MyOrgGoals XPath="//a[descendant::span[text()='menu.Organization_Goals']]" Parameter="LabelKey" />
+		</MyGoals>
+	  </MYCAREER>
+	  <MANAGER LinkText="menu.manager" Parameter="LabelKey" TopMenu="True">
+	   <TeamAppraisal LinkText="menu.my.team.appraisals" Parameter="LabelKey"/>
+	   <TeamReview LinkText="menu.my.team.review" Parameter="LabelKey">
+		<OrgUserReview XPath="//a[descendant::span[text()='menu.org.user.review']]" Parameter="LabelKey" />
+		<ManagerReview XPath="//a[descendant::span[text()='menu.manager.review']]" Parameter="LabelKey" />
+		<GroupReview XPath="//a[descendant::span[text()='menu.assigned.group.review']]" Parameter="LabelKey" />
+	   </TeamReview>
+	   <CourseApproval LinkText="menu.course.approval" Parameter="LabelKey"/>
+	   <EnrollWizard LinkText="menu.assign.training" Parameter="LabelKey"/>
+	   <ExtTrainingApproval LinkText="menu.external.course.approval" Parameter="LabelKey"/>
+	   <CompetencyAssessment LinkText="heading.pending_assessment" Parameter="LabelKey"/>
+	  </MANAGER>
+	  <REPORTS LinkText="menu.reports" Parameter="LabelKey" TopMenu="True">
+		<MyCharts LinkText="menu.charts.reports" Parameter="LabelKey"/>
+	  </REPORTS>
+	  <INSTRUCTOR LinkText="menu.instructor" Parameter="LabelKey" TopMenu="True">
+		<MyActiveCourses LinkText="menu.my.active.courses" Parameter="LabelKey"/>
+	  </INSTRUCTOR>
+   </LearningCenter>
+   <ManageCenter LinkText="menu.admin.area" Parameter="LabelKey">
+		<Learning LinkText="label.manage_menu.learning" Parameter="LabelKey" TopMenu="True">
+		 <Catalog LinkText="heading.cataloglist" Parameter="LabelKey"/>
+		 <CertAward LinkText="heading.Cert_Awarding_CSV_Loader" Parameter="LabelKey"/>
+		 <CertEditor LinkText="heading.Certification_Editor" Parameter="LabelKey"/>
+		 <CourseLoader LinkText="heading.course_CSV_Loader" Parameter="LabelKey"/>
+		 <ExamPool LinkText="label.ExamPoolsManager" Parameter="LabelKey"/>
+		 <Exams LinkText="label.Tests" Parameter="LabelKey">
+			 <ExamFilter XPath="//input[@name='apply-filters' and @value='Filter']" Parameter="0">
+				<ExamGenerator LinkText="label.generate_exam" Parameter="LabelKey"/>
+			 </ExamFilter>
+		 </Exams>
+		 <ExamTempl LinkText="heading.testEditor" Parameter="LabelKey"/>
+		 <ImportAICC LinkText="heading.importAICCCourseStructure" Parameter="LabelKey"/>
+		 <InstructorCal LinkText="heading.integrated_instructor_cal" Parameter="LabelKey"/>
+		 <Modules LinkText="heading.Learning_Modules" Parameter="LabelKey">
+				<ModuleCreate Id="createButton" Parameter="LabelKey"/>
+				<SearchModule Id="KEYW" Parameter="LabelKey">
+					<LearningGearBtn XPath="//tr[descendant::td/a[contains(text(),'?')]]/td[2]/div[1]/button" Parameter="1"/>
+				</SearchModule>
+		 </Modules>
+		 <PolicyEditor LinkText="heading.PolicyEditor" Parameter="LabelKey"/>
+		 <ProgramLoader LinkText="label.program_csv_loader" Parameter="LabelKey"/>
+		 <QuesEditor LinkText="label.questions" Parameter="LabelKey"/>
+		 <QuesPool LinkText="heading.manage_question_pools" Parameter="LabelKey"/>
+		 <QuestionLoader LinkText="menu.File_Question_Dataloader" Parameter="LabelKey"/>
+		 <RepositoryManager LinkText="header.Repository_Manager" Parameter="LabelKey"/>
+		 <Resource LinkText="heading.Facilities_Editor" Parameter="LabelKey"/>
+		 <Subject LinkText="label.heading.catalogConfig.courseSubjects" Parameter="LabelKey"/>
+		 <UserProf LinkText="heading.user_profile_data_loader" Parameter="LabelKey"/>
+		 <UserGroup LinkText="menu.UserGroupListing" Parameter="LabelKey"/>
+		 <UserLoader LinkText="menu.User_Dataloader" Parameter="LabelKey"/>
+		 <Vendor LinkText="label.heading.catalogConfig.courseVendors" Parameter="LabelKey"/>
+		 <VirtualAcc LinkText="menu.vc.account" Parameter="LabelKey"/>
+		 <WebCatalogs LinkText="label.Web_Catalogs" Parameter="LabelKey"/>
+		 <Workflow LinkText="menu.vc.assessment.workflow.manager" Parameter="LabelKey"/>		 
+		</Learning>
+		<Communicate LinkText="label.manage_menu.communicate" Parameter="LabelKey" TopMenu="True">
+			<News LinkText="menu.searchnewsmain" Parameter="LabelKey"/>
+			<EmailEditor LinkText="heading.Email_Profile_Editor" Parameter="LabelKey"/>
+		</Communicate>
+		<Overview LinkText="label.manage_menu.learning" Parameter="LabelKey" TopMenu="True">
+			<GoalPrograms LinkText="heading.Goal_Programs" Parameter="LabelKey"/>
+			<OrgAttribute LinkText="heading.org.attrs" Parameter="LabelKey"/>
+		</Overview>
+		<Reports LinkText="label.manage_menu.report" Parameter="LabelKey" TopMenu="True">
+			<ScheduleRpt LinkText="label.Scheduled_Reports" Parameter="LabelKey"/>
+			<RptWizard LinkText="heading.Report_Wizard" Parameter="LabelKey"/>
+		</Reports>
+		<System LinkText="label.manage_menu.system" Parameter="LabelKey" TopMenu="True">
+			<SystemConf LinkText="heading.systemConfiguration" Parameter="LabelKey"/>
+			<HomePageManager LinkText="menulabel.home_page_manager" Parameter="LabelKey"/>
+			<ScheduledTasks LinkText="heading.Run_Tasks" Parameter="LabelKey"/>
+			<Domains LinkText="label.LogicalDomains" Parameter="LabelKey"/>
+		</System>
+		<Talent LinkText="label.manage_menu.talent" Parameter="LabelKey" TopMenu="True">
+			<Competency LinkText="heading.competency.models" Parameter="LabelKey"/>
+			<GoalProg LinkText="heading.Goal_Programs" Parameter="LabelKey"/>
+			<GoalTempl LinkText="menu.Goal_Template" Parameter="LabelKey"/>
+			<JobProfile LinkText="menu.review.jobprofiles" Parameter="LabelKey"/>
+			<Proficiency LinkText="heading.proficiency.levels" Parameter="LabelKey"/>
+		</Talent>
+		<Users LinkText="label.manage_menu.user" Parameter="LabelKey" TopMenu="True">
+			<OrgMaintenance LinkText="menu.Organization_Maintenance" Parameter="LabelKey"/>
+			<RoleAccess LinkText="menu.roleaccessctrl" Parameter="LabelKey"/>
+			<UserEditor LinkText="heading.User_Editor" Parameter="LabelKey"/>
+		</Users>
+   </ManageCenter>
+   <TopDownSelector>
+	<SearchText Id="SEARCHTEXT" Parameter="0"/>
+	<SearchButton Name="SEARCH" Parameter="0" />
+	<AddSingle Id="ADDSINGLE" Parameter="0" />
+	<SaveBtn Name="save" Parameter="0" />
+   </TopDownSelector>
+   <LeftRightSelector>
+	<SearchText Id="SEARCHKEY" Parameter="0" />
+	<SearchButton Name="list" Parameter="0" />
+	<AddSingle Id="ADDSINGLE" Parameter="0" />
+	<SaveBtn Name="save" Parameter="0" />
+   </LeftRightSelector>
+   <InnerUserSelector>
+	<SearchText Id="SEARCHTEXT" Parameter="0" />
+	<SearchButton Id="submit-button" Parameter="0" />
+	<AddSingle XPath="//input[@Id='ADDSINGLE' and @value='>']" Parameter="0" />
+	<SaveBtn Id="user-selector-save-button" Parameter="0" />
+   </InnerUserSelector>
+   <UserSelector>
+	<SearchText Id="SEARCHTEXT" Parameter="0" />
+	<SearchButton Id="submit-button" Parameter="0" />
+	<AddSingle XPath="//input[@Id='ADDSINGLE' and @value='>']" Parameter="0" />
+	<SaveBtn Name="save" Parameter="0" />
+   </UserSelector>
+   <PermissionSelector>
+	<Selector Id="SELECTOR" Parameter="0" />
+	<IncOrgLink LinkText="desc.include.Organization" Parameter="LabelKey" />
+	<goButton Name="goButton" Parameter="0" />
+   </PermissionSelector>
+   <UserIDValidator>
+	<ValidatorBtn Name="VALIDATEBUTTON" Parameter="0" />
+	<SaveBtn Name="SAVEBUTTON" Parameter="0" />
+	<DataEntryList Id="IDLIST" Parameter="0" />
+   </UserIDValidator>
+   <OrgSelector_Multi>
+   </OrgSelector_Multi>
+   <OrgSelector_Single>
+   </OrgSelector_Single>
+</Navigation>
