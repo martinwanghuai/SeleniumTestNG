@@ -11,6 +11,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -21,7 +22,13 @@ import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 
+import com.google.common.base.Function;
+import com.google.common.base.Predicates;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Lists;
 import com.netdimen.abstractclasses.TestObject;
+import com.netdimen.dao.ExcelSheetObject;
+import com.netdimen.dao.ExcelSheetObjectMap;
 
 
 /**
@@ -535,4 +542,39 @@ public class POIUtils {
 		}
 	}
 	
+	
+	public static List<ExcelSheetObject> getExcelSheetObjectFromExcel(final HSSFSheet sheet, final int startRowIndex){
+		
+		return getExcelSheetObjectFromExcel(sheet, startRowIndex, sheet.getPhysicalNumberOfRows());
+	}
+	
+	public static List<ExcelSheetObject> getExcelSheetObjectFromExcel(final HSSFSheet sheet, final int startRowIndex, final int endRowIndex){
+		
+		final List<Row> rowList = Lists.newArrayList();
+		for(int i = startRowIndex; i < endRowIndex; i ++){
+			final Row row = sheet.getRow(i);
+			if(row != null){
+				rowList.add(row);
+			}
+		}
+		
+		return FluentIterable.from(rowList).transform(new Function<Row, ExcelSheetObject>(){
+			
+			@Override
+			public ExcelSheetObject apply(final Row row){
+				
+				final String funcName = getCellValue(row.getCell(ExcelSheetObjectMap.FUNCNAME.getColumnIndex()));
+				final String sheetName = getCellValue(row.getCell(ExcelSheetObjectMap.SHEETNAME.getColumnIndex()));
+				
+				if(Validate.isBlank(funcName) || Validate.isBlank(sheetName)){
+					return null;
+				}
+			
+				final String rowNum = getCellValue(row.getCell(ExcelSheetObjectMap.ROWNUM.getColumnIndex()));
+				final String label = getCellValue(row.getCell(ExcelSheetObjectMap.LABEL.getColumnIndex()));
+				final String author = getCellValue(row.getCell(ExcelSheetObjectMap.AUTHOR.getColumnIndex()));
+				return new ExcelSheetObject(funcName,rowNum, sheetName, label, author); 
+			}
+		}).filter(Predicates.notNull()).toList();
+	}
 }

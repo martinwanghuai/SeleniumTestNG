@@ -29,7 +29,14 @@ import com.netdimen.view.Navigator;
  */
 public abstract class TestObject implements ITestObject{
 	protected String UID = "", PWD = "", FuncType = "", ExpectedResult = "", ID = "", TestSuite = "", 
-			ObjectInputs = "", Label = "", ScheduleTask = "", SysConf = "";
+			ObjectInputs = "", Label = "", ScheduleTask = "", SysConf = "", author = "";
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
 	private DBUser logonDBUser;
 	protected ArrayList<TestObject> testCaseArray = new ArrayList<TestObject>();
 	protected ArrayList<TestObject> objectParams = new ArrayList<TestObject>();
