@@ -4,23 +4,20 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 import com.google.common.collect.Lists;
 import com.netdimen.config.Config;
 import com.netdimen.controller.TestDriver;
 import com.netdimen.dao.DBUser;
 import com.netdimen.dao.DBUserDAO;
+import com.netdimen.dao.ExcelSheetObject;
 import com.netdimen.interfaces.ITestObject;
 import com.netdimen.junit.JUnitAssert;
 import com.netdimen.utils.POIUtils;
 import com.netdimen.utils.WebDriverUtils;
-import com.netdimen.view.Navigator;
 
 /**
  * Extended by all testing objects (which are defined in "com.netdimen.model"
@@ -39,7 +36,7 @@ public abstract class TestObject implements ITestObject {
 		return author;
 	}
 
-	public void setAuthor(String author) {
+	public void setAuthor(final String author) {
 		this.author = author;
 	}
 
@@ -51,9 +48,10 @@ public abstract class TestObject implements ITestObject {
 		return UID;
 	}
 
-	public void setUID(String uID) {
+	public void setUID(final String uID) {
+		
 		UID = uID;
-		DBUserDAO dbUserDAO = new DBUserDAO(TestDriver.dbManager.getConn());
+		final DBUserDAO dbUserDAO = new DBUserDAO(TestDriver.dbManager.getConn());
 		this.logonDBUser = dbUserDAO.findByUserId(UID.toLowerCase().trim());
 	}
 
@@ -61,7 +59,7 @@ public abstract class TestObject implements ITestObject {
 		return ScheduleTask;
 	}
 
-	public void setScheduleTask(String scheduleTask) {
+	public void setScheduleTask(final String scheduleTask) {
 		ScheduleTask = scheduleTask;
 	}
 
@@ -69,7 +67,7 @@ public abstract class TestObject implements ITestObject {
 		return SysConf;
 	}
 
-	public void setSysConf(String sysConf) {
+	public void setSysConf(final String sysConf) {
 		SysConf = sysConf;
 	}
 
@@ -77,7 +75,7 @@ public abstract class TestObject implements ITestObject {
 		return logonDBUser;
 	}
 
-	public void setLogonDBUser(DBUser logonUser) {
+	public void setLogonDBUser(final DBUser logonUser) {
 		this.logonDBUser = logonUser;
 	}
 
@@ -85,7 +83,7 @@ public abstract class TestObject implements ITestObject {
 		return Label;
 	}
 
-	public void setLabel(String label) {
+	public void setLabel(final String label) {
 		Label = label;
 	}
 
@@ -93,7 +91,7 @@ public abstract class TestObject implements ITestObject {
 		return objectParams;
 	}
 
-	public void setObjectParams(ArrayList<TestObject> objectParams) {
+	public void setObjectParams(final ArrayList<TestObject> objectParams) {
 		this.objectParams = objectParams;
 	}
 
@@ -101,7 +99,7 @@ public abstract class TestObject implements ITestObject {
 		return testCaseArray;
 	}
 
-	public void setTestCaseArray(ArrayList<TestObject> testCaseArray) {
+	public void setTestCaseArray(final ArrayList<TestObject> testCaseArray) {
 		this.testCaseArray = testCaseArray;
 	}
 
@@ -109,7 +107,7 @@ public abstract class TestObject implements ITestObject {
 		return ObjectInputs;
 	}
 
-	public void setObjectInputs(String str) {
+	public void setObjectInputs(final String str) {
 		ObjectInputs = str;
 		this.setObjectParams(this.loadTestCases(ObjectInputs));
 	}
@@ -118,7 +116,7 @@ public abstract class TestObject implements ITestObject {
 		return TestSuite;
 	}
 
-	public void setTestSuite(String testSuite) {
+	public void setTestSuite(final String testSuite) {
 		TestSuite = testSuite;
 		testCaseArray = this.loadTestCases(testSuite);
 	}
@@ -132,10 +130,11 @@ public abstract class TestObject implements ITestObject {
 		return ID;
 	}
 
-	public void setID(String iD) {
+	public void setID(final String iD) {
 		ID = iD;
 	}
 
+	@Override
 	public String toString() {
 		return this.ID + "-" + this.getUID();
 	}
@@ -150,41 +149,43 @@ public abstract class TestObject implements ITestObject {
 	 * @return
 	 */
 
-	public ArrayList<TestObject> loadTestCases(String testCasesStr)
+	public ArrayList<TestObject> loadTestCases(final String testCasesStr)
 			throws RuntimeException {
-		ArrayList<TestObject> testCaseArray = new ArrayList<TestObject>();
-		String[] testCases = testCasesStr.split("\n");
+		
+		final ArrayList<TestObject> testCaseArray = Lists.newArrayList();
+		final String[] testCases = testCasesStr.split("\n");
 
 		try {
-			FileInputStream file = new FileInputStream(Config.getInstance()
+			final FileInputStream file = new FileInputStream(Config.getInstance()
 					.getProperty("testDataFile"));
-			HSSFWorkbook wb = new HSSFWorkbook(file);
+			final HSSFWorkbook wb = new HSSFWorkbook(file);
 
-			for (String testCase : testCases) {
-				String[] testCase_array = testCase.split(":");
-				String sheetName = testCase_array[0].trim();
-				String funcType = testCase_array[1].trim();
-				int rowNum = Integer.parseInt(testCase_array[2].trim());
+			for (final String testCase : testCases) {
+				final String[] testCase_array = testCase.split(":");
+				
+				final ExcelSheetObject excelSheetObj = new ExcelSheetObject(
+						testCase_array[1].trim(), testCase_array[2].trim(),
+						testCase_array[0].trim(), "", "");
+				
 				// try to load the testcase from here for testsuite or
 				// objectInputs
-				TestObject obj = POIUtils.loadTestCaseFromExcelRow(sheetName,
-						funcType, rowNum, wb);
+				final TestObject obj = POIUtils.loadTestCaseFromExcelRow(excelSheetObj, wb);
 				if (obj == null) {
 					throw new RuntimeException("<b>ERROR: loadTestCases In "
 							+ this.getFuncType() + "-->CAN NOT Find "
-							+ funcType + " in " + sheetName + " row " + rowNum
+							+ excelSheetObj.getFuncName() + " in " + excelSheetObj.getSheetName() + " row " + excelSheetObj.getRowNum()
 							+ "<b/>");
 				} else {
 					testCaseArray.add(obj);
 				}
 			}
-		} catch (NumberFormatException e) {
+		} catch (final NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (FileNotFoundException e) {
+		} catch (final FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -200,67 +201,17 @@ public abstract class TestObject implements ITestObject {
 	 * @param driver
 	 * @param expectedResult
 	 */
-	public void checkExpectedResult_UI(WebDriver driver, String expectedResult) {
-		String text = "Please contact the system administrator";
+	public void checkExpectedResult_UI(final WebDriver driver, final String expectedResult) {
+		final String text = "Please contact the system administrator";
 		JUnitAssert.assertTrue(!WebDriverUtils.textPresentInPage(driver, text),
 				"EKP error was found in test case");
-		// WebDriverUtils.checkEKPError(driver);
-	}
-
-	/**
-	 * Get Current Logon user's org
-	 * 
-	 * @param driver
-	 * @param UName
-	 * @return
-	 */
-	public String getUserOrgPath_UI(WebDriver driver, String UName) {
-		// HomePage -> User Preference -> My Orgs
-		String orgPath = "";
-		Navigator.navigate(driver, Navigator.xmlWebElmtMgr
-				.getNavigationPathList("LearningCenter", "HOME"), this);
-
-		By by = By
-				.xpath("//div[@class='sec-menu-container']/ul/li/a[@class='username']");
-		WebDriverUtils.clickLink(driver, by);
-
-		by = By.xpath("//div[@id='main-content']/div/ul/li[2]/a/span[contains(text(),'My Orgs')]");
-		WebDriverUtils.clickLink(driver, by);
-
-		by = By.xpath("//td/select/option[@selected=\"\"]");
-		List<WebElement> elements = driver.findElements(by);
-
-		StringBuilder sb = new StringBuilder();
-		// ends with "UNASSIGNED"
-		int size = elements.size();
-		if (size > 2) {
-			// for "ALL/ORG1/UNASSIGNED", ignore the last one - "UNASSIGNED"
-			for (int i = 0; i < elements.size() - 1; i++) {
-				WebElement element = elements.get(i);
-				sb.append(element.getText()).append("/");
-			}
-		} else if (size == 2) {
-			// for "ALL/UNASSIGNED", inherite from "ALL"
-			if (elements.get(1).getText().equalsIgnoreCase("UNASSIGNED")) {
-				sb.append(elements.get(0).getText()).append("/");
-			} else {
-				for (WebElement element : elements) {
-					sb.append(element.getText()).append("/");
-				}
-			}
-		}
-
-		int index = sb.lastIndexOf("/");
-		orgPath = sb.replace(index, index + 1, "").toString();
-
-		return orgPath;
 	}
 
 	public String getPWD() {
 		return PWD;
 	}
 
-	public void setPWD(String pWD) {
+	public void setPWD(final String pWD) {
 		PWD = pWD;
 	}
 
@@ -268,11 +219,12 @@ public abstract class TestObject implements ITestObject {
 		return FuncType.trim();
 	}
 
-	public void setFuncType(String funcType) {
+	public void setFuncType(final String funcType) {
 		FuncType = funcType;
 	}
 
-	public void run(WebDriver driver) {
+	@Override
+	public void run(final WebDriver driver) {
 
 	}
 
@@ -280,11 +232,11 @@ public abstract class TestObject implements ITestObject {
 		return ExpectedResult;
 	}
 
-	public void setExpectedResult(String expectedResult) {
+	public void setExpectedResult(final String expectedResult) {
 		ExpectedResult = expectedResult;
 	}
 
-	public static String genObjectID(String sheetName, int rowIndex) {
+	public static String genObjectID(final String sheetName, final int rowIndex) {
 		return new StringBuilder().append(sheetName).append("_")
 				.append(rowIndex).toString();
 	}
@@ -298,8 +250,8 @@ public abstract class TestObject implements ITestObject {
 	 *            row for human readable
 	 * @return
 	 */
-	public static String genObjectID(String sheetName, String funcType,
-			int rowIndex) {
+	public static String genObjectID(final String sheetName, final String funcType,
+			final int rowIndex) {
 		return new StringBuilder().append(sheetName).append("_")
 				.append(funcType).append("_").append(rowIndex + 1).toString();
 	}
