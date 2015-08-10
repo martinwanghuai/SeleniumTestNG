@@ -1,4 +1,5 @@
 package com.netdimen.config;
+
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -13,7 +14,8 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import com.netdimen.utils.Validate;
 
 /**
- * Resource bundle backed by a map that does not throw <code>MissingResourceException</code>s.
+ * Resource bundle backed by a map that does not throw
+ * <code>MissingResourceException</code>s.
  */
 public final class ResourceBundleImpl extends ResourceBundle {
 
@@ -33,11 +35,11 @@ public final class ResourceBundleImpl extends ResourceBundle {
 
 		super();
 
-        // Standard properties file
-		final ResourceBundle standardBundle = getBundle("com.netdimen.locale.standard", locale);
+		// Standard properties file
+		final ResourceBundle standardBundle = getBundle(
+				"com.netdimen.locale.standard", locale);
 		putAll(standardBundle);
-		
-		
+
 		this.locale = standardBundle.getLocale();
 	}
 
@@ -49,17 +51,16 @@ public final class ResourceBundleImpl extends ResourceBundle {
 	 */
 	private final void putAll(final ResourceBundle bundle) {
 
-		for (final Enumeration<String> e = bundle.getKeys(); e.hasMoreElements();) {
+		for (final Enumeration<String> e = bundle.getKeys(); e
+				.hasMoreElements();) {
 			final String key = e.nextElement();
 			map.put(key, bundle.getObject(key));
 		}
 	}
 
-
-	
-	
 	/**
-	 * Returns an enumeration of the keys. The enumeration returned contains precisely the keys from the underlying map.
+	 * Returns an enumeration of the keys. The enumeration returned contains
+	 * precisely the keys from the underlying map.
 	 * 
 	 * @return an enumeration of the keys.
 	 */
@@ -69,14 +70,16 @@ public final class ResourceBundleImpl extends ResourceBundle {
 	}
 
 	/**
-	 * Gets an object from the resource bundle. The object returned is precisely the value associated with the key in
-	 * the underlying map. If the map does not contain the key, then the key itself is returned; hence
+	 * Gets an object from the resource bundle. The object returned is precisely
+	 * the value associated with the key in the underlying map. If the map does
+	 * not contain the key, then the key itself is returned; hence
 	 * <code>java.util.MissingResourceException<code>s are never thrown by this
 	 * method.
 	 */
 	protected final Object handleGetObject(final String key) {
 
-		return Validate.isBlank(key) ? "" : (map.containsKey(key) ? map.get(key) : key);
+		return Validate.isBlank(key) ? "" : (map.containsKey(key) ? map
+				.get(key) : key);
 	}
 
 	/**
@@ -93,8 +96,8 @@ public final class ResourceBundleImpl extends ResourceBundle {
 
 		return StringEscapeUtils.escapeEcmaScript(getString(key));
 	}
-	
+
 	public synchronized final void replace(final String key, final String value) {
-	    map.put(key, value);
+		map.put(key, value);
 	}
 }

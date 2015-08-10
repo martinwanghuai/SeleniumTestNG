@@ -1,7 +1,5 @@
 package com.netdimen.utils;
 
-
-
 /**
  * <p>
  * provides several commonly used data validation methods.

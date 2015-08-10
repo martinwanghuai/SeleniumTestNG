@@ -1,6 +1,5 @@
 package com.netdimen.abstractclasses;
 
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,6 +11,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import com.google.common.collect.Lists;
 import com.netdimen.config.Config;
 import com.netdimen.controller.TestDriver;
 import com.netdimen.dao.DBUser;
@@ -22,14 +22,19 @@ import com.netdimen.utils.POIUtils;
 import com.netdimen.utils.WebDriverUtils;
 import com.netdimen.view.Navigator;
 
-/**Extended by all testing objects (which are defined in "com.netdimen.model" package)
+/**
+ * Extended by all testing objects (which are defined in "com.netdimen.model"
+ * package)
  * 
  * @author martin.wang
  *
  */
-public abstract class TestObject implements ITestObject{
-	protected String UID = "", PWD = "", FuncType = "", ExpectedResult = "", ID = "", TestSuite = "", 
-			ObjectInputs = "", Label = "", ScheduleTask = "", SysConf = "", author = "";
+public abstract class TestObject implements ITestObject {
+
+	protected String UID = "", PWD = "", FuncType = "", ExpectedResult = "",
+			ID = "", TestSuite = "", ObjectInputs = "", Label = "",
+			ScheduleTask = "", SysConf = "", author = "";
+
 	public String getAuthor() {
 		return author;
 	}
@@ -37,10 +42,11 @@ public abstract class TestObject implements ITestObject{
 	public void setAuthor(String author) {
 		this.author = author;
 	}
+
 	private DBUser logonDBUser;
-	protected ArrayList<TestObject> testCaseArray = new ArrayList<TestObject>();
-	protected ArrayList<TestObject> objectParams = new ArrayList<TestObject>();
-	
+	protected ArrayList<TestObject> testCaseArray = Lists.newArrayList();
+	protected ArrayList<TestObject> objectParams = Lists.newArrayList();
+
 	public String getUID() {
 		return UID;
 	}
@@ -50,7 +56,7 @@ public abstract class TestObject implements ITestObject{
 		DBUserDAO dbUserDAO = new DBUserDAO(TestDriver.dbManager.getConn());
 		this.logonDBUser = dbUserDAO.findByUserId(UID.toLowerCase().trim());
 	}
-	
+
 	public String getScheduleTask() {
 		return ScheduleTask;
 	}
@@ -71,40 +77,33 @@ public abstract class TestObject implements ITestObject{
 		return logonDBUser;
 	}
 
-
 	public void setLogonDBUser(DBUser logonUser) {
 		this.logonDBUser = logonUser;
 	}
-
 
 	public String getLabel() {
 		return Label;
 	}
 
-
 	public void setLabel(String label) {
 		Label = label;
 	}
-	
+
 	public ArrayList<TestObject> getObjectParams() {
 		return objectParams;
 	}
-
 
 	public void setObjectParams(ArrayList<TestObject> objectParams) {
 		this.objectParams = objectParams;
 	}
 
-
 	public ArrayList<TestObject> getTestCaseArray() {
 		return testCaseArray;
 	}
 
-
 	public void setTestCaseArray(ArrayList<TestObject> testCaseArray) {
 		this.testCaseArray = testCaseArray;
 	}
-
 
 	public String getObjectInputs() {
 		return ObjectInputs;
@@ -124,11 +123,11 @@ public abstract class TestObject implements ITestObject{
 		testCaseArray = this.loadTestCases(testSuite);
 	}
 
-	public TestObject(){
-		UID = Config.getInstance().getProperty("sys.ndadmin"); 
+	public TestObject() {
+		UID = Config.getInstance().getProperty("sys.ndadmin");
 		PWD = Config.getInstance().getProperty("sys.ndadmin.pass");
 	}
-	
+
 	public String getID() {
 		return ID;
 	}
@@ -137,18 +136,22 @@ public abstract class TestObject implements ITestObject{
 		ID = iD;
 	}
 
-	public String toString(){
-		return this.ID+"-"+ this.getUID();
-	} 
+	public String toString() {
+		return this.ID + "-" + this.getUID();
+	}
+
 	/**
 	 * 
-	 * @param testCasesStr eg: CDC:runDeployGoal_CDC:2\nCDC:runDeployGoal_CDC:3
-	 * seperated by "\n" between cases
-	 * Chained testobject creation will happen eg. runCheckGoalLock(Goal)->runDeployGoal_CDC:2(CDC)->PerformanceGoal:1(PerformanceGoal)
+	 * @param testCasesStr
+	 *            eg: CDC:runDeployGoal_CDC:2\nCDC:runDeployGoal_CDC:3 seperated
+	 *            by "\n" between cases Chained testobject creation will happen
+	 *            eg. runCheckGoalLock(Goal)->runDeployGoal_CDC:2(CDC)->
+	 *            PerformanceGoal:1(PerformanceGoal)
 	 * @return
 	 */
-	
-	public ArrayList<TestObject> loadTestCases(String testCasesStr) throws RuntimeException{
+
+	public ArrayList<TestObject> loadTestCases(String testCasesStr)
+			throws RuntimeException {
 		ArrayList<TestObject> testCaseArray = new ArrayList<TestObject>();
 		String[] testCases = testCasesStr.split("\n");
 
@@ -162,12 +165,16 @@ public abstract class TestObject implements ITestObject{
 				String sheetName = testCase_array[0].trim();
 				String funcType = testCase_array[1].trim();
 				int rowNum = Integer.parseInt(testCase_array[2].trim());
-				// try to load the testcase from here for testsuite or objectInputs
+				// try to load the testcase from here for testsuite or
+				// objectInputs
 				TestObject obj = POIUtils.loadTestCaseFromExcelRow(sheetName,
 						funcType, rowNum, wb);
-				if (obj == null){
-					throw new RuntimeException("<b>ERROR: loadTestCases In "+this.getFuncType()+"-->CAN NOT Find "+ funcType + " in " +sheetName +" row "+rowNum+"<b/>");
-				}else{
+				if (obj == null) {
+					throw new RuntimeException("<b>ERROR: loadTestCases In "
+							+ this.getFuncType() + "-->CAN NOT Find "
+							+ funcType + " in " + sheetName + " row " + rowNum
+							+ "<b/>");
+				} else {
 					testCaseArray.add(obj);
 				}
 			}
@@ -183,34 +190,38 @@ public abstract class TestObject implements ITestObject{
 		}
 
 		return testCaseArray;
-	}	
-	
-	public abstract boolean equals(TestObject obj); //compare TestObject
+	}
 
-	/**Failed if the page contains keyword "error"
+	public abstract boolean equals(TestObject obj); // compare TestObject
+
+	/**
+	 * Failed if the page contains keyword "error"
 	 * 
 	 * @param driver
 	 * @param expectedResult
 	 */
-	public void checkExpectedResult_UI(WebDriver driver, String expectedResult){
+	public void checkExpectedResult_UI(WebDriver driver, String expectedResult) {
 		String text = "Please contact the system administrator";
-		JUnitAssert.assertTrue(!WebDriverUtils.textPresentInPage(driver, text), "EKP error was found in test case");
-//		WebDriverUtils.checkEKPError(driver);
-	} 
-	
-	/** Get Current Logon user's org
+		JUnitAssert.assertTrue(!WebDriverUtils.textPresentInPage(driver, text),
+				"EKP error was found in test case");
+		// WebDriverUtils.checkEKPError(driver);
+	}
+
+	/**
+	 * Get Current Logon user's org
 	 * 
 	 * @param driver
 	 * @param UName
 	 * @return
 	 */
-	public String getUserOrgPath_UI(WebDriver driver, String UName){
-		//HomePage -> User Preference -> My Orgs 		  
+	public String getUserOrgPath_UI(WebDriver driver, String UName) {
+		// HomePage -> User Preference -> My Orgs
 		String orgPath = "";
-		Navigator.navigate(driver,Navigator.xmlWebElmtMgr.getNavigationPathList("LearningCenter","HOME"), this);
-		
-		
-		By by = By.xpath("//div[@class='sec-menu-container']/ul/li/a[@class='username']");
+		Navigator.navigate(driver, Navigator.xmlWebElmtMgr
+				.getNavigationPathList("LearningCenter", "HOME"), this);
+
+		By by = By
+				.xpath("//div[@class='sec-menu-container']/ul/li/a[@class='username']");
 		WebDriverUtils.clickLink(driver, by);
 
 		by = By.xpath("//div[@id='main-content']/div/ul/li[2]/a/span[contains(text(),'My Orgs')]");
@@ -219,31 +230,31 @@ public abstract class TestObject implements ITestObject{
 		by = By.xpath("//td/select/option[@selected=\"\"]");
 		List<WebElement> elements = driver.findElements(by);
 
-		StringBuilder sb = new StringBuilder();	  
-		//ends with "UNASSIGNED"
+		StringBuilder sb = new StringBuilder();
+		// ends with "UNASSIGNED"
 		int size = elements.size();
-		if(size > 2){
-			//for "ALL/ORG1/UNASSIGNED", ignore the last one - "UNASSIGNED"
-			for(int i = 0; i < elements.size() - 1; i++){
+		if (size > 2) {
+			// for "ALL/ORG1/UNASSIGNED", ignore the last one - "UNASSIGNED"
+			for (int i = 0; i < elements.size() - 1; i++) {
 				WebElement element = elements.get(i);
-				sb.append(element.getText()).append("/");  
-			}  
-		}else if(size == 2){
-			//for "ALL/UNASSIGNED", inherite from "ALL"
-			if(elements.get(1).getText().equalsIgnoreCase("UNASSIGNED")){
+				sb.append(element.getText()).append("/");
+			}
+		} else if (size == 2) {
+			// for "ALL/UNASSIGNED", inherite from "ALL"
+			if (elements.get(1).getText().equalsIgnoreCase("UNASSIGNED")) {
 				sb.append(elements.get(0).getText()).append("/");
-			}else{
-				for(WebElement element: elements){
+			} else {
+				for (WebElement element : elements) {
 					sb.append(element.getText()).append("/");
-				}	
+				}
 			}
 		}
 
 		int index = sb.lastIndexOf("/");
-		orgPath = sb.replace(index, index+1, "").toString();
-		
+		orgPath = sb.replace(index, index + 1, "").toString();
+
 		return orgPath;
-	}	
+	}
 
 	public String getPWD() {
 		return PWD;
@@ -261,11 +272,10 @@ public abstract class TestObject implements ITestObject{
 		FuncType = funcType;
 	}
 
-
 	public void run(WebDriver driver) {
 
 	}
-	
+
 	public String getExpectedResult() {
 		return ExpectedResult;
 	}
@@ -273,30 +283,27 @@ public abstract class TestObject implements ITestObject{
 	public void setExpectedResult(String expectedResult) {
 		ExpectedResult = expectedResult;
 	}
-	public static String genObjectID(String sheetName, int rowIndex){
-		return new StringBuilder().
-				append(sheetName).
-				append("_").
-				append(rowIndex).
-				toString();
+
+	public static String genObjectID(String sheetName, int rowIndex) {
+		return new StringBuilder().append(sheetName).append("_")
+				.append(rowIndex).toString();
 	}
+
 	/**
 	 * 
 	 * @param sheetName
 	 * @param funcType
-	 * @param rowIndex 
-	 *        excel row is starting from 0, so +1 to represent the actual row for human readable
+	 * @param rowIndex
+	 *            excel row is starting from 0, so +1 to represent the actual
+	 *            row for human readable
 	 * @return
 	 */
-	public static String genObjectID(String sheetName, String funcType, int rowIndex){
-		return new StringBuilder().
-				append(sheetName).
-				append("_").
-				append(funcType).
-				append("_").
-				append(rowIndex+1).
-				toString();
+	public static String genObjectID(String sheetName, String funcType,
+			int rowIndex) {
+		return new StringBuilder().append(sheetName).append("_")
+				.append(funcType).append("_").append(rowIndex + 1).toString();
 	}
+
 	/**
 	 * 
 	 * @param object
@@ -306,7 +313,7 @@ public abstract class TestObject implements ITestObject{
 	public static final <T> T defaultIfNull(final T object, final T defaultValue) {
 		if (object == null)
 			return defaultValue;
-		else 
+		else
 			return object;
 	}
 }

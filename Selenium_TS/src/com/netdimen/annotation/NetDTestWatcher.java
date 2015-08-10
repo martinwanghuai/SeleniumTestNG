@@ -7,11 +7,13 @@ import org.junit.runner.Description;
 
 import com.netdimen.abstractclasses.TestObject;
 
-public abstract class NetDTestWatcher extends TestWatcher implements INetDTestWatcher {
-	
+public abstract class NetDTestWatcher extends TestWatcher implements
+		INetDTestWatcher {
+
 	public abstract boolean isSkipClass(TestObject obj);
+
 	public abstract boolean isSkipMethod(Method method);
-	
+
 	@Override
 	public void start(TestObject obj) {
 		// TODO Auto-generated method stub

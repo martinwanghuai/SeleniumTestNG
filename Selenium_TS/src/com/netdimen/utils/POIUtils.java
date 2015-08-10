@@ -30,7 +30,6 @@ import com.netdimen.abstractclasses.TestObject;
 import com.netdimen.dao.ExcelSheetObject;
 import com.netdimen.dao.ExcelSheetObjectMap;
 
-
 /**
  * 
  * @author martin.wang
@@ -95,9 +94,10 @@ public class POIUtils {
 	public static TestObject mapExcelRowToTestObject(Workbook wb, Row row,
 			String className, ArrayList<String> fieldNames) {
 		Object obj = null;
-		
+
 		try {
-			System.out.println("loading class="+className+"; row="+(row.getRowNum()+1));
+			System.out.println("loading class=" + className + "; row="
+					+ (row.getRowNum() + 1));
 			Class clz = Class.forName(className);
 			obj = clz.newInstance();
 			String fieldName = "";
@@ -105,7 +105,7 @@ public class POIUtils {
 			Field field = null;
 			for (int i = 0; i < fieldNames.size(); i++) {
 				fieldName = fieldNames.get(i);
-				
+
 				Cell cell = row.getCell(i);
 				String cellValue = "";
 
@@ -117,11 +117,10 @@ public class POIUtils {
 					}
 				}
 
-				if(fieldName.equalsIgnoreCase("functype")){
+				if (fieldName.equalsIgnoreCase("functype")) {
 					funcType = cellValue;
 				}
-			
-				
+
 				if (!cellValue.equals("")) {
 
 					field = ReflectionUtils.getField(clz, fieldName);
@@ -146,17 +145,20 @@ public class POIUtils {
 			}
 
 			field = ReflectionUtils.getField(clz, "ID");
-			
+
 			if (field != null) {
 				field.setAccessible(true);
 				String[] strs = className.split("\\.");
 				String sheetName = strs[strs.length - 1];
-				field.set(obj,
-						TestObject.genObjectID(sheetName, funcType, row.getRowNum()));
+				field.set(
+						obj,
+						TestObject.genObjectID(sheetName, funcType,
+								row.getRowNum()));
 			}
 
 		} catch (ClassNotFoundException e) {
-			System.out.println("Error when loading "+className+"; row="+row.getRowNum());
+			System.out.println("Error when loading " + className + "; row="
+					+ row.getRowNum());
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InstantiationException e) {
@@ -184,17 +186,20 @@ public class POIUtils {
 		return mapExcelRowToTestObject(null, row, className, fieldNames);
 	}
 
-	/**Read a column from excel (include startIndex and endIndex)
+	/**
+	 * Read a column from excel (include startIndex and endIndex)
 	 * 
 	 * @param sheet
 	 * @param columnIndex
-	 * @param rowIndex_start:include
-	 * @param rowIndex_end:exclude
+	 * @param rowIndex_start
+	 *            :include
+	 * @param rowIndex_end
+	 *            :exclude
 	 * @return
 	 */
 	public static ArrayList<String> getColumnFromExcel(HSSFSheet sheet,
-			int columnIndex, int rowIndex_start, int rowIndex_end){
-		
+			int columnIndex, int rowIndex_start, int rowIndex_end) {
+
 		ArrayList<String> columnData = new ArrayList<String>();
 		for (int i = rowIndex_start; i <= rowIndex_end; i++) {
 			Row row = sheet.getRow(i);
@@ -204,13 +209,13 @@ public class POIUtils {
 					String cellValue = POIUtils.getCellValue(cell);
 					if (!cellValue.equals("")) {
 						columnData.add(cellValue);
-					}else{
+					} else {
 						columnData.add("");
 					}
-				}else{
+				} else {
 					columnData.add("");
 				}
-			}else{
+			} else {
 				columnData.add("");
 			}
 
@@ -218,10 +223,10 @@ public class POIUtils {
 
 		return columnData;
 	}
-	
+
 	public static ArrayList<String> getColumnFromExcel(HSSFSheet sheet,
 			int columnIndex, int rowIndex_start) {
-		
+
 		ArrayList<String> columnData = new ArrayList<String>();
 		int rows = sheet.getPhysicalNumberOfRows();
 		for (int i = rowIndex_start; i < rows; i++) {
@@ -247,24 +252,25 @@ public class POIUtils {
 		return getColumnFromExcel(sheet, columnIndex, 0);
 	}
 
-	public static ArrayList<String> getColumnFromExcel(HSSFSheet sheet, String columnName){
+	public static ArrayList<String> getColumnFromExcel(HSSFSheet sheet,
+			String columnName) {
 		int columnIndex = -1;
 		ArrayList<String> row = POIUtils.getRowFromExcel(sheet, 0);
-		for(int i = 0; i < row.size(); i ++){
+		for (int i = 0; i < row.size(); i++) {
 			String rowData = row.get(i);
-			if(rowData.equals(columnName)){
+			if (rowData.equals(columnName)) {
 				columnIndex = i;
 				break;
 			}
 		}
-		
-		if(columnIndex == -1){
+
+		if (columnIndex == -1) {
 			return null;
-		}else{
+		} else {
 			return getColumnFromExcel(sheet, columnIndex);
 		}
 	}
-	
+
 	public static ArrayList<String> getRowFromExcel(HSSFSheet sheet,
 			int rowIndex, int columnIndex_start) {
 		ArrayList<String> rowData = new ArrayList<String>();
@@ -278,7 +284,7 @@ public class POIUtils {
 				rowData.add(cellValue);
 			}
 		}
-		
+
 		return rowData;
 	}
 
@@ -362,28 +368,30 @@ public class POIUtils {
 	}
 
 	/**
-	 * This is call by Test Case instance to catch information in Testing Page and fill into the current test case
-	 * @param fileName 
+	 * This is call by Test Case instance to catch information in Testing Page
+	 * and fill into the current test case
+	 * 
+	 * @param fileName
 	 * @param sheetName
 	 * @param keyword_ColumnIndex
 	 * @param keyword_search
 	 * @param data_ColumnIndex
 	 * @param data
 	 */
-	public static void writeTestResultToCurrentTestCase(String fileName, String sheetName,
-			int keyword_ColumnIndex, String keyword_search,
+	public static void writeTestResultToCurrentTestCase(String fileName,
+			String sheetName, int keyword_ColumnIndex, String keyword_search,
 			int data_ColumnIndex, String data) {
 		try {
 			FileInputStream file = new FileInputStream(fileName);
 			HSSFWorkbook wb = new HSSFWorkbook(file);
-		
-			HSSFSheet sheet= wb.getSheet(sheetName);
-			if (sheet== null) {
-				sheet=wb.createSheet(sheetName); 
+
+			HSSFSheet sheet = wb.getSheet(sheetName);
+			if (sheet == null) {
+				sheet = wb.createSheet(sheetName);
 			}
-			
-			int rowNum = POIUtils.getRowNumByKeyWord(sheet, keyword_ColumnIndex,
-					keyword_search);
+
+			int rowNum = POIUtils.getRowNumByKeyWord(sheet,
+					keyword_ColumnIndex, keyword_search);
 			HSSFRow row = sheet.getRow(rowNum);
 			Cell cell = row.getCell(data_ColumnIndex);
 			if (cell == null) {
@@ -401,8 +409,9 @@ public class POIUtils {
 	}
 
 	/**
-	 * Load test object from excel row, return null if test object does not match with 
-	 * sheet name and function types.
+	 * Load test object from excel row, return null if test object does not
+	 * match with sheet name and function types.
+	 * 
 	 * @param sheetName
 	 *            : sheet name = class name
 	 * @param funcType
@@ -415,30 +424,40 @@ public class POIUtils {
 	 */
 	public static TestObject loadTestCaseFromExcelRow(String sheetName,
 			String funcType, int rowNum, HSSFWorkbook wb) {
-		if (rowNum <1 ) {
-			System.out.println("POI:loadTestCaseFromExcelRow-->ERROR: Row Number should start from 1");
+		if (rowNum < 1) {
+			System.out
+					.println("POI:loadTestCaseFromExcelRow-->ERROR: Row Number should start from 1");
 			return null;
 		}
-		
+
 		TestObject obj = null;
 		HSSFSheet sheet = wb.getSheet(sheetName);
-		ArrayList<String> fieldNames = POIUtils
-				.getRowFromExcel(sheet, 0);// Row 0 of each sheet is the
-													// field list
-		Row row = sheet.getRow(rowNum-1); // rowNum-1 since rowNum parameter start from 1, not 0
+		ArrayList<String> fieldNames = POIUtils.getRowFromExcel(sheet, 0);// Row
+																			// 0
+																			// of
+																			// each
+																			// sheet
+																			// is
+																			// the
+																			// field
+																			// list
+		Row row = sheet.getRow(rowNum - 1); // rowNum-1 since rowNum parameter
+											// start from 1, not 0
 		if (row != null) {
 			obj = POIUtils.mapExcelRowToTestObject(wb, row,
 					"com.netdimen.model." + sheetName, fieldNames);
 			Class<?> clz = obj.getClass();
-			String funcTypeValue = ReflectionUtils.getFieldValueAsString(obj, "FuncType");
-			if(funcTypeValue.trim().isEmpty()|| !funcTypeValue.equals(funcType)){
+			String funcTypeValue = ReflectionUtils.getFieldValueAsString(obj,
+					"FuncType");
+			if (funcTypeValue.trim().isEmpty()
+					|| !funcTypeValue.equals(funcType)) {
 				obj = null;
 			}
 		}
-		
+
 		return obj;
 	}
-	
+
 	public static int getRowNum(HSSFSheet sheet, int columnIndex,
 			String search_keyword) {
 		Row row;
@@ -462,32 +481,35 @@ public class POIUtils {
 		}
 		return rowNum;
 	}
-	
-	/**Martin: save row data into excel file
+
+	/**
+	 * Martin: save row data into excel file
 	 * 
 	 * @param fileName
 	 * @param sheetName
-	 * @param data: a set of row data
+	 * @param data
+	 *            : a set of row data
 	 */
-	public static void saveIntoExcel(String fileName, String sheetName, ArrayList<ArrayList<String>> data){
+	public static void saveIntoExcel(String fileName, String sheetName,
+			ArrayList<ArrayList<String>> data) {
 		try {
 			HSSFWorkbook wb = new HSSFWorkbook();
 			HSSFSheet sheet = wb.createSheet(sheetName);
-			
-			for(int i = 0; i < data.size(); i ++){
+
+			for (int i = 0; i < data.size(); i++) {
 				HSSFRow row = sheet.createRow(i);
-				
+
 				ArrayList<String> columnData = data.get(i);
-				for(int j = 0; j < columnData.size(); j ++){
+				for (int j = 0; j < columnData.size(); j++) {
 					Cell cell = row.createCell(j);
 					cell.setCellValue(columnData.get(j));
 				}
 			}
-			
+
 			FileOutputStream out = new FileOutputStream(new File(fileName));
 			wb.write(out);
 			out.close();
-			
+
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -496,7 +518,7 @@ public class POIUtils {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void writeExcelData(String fileName, String sheetName,
 			int keyword_ColumnIndex, String keyword_search,
 			int data_ColumnIndex, String data) {
@@ -524,57 +546,73 @@ public class POIUtils {
 		}
 	}
 
-	public static void filterDebugMsg(Exception e, TestObject testObject){
+	public static void filterDebugMsg(Exception e, TestObject testObject) {
 		System.out.println("Error in test case:" + testObject.toString());
 		System.out.println("Caused by:" + e.getCause());
-		
+
 		System.out.println("Calling stack:");
 		StackTraceElement[] elems = e.getStackTrace();
-		if(e instanceof InvocationTargetException){
-			Throwable s = ((InvocationTargetException)e).getTargetException();
+		if (e instanceof InvocationTargetException) {
+			Throwable s = ((InvocationTargetException) e).getTargetException();
 			elems = s.getStackTrace();
 		}
-		
-		for(StackTraceElement elem: elems){
-			if(elem.getClassName().startsWith("com.netdimen")){
+
+		for (StackTraceElement elem : elems) {
+			if (elem.getClassName().startsWith("com.netdimen")) {
 				System.out.println(elem.toString());
 			}
 		}
 	}
-	
-	
-	public static List<ExcelSheetObject> getExcelSheetObjectFromExcel(final HSSFSheet sheet, final int startRowIndex){
-		
-		return getExcelSheetObjectFromExcel(sheet, startRowIndex, sheet.getPhysicalNumberOfRows());
+
+	public static List<ExcelSheetObject> getExcelSheetObjectFromExcel(
+			final HSSFSheet sheet, final int startRowIndex) {
+
+		return getExcelSheetObjectFromExcel(sheet, startRowIndex,
+				sheet.getPhysicalNumberOfRows());
 	}
-	
-	public static List<ExcelSheetObject> getExcelSheetObjectFromExcel(final HSSFSheet sheet, final int startRowIndex, final int endRowIndex){
-		
+
+	public static List<ExcelSheetObject> getExcelSheetObjectFromExcel(
+			final HSSFSheet sheet, final int startRowIndex,
+			final int endRowIndex) {
+
 		final List<Row> rowList = Lists.newArrayList();
-		for(int i = startRowIndex; i < endRowIndex; i ++){
+		for (int i = startRowIndex; i < endRowIndex; i++) {
 			final Row row = sheet.getRow(i);
-			if(row != null){
+			if (row != null) {
 				rowList.add(row);
 			}
 		}
-		
-		return FluentIterable.from(rowList).transform(new Function<Row, ExcelSheetObject>(){
-			
-			@Override
-			public ExcelSheetObject apply(final Row row){
-				
-				final String funcName = getCellValue(row.getCell(ExcelSheetObjectMap.FUNCNAME.getColumnIndex()));
-				final String sheetName = getCellValue(row.getCell(ExcelSheetObjectMap.SHEETNAME.getColumnIndex()));
-				
-				if(Validate.isBlank(funcName) || Validate.isBlank(sheetName)){
-					return null;
-				}
-			
-				final String rowNum = getCellValue(row.getCell(ExcelSheetObjectMap.ROWNUM.getColumnIndex()));
-				final String label = getCellValue(row.getCell(ExcelSheetObjectMap.LABEL.getColumnIndex()));
-				final String author = getCellValue(row.getCell(ExcelSheetObjectMap.AUTHOR.getColumnIndex()));
-				return new ExcelSheetObject(funcName,rowNum, sheetName, label, author); 
-			}
-		}).filter(Predicates.notNull()).toList();
+
+		return FluentIterable.from(rowList)
+				.transform(new Function<Row, ExcelSheetObject>() {
+
+					@Override
+					public ExcelSheetObject apply(final Row row) {
+
+						final String funcName = getCellValue(row
+								.getCell(ExcelSheetObjectMap.FUNCNAME
+										.getColumnIndex()));
+						final String sheetName = getCellValue(row
+								.getCell(ExcelSheetObjectMap.SHEETNAME
+										.getColumnIndex()));
+
+						if (Validate.isBlank(funcName)
+								|| Validate.isBlank(sheetName)) {
+							return null;
+						}
+
+						final String rowNum = getCellValue(row
+								.getCell(ExcelSheetObjectMap.ROWNUM
+										.getColumnIndex()));
+						final String label = getCellValue(row
+								.getCell(ExcelSheetObjectMap.LABEL
+										.getColumnIndex()));
+						final String author = getCellValue(row
+								.getCell(ExcelSheetObjectMap.AUTHOR
+										.getColumnIndex()));
+						return new ExcelSheetObject(funcName, rowNum,
+								sheetName, label, author);
+					}
+				}).filter(Predicates.notNull()).toList();
 	}
 }

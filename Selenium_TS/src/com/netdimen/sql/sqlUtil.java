@@ -1,6 +1,5 @@
 package com.netdimen.sql;
 
-
 public class sqlUtil {
 
 	public sqlUtil() {

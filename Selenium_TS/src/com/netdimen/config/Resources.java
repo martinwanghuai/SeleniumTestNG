@@ -1,4 +1,5 @@
 package com.netdimen.config;
+
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Map;
@@ -14,8 +15,8 @@ import com.netdimen.abstractclasses.TestObject;
 public final class Resources {
 
 	/**
-	 * Mapping of locales to resource bundles, according to the document, using ConcurrentHashMap don't need to lock
-	 * when accessing
+	 * Mapping of locales to resource bundles, according to the document, using
+	 * ConcurrentHashMap don't need to lock when accessing
 	 */
 	private static final Map<Locale, ResourceBundleImpl> bundleMap = new ConcurrentHashMap<Locale, ResourceBundleImpl>();
 
@@ -26,9 +27,10 @@ public final class Resources {
 	}
 
 	/**
-	 * Returns a resource bundle appropriate for the specified locale. The resource bundles that are returned never
-	 * throw <code>java.util.MissingResourceException</code>s; rather, if no resource can be found, the key itself is
-	 * returned.
+	 * Returns a resource bundle appropriate for the specified locale. The
+	 * resource bundles that are returned never throw
+	 * <code>java.util.MissingResourceException</code>s; rather, if no resource
+	 * can be found, the key itself is returned.
 	 * 
 	 * @param locale
 	 *            generic Java abstraction for the locale.
@@ -36,16 +38,19 @@ public final class Resources {
 	 */
 	public static final ResourceBundleImpl bundle(final Locale locale) {
 
-		final Locale nonNullLocale = TestObject.defaultIfNull(locale, Locale.getDefault());
+		final Locale nonNullLocale = TestObject.defaultIfNull(locale,
+				Locale.getDefault());
 
 		/*
-		 * It's not sufficient to synchronize the individual map operations; this whole code block must be synchronized.
+		 * It's not sufficient to synchronize the individual map operations;
+		 * this whole code block must be synchronized.
 		 */
 		synchronized (bundleMap) {
 			if (bundleMap.containsKey(nonNullLocale))
 				return bundleMap.get(nonNullLocale);
 			else {
-				final ResourceBundleImpl result = new ResourceBundleImpl(nonNullLocale);
+				final ResourceBundleImpl result = new ResourceBundleImpl(
+						nonNullLocale);
 				bundleMap.put(nonNullLocale, result);
 				return result;
 			}
@@ -53,7 +58,8 @@ public final class Resources {
 	}
 
 	/**
-	 * Returns the EKP message with the specified key, appropriate for the specified locale.
+	 * Returns the EKP message with the specified key, appropriate for the
+	 * specified locale.
 	 * 
 	 * @param key
 	 *            the message key.
@@ -65,19 +71,20 @@ public final class Resources {
 		return bundle(locale).getString(key);
 	}
 
-	public static final String string(final String key, final Locale locale, final Object... parameters) {
+	public static final String string(final String key, final Locale locale,
+			final Object... parameters) {
 
 		return new MessageFormat(string(key, locale)).format(parameters);
 	}
 
 	/**
-	 * It will return the corresponding Locale given a country code, if cannot be determined, it will return the default
-	 * locale.
+	 * It will return the corresponding Locale given a country code, if cannot
+	 * be determined, it will return the default locale.
 	 * 
 	 * @param countryCode
 	 *            3-letter ISO country Code
-	 * @return the corresponding Locale given a country code, if cannot be determined, it will return the default
-	 *         locale.
+	 * @return the corresponding Locale given a country code, if cannot be
+	 *         determined, it will return the default locale.
 	 */
 	public static final Locale locale(final String countryCode) {
 

@@ -28,9 +28,10 @@ public final class AES_Cipher {
 
 	private static SecretKey secretKey = null;
 
-	private static byte[] SECRET_KEY_SEED = {
-	                                         (byte) 0x6e, (byte) 0x25, (byte) 0x72, (byte) 0x15, (byte) 0x41, (byte) 0x37, (byte) 0x51, (byte) 0x49,
-	                                         (byte) 0x2b, (byte) 0xa4, (byte) 0x1f, (byte) 0x44, (byte) 0xc7 };
+	private static byte[] SECRET_KEY_SEED = { (byte) 0x6e, (byte) 0x25,
+			(byte) 0x72, (byte) 0x15, (byte) 0x41, (byte) 0x37, (byte) 0x51,
+			(byte) 0x49, (byte) 0x2b, (byte) 0xa4, (byte) 0x1f, (byte) 0x44,
+			(byte) 0xc7 };
 
 	// Suppress default constructor for noninstantiability
 	private AES_Cipher() {
@@ -39,20 +40,20 @@ public final class AES_Cipher {
 	}
 
 	/*
-	 * Decrypt is an AES-based decryption method for retrieving the plaintext version of a previously encrypted
-	 * password.
+	 * Decrypt is an AES-based decryption method for retrieving the plaintext
+	 * version of a previously encrypted password.
 	 */
 	public static String decrypt(final String cipherText) {
 
 		try {
 			return decryptUsingAes(cipherText, defaultKey(), DEFAULT_ENCODING);
-		}
-		catch (Exception one) {
+		} catch (Exception one) {
 			throw new RuntimeException(one);
 		}
 	}
 
-	private static String decryptUsingAes(final String cipherText, final SecretKey key, final String encoding) throws Exception {
+	private static String decryptUsingAes(final String cipherText,
+			final SecretKey key, final String encoding) throws Exception {
 
 		final SecretKeySpec spec = new SecretKeySpec(key.getEncoded(), "AES");
 		final Cipher cipher = Cipher.getInstance("AES");
@@ -60,7 +61,8 @@ public final class AES_Cipher {
 		return new String(cipher.doFinal(hex2byte(cipherText)), encoding);
 	}
 
-	private static SecretKey generateAesKey(final byte[] seed) throws NoSuchAlgorithmException {
+	private static SecretKey generateAesKey(final byte[] seed)
+			throws NoSuchAlgorithmException {
 
 		final KeyGenerator generator = KeyGenerator.getInstance("AES");
 		final SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
@@ -109,7 +111,8 @@ public final class AES_Cipher {
 	 */
 	private static void byte2hex(byte b, StringBuilder buf) {
 
-		char[] hexChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+		char[] hexChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+				'A', 'B', 'C', 'D', 'E', 'F' };
 		int high = ((b & 0xf0) >> 4);
 		int low = (b & 0x0f);
 
@@ -126,14 +129,16 @@ public final class AES_Cipher {
 	 */
 	private static final byte[] hex2byte(final String input) {
 
-		final char[] hexChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+		final char[] hexChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8',
+				'9', 'A', 'B', 'C', 'D', 'E', 'F' };
 		final byte[] result = new byte[input.length() / 2];
 		int x = 0;
 		int high = 0, low = 0;
 
 		/*
-		 * don't work, throw exception for (int i=0; i < input.length(); i++) { String s = "0x" + input.substring(i,
-		 * i+2); result[x++] = Byte.parseByte(s,16); }
+		 * don't work, throw exception for (int i=0; i < input.length(); i++) {
+		 * String s = "0x" + input.substring(i, i+2); result[x++] =
+		 * Byte.parseByte(s,16); }
 		 */
 		for (int i = 0; i < input.length(); i++) {
 			for (int j = 0; j < 16; j++) {

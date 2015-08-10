@@ -3,7 +3,6 @@ package com.netdimen.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class TreeNode<T> {
 
 	private static final String EMPTY_STRING = "";
@@ -69,18 +68,21 @@ public class TreeNode<T> {
 		}
 	}
 
-	public TreeNode<T> findTreeNode(T targetNodeObject, boolean searchRecursively) {
+	public TreeNode<T> findTreeNode(T targetNodeObject,
+			boolean searchRecursively) {
 
 		if (nodeObject != null && nodeObject.equals(targetNodeObject)) {
 			return this;
 		}
 
 		for (TreeNode<T> currentNode : childNodes) {
-			if (currentNode.nodeObject != null && currentNode.nodeObject.equals(targetNodeObject)) {
+			if (currentNode.nodeObject != null
+					&& currentNode.nodeObject.equals(targetNodeObject)) {
 				return currentNode;
 			}
 			if (searchRecursively) {
-				TreeNode<T> result = currentNode.findTreeNode(targetNodeObject, searchRecursively);
+				TreeNode<T> result = currentNode.findTreeNode(targetNodeObject,
+						searchRecursively);
 				if (result != null) {
 					return result;
 				}

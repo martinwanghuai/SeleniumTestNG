@@ -23,12 +23,12 @@ import com.netdimen.utils.WebDriverUtils;
  *
  */
 public class FunctionUI {
-	
-	// Suppress default constructor for noninstantiability
-		private FunctionUI() {
 
-			throw new AssertionError();
-		}
+	// Suppress default constructor for noninstantiability
+	private FunctionUI() {
+
+		throw new AssertionError();
+	}
 
 	/**
 	 * SearchModuleInManagerCenter
@@ -39,8 +39,8 @@ public class FunctionUI {
 	public static void SearchModuleInManagerCenter(WebDriver driver,
 			String moduleId) {
 
-		By by = By.id(Navigator.xmlWebElmtMgr.getWebElementWrapper("ManageCenter", "SearchModule")
-				.getElementValue());
+		By by = By.id(Navigator.xmlWebElmtMgr.getWebElementWrapper(
+				"ManageCenter", "SearchModule").getElementValue());
 		driver.findElement(by).clear();
 		driver.findElement(by).sendKeys(moduleId);
 		driver.findElement(By.name("apply-filters")).click();
@@ -58,8 +58,7 @@ public class FunctionUI {
 			ArrayList<String> values, By by) {
 		Navigator.explicitWait();
 		WebDriverUtils.clickButton(driver, by);
-		FunctionUI.setOrgAttributes_UI(driver,
-				values.toArray(new String[0]));
+		FunctionUI.setOrgAttributes_UI(driver, values.toArray(new String[0]));
 	}
 
 	/**
@@ -75,7 +74,9 @@ public class FunctionUI {
 	 */
 	public static void setParticipants_UI(WebDriver driver,
 			String str_participants, By by) {
-		FunctionUI.setParticipants_UI(driver,CriteriaParser.parseKeyValueList(":", null, str_participants), by);
+		FunctionUI.setParticipants_UI(driver,
+				CriteriaParser.parseKeyValueList(":", null, str_participants),
+				by);
 	}
 
 	/**
@@ -208,7 +209,6 @@ public class FunctionUI {
 		}
 	}
 
-	
 	public static void fillESignature(WebDriver driver, String UID, String PWD) {
 		driver.findElement(By.id("ESIGNATURE-username")).clear();
 		driver.findElement(By.id("ESIGNATURE-username")).sendKeys(UID);
@@ -251,11 +251,13 @@ public class FunctionUI {
 		return xpath;
 	}
 
-	public static void setDates_UI(WebDriver driver, String sDate, String inputname){
-		if(!sDate.equals("")){	
-			String xpath_calendar = FunctionUI.XpathCalendarIcon(driver, inputname);
-			WebDriverUtils.dateSelect_Calandar(driver, sDate, xpath_calendar);			
-		}		
-	} 
-	
+	public static void setDates_UI(WebDriver driver, String sDate,
+			String inputname) {
+		if (!sDate.equals("")) {
+			String xpath_calendar = FunctionUI.XpathCalendarIcon(driver,
+					inputname);
+			WebDriverUtils.dateSelect_Calandar(driver, sDate, xpath_calendar);
+		}
+	}
+
 }

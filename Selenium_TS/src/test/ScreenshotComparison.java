@@ -31,57 +31,56 @@ public class ScreenshotComparison {
 			by = By.id("PWD");
 			WebDriverUtils.fillin_textbox(driver, by, "123456");
 
-			//click login button
+			// click login button
 			URL url = SikuliFirefoxDriver.class.getResource("login.png");
-			ImageElement image = driver.findImageElement(url);;
-			image.click();               
+			ImageElement image = driver.findImageElement(url);
+			;
+			image.click();
 
-
-			//Navigator.navigate(driver, Navigator.URL.ScheduledReport);
-			Navigator.navigate(driver,Navigator.xmlWebElmtMgr.getNavigationPathList("ManageCenter","Reports"),null);
-			by =By.linkText("R301 - Exam Summary Report");
+			// Navigator.navigate(driver, Navigator.URL.ScheduledReport);
+			Navigator.navigate(driver, Navigator.xmlWebElmtMgr
+					.getNavigationPathList("ManageCenter", "Reports"), null);
+			by = By.linkText("R301 - Exam Summary Report");
 			WebDriverUtils.clickLink(driver, by);
 			by = By.name("runNow");
 			WebDriverUtils.clickButton(driver, by);
 
-			//Method 1
-			/*			WebDriverUtils.addVisitedWin(driver);
-			WebDriverUtils.switchToPopUpWin(driver);
-
-			url = SikuliWebDriver.class.getResource("R301.png");
-			image = driver.findImageElement(url);;
-
-			if(image== null){
-				System.out.println("Not match");
-			}else{
-				System.out.println("Matched");
-			}*/
+			// Method 1
+			/*
+			 * WebDriverUtils.addVisitedWin(driver);
+			 * WebDriverUtils.switchToPopUpWin(driver);
+			 * 
+			 * url = SikuliWebDriver.class.getResource("R301.png"); image =
+			 * driver.findImageElement(url);;
+			 * 
+			 * if(image== null){ System.out.println("Not match"); }else{
+			 * System.out.println("Matched"); }
+			 */
 
 			//
 			Region win = App.focusedWindow().grow(-20);
-			ImageLocator.setBundlePath(new File(System.getProperty("user.dir"), "images.sikuli").getAbsolutePath());
+			ImageLocator.setBundlePath(new File(System.getProperty("user.dir"),
+					"images.sikuli").getAbsolutePath());
 
 			int debugLight = 3; // set to 0 to switch off highlighting
 			Screen s = new Screen();
 			String str = "R301_true.png";
 			Pattern target = new Pattern(str);
-			//Method 2:
+			// Method 2:
 			// to eat up primary Sikuli initialization
 			Match m = s.find(target.exact());
 
-			if(m != null){
+			if (m != null) {
 				m.highlight(debugLight);
 				System.out.println("Matched");
 			}
 
-			//Method 3:
-/*			Finder fndr = new Finder(s.capture());
-			fndr.findAll(str);
-			while (fndr.hasNext()) {
-				System.out.println("Matched");
-			}
-*/			
-		} catch (Exception e){
+			// Method 3:
+			/*
+			 * Finder fndr = new Finder(s.capture()); fndr.findAll(str); while
+			 * (fndr.hasNext()) { System.out.println("Matched"); }
+			 */
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

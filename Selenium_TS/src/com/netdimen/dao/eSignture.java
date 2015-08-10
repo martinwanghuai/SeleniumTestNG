@@ -3,34 +3,35 @@ package com.netdimen.dao;
 public class eSignture {
 
 	public enum eSigntureType {
-			Inherite, Enable, Disable
+		Inherite, Enable, Disable
 	}
-	public eSigntureType courseCSVloader=eSigntureType.Inherite;
-	public eSigntureType ProgCSVloader=eSigntureType.Inherite;
-	public eSigntureType withdraws =eSigntureType.Inherite;
-	public eSigntureType courseUpdate=eSigntureType.Inherite;
-	public eSigntureType courselaunch=eSigntureType.Inherite;
-	public eSigntureType courseimporter=eSigntureType.Inherite;
-	public eSigntureType coursefinish=eSigntureType.Inherite;
-	public eSigntureType examlaunch=eSigntureType.Inherite;
-	public eSigntureType questionStatus=eSigntureType.Inherite;
-	public eSigntureType questionImporter=eSigntureType.Inherite;
-	public eSigntureType manualGrading=eSigntureType.Inherite;
-	public eSigntureType transcriptModifiedByReviewer=eSigntureType.Inherite;
-	public eSigntureType transcriptModifiedViaCatalogEditor=eSigntureType.Inherite;
-	public eSigntureType transcriptAttendanceModification=eSigntureType.Inherite;
-	public eSigntureType transcriptModifiedViaEnrollWizard=eSigntureType.Inherite;
-	public eSigntureType externalTrainingRecord=eSigntureType.Inherite;
-	public eSigntureType certUpdate=eSigntureType.Inherite;
-	public eSigntureType certDelete=eSigntureType.Inherite;
-	
-	public String getESignTypeEnableTextifItisEnabled(eSigntureType e){
-		if (e.compareTo(eSigntureType.Enable)==0){
+
+	public eSigntureType courseCSVloader = eSigntureType.Inherite;
+	public eSigntureType ProgCSVloader = eSigntureType.Inherite;
+	public eSigntureType withdraws = eSigntureType.Inherite;
+	public eSigntureType courseUpdate = eSigntureType.Inherite;
+	public eSigntureType courselaunch = eSigntureType.Inherite;
+	public eSigntureType courseimporter = eSigntureType.Inherite;
+	public eSigntureType coursefinish = eSigntureType.Inherite;
+	public eSigntureType examlaunch = eSigntureType.Inherite;
+	public eSigntureType questionStatus = eSigntureType.Inherite;
+	public eSigntureType questionImporter = eSigntureType.Inherite;
+	public eSigntureType manualGrading = eSigntureType.Inherite;
+	public eSigntureType transcriptModifiedByReviewer = eSigntureType.Inherite;
+	public eSigntureType transcriptModifiedViaCatalogEditor = eSigntureType.Inherite;
+	public eSigntureType transcriptAttendanceModification = eSigntureType.Inherite;
+	public eSigntureType transcriptModifiedViaEnrollWizard = eSigntureType.Inherite;
+	public eSigntureType externalTrainingRecord = eSigntureType.Inherite;
+	public eSigntureType certUpdate = eSigntureType.Inherite;
+	public eSigntureType certDelete = eSigntureType.Inherite;
+
+	public String getESignTypeEnableTextifItisEnabled(eSigntureType e) {
+		if (e.compareTo(eSigntureType.Enable) == 0) {
 			return "enable";
 		}
 		return "";
 	}
-	
+
 	public eSigntureType getCertUpdate() {
 		return certUpdate;
 	}
@@ -47,8 +48,6 @@ public class eSignture {
 		this.certDelete = certDelete;
 	}
 
-
-	
 	public eSigntureType getCourseCSVloader() {
 		return courseCSVloader;
 	}
@@ -181,7 +180,6 @@ public class eSignture {
 		this.externalTrainingRecord = externalTrainingRecord;
 	}
 
-	
 	public eSignture() {
 		// TODO Auto-generated constructor stub
 	}

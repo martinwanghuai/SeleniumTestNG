@@ -24,16 +24,14 @@ public class PermissionUI {
 	 *            = If true, navigate to "Unrestricted Access" else remains on
 	 *            Read Access page (same as Target Audience page)
 	 * @param permissionStr
-	 *            e.g. User:uma_qa1;uma_qa2; 
-	 *            OrgInclude:Org1/Org2;
-	 *            OrgExclude:Org1/Org2;
-	 *            OrgAttribute:Org_DropDown=list2-CS
+	 *            e.g. User:uma_qa1;uma_qa2; OrgInclude:Org1/Org2;
+	 *            OrgExclude:Org1/Org2; OrgAttribute:Org_DropDown=list2-CS
 	 */
 	public static void setPermission_UI(WebDriver driver, Boolean bWrite,
 			String permissionStr) {
 
-		//WebDriverUtils.switchToPopUpWin(driver);
-		//Navigator.explicitWait(1000);
+		// WebDriverUtils.switchToPopUpWin(driver);
+		// Navigator.explicitWait(1000);
 		String[] permissionArray = permissionStr.split("\n");
 		By by = null;
 
@@ -81,7 +79,7 @@ public class PermissionUI {
 		Navigator.explicitWait(1000);
 		WebDriverUtils.clickButton(driver, by);
 
-		//WebDriverUtils.switchToParentWin(driver);
+		// WebDriverUtils.switchToParentWin(driver);
 	}
 
 	private static void setOrgAttrPerm(WebDriver driver, String[] values) {
@@ -136,11 +134,10 @@ public class PermissionUI {
 
 		WebDriverUtils.switchToPopUpWin(driver);
 		Navigator.explicitWait(1000);
-			
-		ArrayList<String> Modules = new ArrayList<String>(Arrays.asList(values));	
+
+		ArrayList<String> Modules = new ArrayList<String>(Arrays.asList(values));
 		SelectorsUI.PopUp_Selector(driver,
 				SelectorsUI.PopUpSelector.UserSelector, Modules);
-	
 
 		WebDriverUtils.switchToParentWin(driver);
 

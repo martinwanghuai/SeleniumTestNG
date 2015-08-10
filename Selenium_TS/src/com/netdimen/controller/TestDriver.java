@@ -120,11 +120,13 @@ public class TestDriver {
 
 		driver = WebDriverUtils.getWebDriver_new();
 		try {
-			File file = new File(Config.getInstance().getProperty("test.result"));
+			File file = new File(Config.getInstance()
+					.getProperty("test.result"));
 			if (file.delete()) {
 				System.out.println(file.getAbsolutePath() + " is deleted!");
 			} else {
-				System.out.println("Delete " + file.getAbsolutePath() + " operation is failed.");
+				System.out.println("Delete " + file.getAbsolutePath()
+						+ " operation is failed.");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -143,7 +145,8 @@ public class TestDriver {
 
 		FileInputStream file = null;
 		try {
-			file = new FileInputStream(Config.getInstance().getProperty("testDataFile"));
+			file = new FileInputStream(Config.getInstance().getProperty(
+					"testDataFile"));
 			HSSFWorkbook wb = new HSSFWorkbook(file);
 
 			// load all tests: all test cases are configured in EKPMain page
@@ -152,7 +155,8 @@ public class TestDriver {
 
 			HSSFSheet sheet = wb.getSheet(sheetName_main);
 
-			for (ExcelSheetObject excelSheetObj : POIUtils.getExcelSheetObjectFromExcel(sheet, dataRowIndex_start)) {
+			for (ExcelSheetObject excelSheetObj : POIUtils
+					.getExcelSheetObjectFromExcel(sheet, dataRowIndex_start)) {
 
 				final String sheetName = excelSheetObj.getSheetName();
 				sheet = wb.getSheet(sheetName);
@@ -175,7 +179,8 @@ public class TestDriver {
 						rowNumsToScan.add(Integer.parseInt(rowNum_str));
 					}
 				}
-				addTestCases(objList, wb, sheet, excelSheetObj, rowNumsToScan, hasSpecifyRowNum);
+				addTestCases(objList, wb, sheet, excelSheetObj, rowNumsToScan,
+						hasSpecifyRowNum);
 			}
 		} catch (FileNotFoundException ex) {
 			ex.printStackTrace();
@@ -195,43 +200,49 @@ public class TestDriver {
 		return objList;
 	}
 
-	private static Collection<Object[]> addTestCases(Collection<Object[]> objList, HSSFWorkbook wb, HSSFSheet sheet,
-			ExcelSheetObject excelSheetObj, List<Integer> rowNumsToScan, boolean hasSpecifyRowNum) {
+	private static Collection<Object[]> addTestCases(
+			Collection<Object[]> objList, HSSFWorkbook wb, HSSFSheet sheet,
+			ExcelSheetObject excelSheetObj, List<Integer> rowNumsToScan,
+			boolean hasSpecifyRowNum) {
 
 		boolean found = false;
 		for (Integer rowNum : rowNumsToScan) {
-			TestObject obj = POIUtils.loadTestCaseFromExcelRow(excelSheetObj.getSheetName(),
-					excelSheetObj.getFuncName(), rowNum, wb);
+			TestObject obj = POIUtils.loadTestCaseFromExcelRow(
+					excelSheetObj.getSheetName(), excelSheetObj.getFuncName(),
+					rowNum, wb);
 			found = addTestCaseToList(objList, obj);
 			if (obj != null) {
 				obj.setLabel(excelSheetObj.getLabel());
 				obj.setAuthor(excelSheetObj.getAuthor());
 			} else if (hasSpecifyRowNum) {
-				System.out.println("TestDriver: data()-2:Cannot find method:" + excelSheetObj.getFuncName()
-						+ " in sheet:" + excelSheetObj.getSheetName() + " row:" + rowNum);
+				System.out.println("TestDriver: data()-2:Cannot find method:"
+						+ excelSheetObj.getFuncName() + " in sheet:"
+						+ excelSheetObj.getSheetName() + " row:" + rowNum);
 			}
 		}
 
 		if (!found && !hasSpecifyRowNum) {
-			System.out.println("TestDriver: data()-1: Cannot find method:" + excelSheetObj.getFuncName() + " in sheet:"
+			System.out.println("TestDriver: data()-1: Cannot find method:"
+					+ excelSheetObj.getFuncName() + " in sheet:"
 					+ excelSheetObj.getSheetName());
 		}
 
 		return objList;
 	}
 
-	private static boolean addTestCaseToList(Collection<Object[]> objList, TestObject obj) {
+	private static boolean addTestCaseToList(Collection<Object[]> objList,
+			TestObject obj) {
 
 		boolean found = false;
-	    if (obj != null & !objList.contains(obj)) {
-	    	objList.add(new Object[] { obj, obj.toString() });
-	    	addTestObject(obj.getID(), obj);
-	    	found = true;
-	    }
-	    
-	    return found;
-    }
-	
+		if (obj != null & !objList.contains(obj)) {
+			objList.add(new Object[] { obj, obj.toString() });
+			addTestObject(obj.getID(), obj);
+			found = true;
+		}
+
+		return found;
+	}
+
 	@NetdTestRule
 	public TimeLogger logger = new TimeLogger(driver);
 
@@ -249,14 +260,17 @@ public class TestDriver {
 											// class.
 				String fieldName = "UID";
 				// Search it in super class.ie: Online>LearningModule>TestObject
-				Field UID_field = ReflectionUtils.getField_superClz(testObject.getClass(), fieldName);
+				Field UID_field = ReflectionUtils.getField_superClz(
+						testObject.getClass(), fieldName);
 				if (UID_field != null) {
 					UID_field.setAccessible(true);
 					testObject_UID = (String) UID_field.get(testObject);
 				} else {
 					// do not switch user: set as default user
-					user_current.setUID(Config.getInstance().getProperty("sys.ndadmin"));
-					user_current.setPWD(Config.getInstance().getProperty("sys.ndadmin.pass"));
+					user_current.setUID(Config.getInstance().getProperty(
+							"sys.ndadmin"));
+					user_current.setPWD(Config.getInstance().getProperty(
+							"sys.ndadmin.pass"));
 					testObject_UID = user_current.getUID();
 				}
 			}
@@ -277,7 +291,8 @@ public class TestDriver {
 																			// id
 					// different user, then logout first
 					logonUser.logout(driver);
-					User user = new User(testObject.getUID(), testObject.getPWD());
+					User user = new User(testObject.getUID(),
+							testObject.getPWD());
 					user.login(driver);
 					TestDriver.setUser_current(user);
 				}
@@ -370,7 +385,8 @@ public class TestDriver {
 		// annotated with "NetdTestRule" and is subclass of "NetDTestWatcher"
 		for (Field field : fields) {
 
-			Class<NetDTestWatcher> fieldClz = (Class<NetDTestWatcher>) field.getType();
+			Class<NetDTestWatcher> fieldClz = (Class<NetDTestWatcher>) field
+					.getType();
 			Object fieldObj;
 			try {
 				fieldObj = fieldClz.newInstance();
@@ -385,13 +401,16 @@ public class TestDriver {
 					String methodName = testObj.getFuncType();
 
 					if (!methodName.equals("")) {
-						ArrayList<TestObject> objectParams = testObj.getObjectParams();
+						ArrayList<TestObject> objectParams = testObj
+								.getObjectParams();
 
 						Method method = null;
 						if (objectParams.size() == 0) {
-							method = testObj.getClass().getMethod(methodName, WebDriver.class);
+							method = testObj.getClass().getMethod(methodName,
+									WebDriver.class);
 						} else {
-							method = testObj.getClass().getMethod(methodName, WebDriver.class, ArrayList.class);
+							method = testObj.getClass().getMethod(methodName,
+									WebDriver.class, ArrayList.class);
 						}
 						// 2. judge whether can skip a method
 						if (watchDog.isSkipMethod(method)) {
@@ -399,7 +418,9 @@ public class TestDriver {
 						}
 					} else {
 						if (Config.DEBUG_MODE) {
-							System.out.println("methodName:" + testObj.getFuncType() + "() is not defined in class:"
+							System.out.println("methodName:"
+									+ testObj.getFuncType()
+									+ "() is not defined in class:"
 									+ testObj.getClass().getName());
 						}
 					}
@@ -436,7 +457,8 @@ public class TestDriver {
 	 *            : Web Driver
 	 * @return boolean test execute result
 	 */
-	private boolean executeTestMethod(TestObject testObject, WebDriver driver) throws Exception {
+	private boolean executeTestMethod(TestObject testObject, WebDriver driver)
+			throws Exception {
 
 		boolean success = false;
 		double startTime, endtime;
@@ -456,13 +478,17 @@ public class TestDriver {
 						totalExecution++;
 						TestDriver.setCurrentTestObject(testObject);
 
-						method = testObject.getClass().getMethod(testObject.getFuncType(), WebDriver.class);
+						method = testObject.getClass().getMethod(
+								testObject.getFuncType(), WebDriver.class);
 						method.invoke(testObject, driver);
 
 						testReport.SaveSuccessTestReportToExcel();
 						endtime = System.currentTimeMillis();
-						System.out.println("\t Time used: " + (endtime - startTime) / 1000 + " secs on test case:"
-								+ testObject.toString());
+						System.out
+								.println("\t Time used: "
+										+ (endtime - startTime) / 1000
+										+ " secs on test case:"
+										+ testObject.toString());
 						success = true;
 
 					} else {
@@ -471,19 +497,25 @@ public class TestDriver {
 						StringBuilder sb = new StringBuilder();
 						sb.append(testObject.toString());
 						sb.append(" with object inputs:");
-						for (TestObject objectParam : testObject.getObjectParams()) {
-							sb.append(System.lineSeparator() + "\t\"").append(objectParam.toString()).append("\"");
+						for (TestObject objectParam : testObject
+								.getObjectParams()) {
+							sb.append(System.lineSeparator() + "\t\"")
+									.append(objectParam.toString())
+									.append("\"");
 						}
 						totalExecution++;
 						TestDriver.setCurrentTestObject(testObject);
 
-						method = testObject.getClass().getMethod(testObject.getFuncType(), WebDriver.class,
+						method = testObject.getClass().getMethod(
+								testObject.getFuncType(), WebDriver.class,
 								ArrayList.class);
-						method.invoke(testObject, driver, testObject.getObjectParams());
+						method.invoke(testObject, driver,
+								testObject.getObjectParams());
 						testReport.SaveSuccessTestReportToExcel();
 						endtime = System.currentTimeMillis();
-						System.out.println("\t Time used: " + (endtime - startTime) / 1000 + " secs on test case:"
-								+ sb.toString());
+						System.out.println("\t Time used: "
+								+ (endtime - startTime) / 1000
+								+ " secs on test case:" + sb.toString());
 						success = true;
 
 					}
@@ -497,7 +529,8 @@ public class TestDriver {
 				startTime = System.currentTimeMillis();
 				ArrayList<TestObject> testCases = testObject.getTestCaseArray();
 				if (testCases != null) {
-					System.out.println("Run test suite:\"" + testObject.toString() + "\" with test cases:");
+					System.out.println("Run test suite:\""
+							+ testObject.toString() + "\" with test cases:");
 
 					for (TestObject testCase : testCases) {
 						if (testCase != null) {
@@ -505,26 +538,30 @@ public class TestDriver {
 							String ID = testCase.getID();
 							// IMPORTANT: modify id for reporting purpose
 							// only
-							testCase.setID(testObject.getID() + "{" + testCase.getID() + "}");
-							boolean testResult = executeTestMethod(testCase, driver);
+							testCase.setID(testObject.getID() + "{"
+									+ testCase.getID() + "}");
+							boolean testResult = executeTestMethod(testCase,
+									driver);
 							// reset back to original ID'
 							testCase.setID(ID);
 							if (!testResult) {
-								System.out.println(
-										"ERROR: one test case fail, then skip all coming test cases in test suite");
+								System.out
+										.println("ERROR: one test case fail, then skip all coming test cases in test suite");
 								break;
 							}
 						}
 					}
 					endtime = System.currentTimeMillis();
-					System.out.println("Time used: " + (endtime - startTime) / 1000 + " secs on test suite:\""
+					System.out.println("Time used: " + (endtime - startTime)
+							/ 1000 + " secs on test suite:\""
 							+ testObject.toString() + "\"");
 					success = true;
 				}
 			}
 		} else {
 			if (Config.DEBUG_MODE) {
-				System.out.println("methodName:" + testObject.getFuncType() + "() is not defined in class:"
+				System.out.println("methodName:" + testObject.getFuncType()
+						+ "() is not defined in class:"
 						+ testObject.getClass().getName());
 			}
 		}
@@ -563,9 +600,11 @@ public class TestDriver {
 		driver.quit();
 		Hashtable<String, String> properties = new Hashtable<String, String>();
 		properties.put("Total.Cases", String.valueOf(getTotalExecution()));
-		properties.put("Total.Pass.Cases", String.valueOf(getTotalExecution() - intFailCases));
+		properties.put("Total.Pass.Cases",
+				String.valueOf(getTotalExecution() - intFailCases));
 		properties.put("Total.Fail.Cases", String.valueOf(intFailCases));
-		PropertiesFileUtils.SaveAsPropertiesFile(Config.getInstance().getProperty("test.result"), properties);
+		PropertiesFileUtils.SaveAsPropertiesFile(Config.getInstance()
+				.getProperty("test.result"), properties);
 
 	}
 
