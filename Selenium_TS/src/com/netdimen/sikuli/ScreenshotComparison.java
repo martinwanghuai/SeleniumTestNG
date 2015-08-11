@@ -18,12 +18,10 @@ import com.netdimen.view.Navigator;
 
 public class ScreenshotComparison {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		try {
-			SikuliFirefoxDriver driver = new SikuliFirefoxDriver();
+			
+			final SikuliFirefoxDriver driver = new SikuliFirefoxDriver();
 			driver.get("http://localhost:8280/ekp1/servlet/ekp/login?getnews=Y");
 			By by = By.id("UID");
 			WebDriverUtils.fillin_textbox(driver, by, "ndadmin");
@@ -32,9 +30,9 @@ public class ScreenshotComparison {
 			WebDriverUtils.fillin_textbox(driver, by, "123456");
 
 			// click login button
-			URL url = SikuliFirefoxDriver.class.getResource("login.png");
-			ImageElement image = driver.findImageElement(url);
-			;
+			final URL url = SikuliFirefoxDriver.class.getResource("login.png");
+			final ImageElement image = driver.findImageElement(url);
+
 			image.click();
 
 			// Navigator.navigate(driver, Navigator.URL.ScheduledReport);
@@ -56,19 +54,18 @@ public class ScreenshotComparison {
 			 * if(image== null){ System.out.println("Not match"); }else{
 			 * System.out.println("Matched"); }
 			 */
-
-			//
-			Region win = App.focusedWindow().grow(-20);
+			
+			final Region win = App.focusedWindow().grow(-20);
 			ImageLocator.setBundlePath(new File(System.getProperty("user.dir"),
 					"images.sikuli").getAbsolutePath());
 
-			int debugLight = 3; // set to 0 to switch off highlighting
-			Screen s = new Screen();
-			String str = "R301_true.png";
-			Pattern target = new Pattern(str);
+			final int debugLight = 3; // set to 0 to switch off highlighting
+			final Screen s = new Screen();
+			final String str = "R301_true.png";
+			final Pattern target = new Pattern(str);
 			// Method 2:
 			// to eat up primary Sikuli initialization
-			Match m = s.find(target.exact());
+			final Match m = s.find(target.exact());
 
 			if (m != null) {
 				m.highlight(debugLight);
@@ -80,9 +77,8 @@ public class ScreenshotComparison {
 			 * Finder fndr = new Finder(s.capture()); fndr.findAll(str); while
 			 * (fndr.hasNext()) { System.out.println("Matched"); }
 			 */
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 }

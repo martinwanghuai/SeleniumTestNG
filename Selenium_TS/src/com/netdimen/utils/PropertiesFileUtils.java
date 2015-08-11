@@ -17,39 +17,37 @@ import java.util.Properties;
  */
 public class PropertiesFileUtils {
 
-	// Suppress default constructor for noninstantiability
 	private PropertiesFileUtils() {
-
 		throw new AssertionError();
 	}
 
-	public static boolean SaveAsPropertiesFile(String fullFileName,
-			Map<String, String> table) {
-		Properties prop = new Properties();
+	public static boolean SaveAsPropertiesFile(final String fullFileName,
+			final Map<String, String> table) {
+		final Properties prop = new Properties();
 		OutputStream output = null;
-		boolean saveSucccess = false;
+		final boolean saveSucccess = false;
 		try {
 
 			output = new FileOutputStream(fullFileName, false);
 			// set the properties value
-			for (Iterator<String> iter = table.keySet().iterator(); iter
+			for (final Iterator<String> iter = table.keySet().iterator(); iter
 					.hasNext();) {
-				String key = iter.next();
-				String value = table.get(key);
+				final String key = iter.next();
+				final String value = table.get(key);
 				prop.setProperty(key, value);
 			}
 
 			// save properties to project root folder
 			prop.store(output, null);
 
-		} catch (IOException io) {
+		} catch (final IOException io) {
 			io.printStackTrace();
 		} finally {
 			if (output != null) {
 				try {
 					output.flush();
 					output.close();
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -58,24 +56,22 @@ public class PropertiesFileUtils {
 		return saveSucccess;
 	}
 
-	public static Properties loadProperties(String fullFileName) {
-		Properties prop = new Properties();
+	public static Properties loadProperties(final String fullFileName) {
+		final Properties prop = new Properties();
 		InputStream input = null;
 
 		try {
-
 			input = new FileInputStream(fullFileName);
-
 			// load a properties file
 			prop.load(input);
 
-		} catch (IOException ex) {
+		} catch (final IOException ex) {
 			ex.printStackTrace();
 		} finally {
 			if (input != null) {
 				try {
 					input.close();
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					e.printStackTrace();
 				}
 			}

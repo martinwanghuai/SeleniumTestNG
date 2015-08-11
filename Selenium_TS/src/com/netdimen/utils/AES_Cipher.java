@@ -33,9 +33,7 @@ public final class AES_Cipher {
 			(byte) 0x49, (byte) 0x2b, (byte) 0xa4, (byte) 0x1f, (byte) 0x44,
 			(byte) 0xc7 };
 
-	// Suppress default constructor for noninstantiability
 	private AES_Cipher() {
-
 		throw new AssertionError();
 	}
 
@@ -47,7 +45,7 @@ public final class AES_Cipher {
 
 		try {
 			return decryptUsingAes(cipherText, defaultKey(), DEFAULT_ENCODING);
-		} catch (Exception one) {
+		} catch (final Exception one) {
 			throw new RuntimeException(one);
 		}
 	}
@@ -78,12 +76,6 @@ public final class AES_Cipher {
 		return secretKey;
 	}
 
-	// ------------------------------------------------------------------------
-	// UTILITY METHODS
-	//
-	// These utility methods are included so that they do not need to reference
-	// internal obfuscated libraries
-	// ------------------------------------------------------------------------
 	/**
 	 * Converts a byte array to hex string
 	 * 
@@ -109,12 +101,12 @@ public final class AES_Cipher {
 	 * @param buf
 	 *            the output string buffer
 	 */
-	private static void byte2hex(byte b, StringBuilder buf) {
+	private static void byte2hex(final byte b, final StringBuilder buf) {
 
-		char[] hexChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+		final char[] hexChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 				'A', 'B', 'C', 'D', 'E', 'F' };
-		int high = ((b & 0xf0) >> 4);
-		int low = (b & 0x0f);
+		final int high = ((b & 0xf0) >> 4);
+		final int low = (b & 0x0f);
 
 		buf.append(hexChars[high]);
 		buf.append(hexChars[low]);
@@ -135,20 +127,13 @@ public final class AES_Cipher {
 		int x = 0;
 		int high = 0, low = 0;
 
-		/*
-		 * don't work, throw exception for (int i=0; i < input.length(); i++) {
-		 * String s = "0x" + input.substring(i, i+2); result[x++] =
-		 * Byte.parseByte(s,16); }
-		 */
 		for (int i = 0; i < input.length(); i++) {
 			for (int j = 0; j < 16; j++) {
 				if (input.charAt(i) == hexChars[j]) {
-					// high order bits
 					high = j * 16;
 					i++;
 					for (int k = 0; k < 16; k++) {
 						if (input.charAt(i) == hexChars[k]) {
-							// low order bits
 							low = k;
 							break;
 						}

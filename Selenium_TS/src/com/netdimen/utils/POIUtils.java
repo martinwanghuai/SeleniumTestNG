@@ -37,7 +37,6 @@ import com.netdimen.dao.ExcelSheetObjectMap;
  */
 public class POIUtils {
 
-	// Suppress default constructor for noninstantiability
 	private POIUtils() {
 		throw new AssertionError();
 	}
@@ -159,22 +158,16 @@ public class POIUtils {
 		} catch (final ClassNotFoundException e) {
 			System.out.println("Error when loading " + className + "; row="
 					+ row.getRowNum());
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (final InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (final IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (final SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (final NoSuchMethodException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (final InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -218,7 +211,6 @@ public class POIUtils {
 			} else {
 				columnData.add("");
 			}
-
 		}
 
 		return columnData;
@@ -230,7 +222,6 @@ public class POIUtils {
 		final ArrayList<String> columnData = new ArrayList<String>();
 		final int rows = sheet.getPhysicalNumberOfRows();
 		for (int i = rowIndex_start; i < rows; i++) {
-			// System.out.println(i);
 			final Row row = sheet.getRow(i);
 			if (row != null) {
 				final Cell cell = row.getCell(columnIndex);
@@ -436,56 +427,6 @@ public class POIUtils {
 		return obj;
 	}
 
-	/**
-	 * Load test object from excel row, return null if test object does not
-	 * match with sheet name and function types.
-	 * 
-	 * @param sheetName
-	 *            : sheet name = class name
-	 * @param funcType
-	 *            : func name = method name
-	 * @param rowNum
-	 *            : rowNum starting from 1
-	 * @param wb
-	 *            : Excel work book with multiple sheets
-	 * @return: null if it does not match with sheet name and function types
-	 *//*
-	public static TestObject loadTestCaseFromExcelRow(final String sheetName,
-			final String funcType, final int rowNum, final HSSFWorkbook wb) {
-		if (rowNum < 1) {
-			System.out
-					.println("POI:loadTestCaseFromExcelRow-->ERROR: Row Number should start from 1");
-			return null;
-		}
-
-		TestObject obj = null;
-		final HSSFSheet sheet = wb.getSheet(sheetName);
-		final ArrayList<String> fieldNames = POIUtils.getRowFromExcel(sheet, 0);// Row
-																			// 0
-																			// of
-																			// each
-																			// sheet
-																			// is
-																			// the
-																			// field
-																			// list
-		final Row row = sheet.getRow(rowNum - 1); // rowNum-1 since rowNum parameter
-											// start from 1, not 0
-		if (row != null) {
-			obj = POIUtils.mapExcelRowToTestObject(wb, row,
-					"com.netdimen.model." + sheetName, fieldNames);
-			final Class<?> clz = obj.getClass();
-			final String funcTypeValue = ReflectionUtils.getFieldValueAsString(obj,
-					"FuncType");
-			if (funcTypeValue.trim().isEmpty()
-					|| !funcTypeValue.equals(funcType)) {
-				obj = null;
-			}
-		}
-
-		return obj;
-	}*/
-
 	public static int getRowNum(final HSSFSheet sheet, final int columnIndex,
 			final String search_keyword) {
 		Row row;
@@ -539,10 +480,8 @@ public class POIUtils {
 			out.close();
 
 		} catch (final FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (final IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

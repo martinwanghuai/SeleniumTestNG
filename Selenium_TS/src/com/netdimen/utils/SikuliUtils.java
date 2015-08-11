@@ -18,13 +18,12 @@ import org.sikuli.script.Screen;
  */
 public class SikuliUtils {
 	static {
-		String fullPath = new File(System.getProperty("user.dir"),
+		final String fullPath = new File(System.getProperty("user.dir"),
 				"images.sikuli").getAbsolutePath();
 		ImageLocator.setBundlePath(fullPath);
 		Settings.MinSimilarity = 0.9;
 	}
 
-	// Suppress default constructor for noninstantiability
 	private SikuliUtils() {
 
 		throw new AssertionError();
@@ -36,34 +35,30 @@ public class SikuliUtils {
 	 * @param screenshotFile
 	 * @return
 	 */
-	public static boolean screenshotExistInWin(String screenshotFile) {
+	public static boolean screenshotExistInWin(final String screenshotFile) {
 
 		boolean exist = false;
 		try {
-			Region win = App.focusedWindow();
+			final Region win = App.focusedWindow();
 
-			int debugLightSecs = 3; // set to 0 to switch off highlighting
-			Screen s = new Screen();
+			final int debugLightSecs = 3; // set to 0 to switch off highlighting
+			final Screen s = new Screen();
 
-			Pattern target = new Pattern(screenshotFile);
+			final Pattern target = new Pattern(screenshotFile);
 			target.setTimeAfter(50);
 			target.similar(0.85f);
 
-			Match m = s.find(target);
+			final Match m = s.find(target);
 			if (m != null) {
 				m.highlight(debugLightSecs);
 				exist = true;
 			}
-		} catch (FindFailed e) {
-			// TODO Auto-generated catch block
+		} catch (final FindFailed e) {
 			e.printStackTrace();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
-
 		return exist;
-
-		// return true;
 	}
 
 }

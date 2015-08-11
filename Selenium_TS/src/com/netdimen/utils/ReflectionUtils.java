@@ -13,14 +13,12 @@ import com.netdimen.abstractclasses.TestObject;
  */
 public class ReflectionUtils {
 
-	// Suppress default constructor for noninstantiability
 	private ReflectionUtils() {
-
 		throw new AssertionError();
 	}
 
-	public static boolean containField_Recursive(String clzName,
-			String fieldName) {
+	public static boolean containField_Recursive(final String clzName,
+			final String fieldName) {
 		boolean containField = false;
 
 		try {
@@ -31,16 +29,15 @@ public class ReflectionUtils {
 				clz = clz.getSuperclass();
 			}
 
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (final ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 
 		return containField;
 	}
 
-	public static boolean containMethod_Recursive(String clzName,
-			String methodName) {
+	public static boolean containMethod_Recursive(final String clzName,
+			final String methodName) {
 		boolean containMethod = false;
 
 		try {
@@ -51,8 +48,7 @@ public class ReflectionUtils {
 				clz = clz.getSuperclass();
 			}
 
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (final ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 
@@ -60,9 +56,9 @@ public class ReflectionUtils {
 	}
 
 	public static Field getField_superClz(Class<? extends TestObject> clz,
-			String fieldName) {
+			final String fieldName) {
 		Field field = null;
-		Class<? extends TestObject> orginalClz = clz;
+		final Class<? extends TestObject> orginalClz = clz;
 		try {
 			Class superClz = null;
 			boolean containField = false;
@@ -81,21 +77,19 @@ public class ReflectionUtils {
 				System.out.println("In " + orginalClz.getName()
 						+ " cls,cannot find field:" + fieldName);
 			}
-		} catch (NoSuchFieldException e) {
-			// TODO Auto-generated catch block
+		} catch (final NoSuchFieldException e) {
 			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
+		} catch (final SecurityException e) {
 			e.printStackTrace();
 		}
 
 		return field;
 	}
 
-	public static boolean containField(Class clz, String fieldName) {
-		Field[] fields = clz.getDeclaredFields();
+	public static boolean containField(final Class clz, final String fieldName) {
+		final Field[] fields = clz.getDeclaredFields();
 		boolean contain = false;
-		for (Field field : fields) {
+		for (final Field field : fields) {
 			if (field.getName().equals(fieldName)) {
 				contain = true;
 				break;
@@ -105,10 +99,10 @@ public class ReflectionUtils {
 		return contain;
 	}
 
-	public static boolean containMethod(Class clz, String methodName) {
-		Method[] methods = clz.getDeclaredMethods();
+	public static boolean containMethod(final Class clz, final String methodName) {
+		final Method[] methods = clz.getDeclaredMethods();
 		boolean contain = false;
-		for (Method method : methods) {
+		for (final Method method : methods) {
 			if (method.getName().equals(methodName)) {
 				contain = true;
 				break;
@@ -118,45 +112,41 @@ public class ReflectionUtils {
 		return contain;
 	}
 
-	public static Field[] getFields(String clzName) {
-		Class clz = ReflectionUtils.loadClass(clzName);
+	public static Field[] getFields(final String clzName) {
+		final Class clz = ReflectionUtils.loadClass(clzName);
 		return clz.getDeclaredFields();
 	}
 
-	public static Class loadClass(String clzName) {
+	public static Class loadClass(final String clzName) {
 		Class clz = null;
 
 		try {
 			clz = Class.forName(clzName);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (final ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 
 		return clz;
 	}
 
-	public static Object loadObject(String clzName) {
+	public static Object loadObject(final String clzName) {
 		Object obj = null;
 
 		try {
-			Class clz = Class.forName(clzName);
+			final Class clz = Class.forName(clzName);
 			obj = clz.newInstance();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (final ClassNotFoundException e) {
 			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
+		} catch (final InstantiationException e) {
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
+		} catch (final IllegalAccessException e) {
 			e.printStackTrace();
 		}
 
 		return obj;
 	}
 
-	public static Field getField(Class clz, String fieldName) {
+	public static Field getField(final Class clz, final String fieldName) {
 		Field field = null;
 
 		try {
@@ -166,56 +156,48 @@ public class ReflectionUtils {
 				// search field in super classes
 				field = ReflectionUtils.getField_superClz(clz, fieldName);
 			}
-		} catch (NoSuchFieldException e) {
-			// TODO Auto-generated catch block
+		} catch (final NoSuchFieldException e) {
 			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
+		} catch (final SecurityException e) {
 			e.printStackTrace();
 		}
 
 		return field;
 	}
 
-	public static String getFieldValueAsString(TestObject testObject,
-			String fieldName) {
+	public static String getFieldValueAsString(final TestObject testObject,
+			final String fieldName) {
 		String fieldValue = "";
 
 		try {
-			Class clz = testObject.getClass();
-			Field field = ReflectionUtils.getField(clz, fieldName);
+			final Class clz = testObject.getClass();
+			final Field field = ReflectionUtils.getField(clz, fieldName);
 			field.setAccessible(true);
 			fieldValue = (String) field.get(testObject);
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
+		} catch (final SecurityException e) {
 			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
+		} catch (final IllegalArgumentException e) {
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
+		} catch (final IllegalAccessException e) {
 			e.printStackTrace();
 		}
 		return fieldValue;
 	}
 
 	public static ArrayList<TestObject> getFieldValueAsTestObjectArray(
-			TestObject testObject, String fieldName) {
+			final TestObject testObject, final String fieldName) {
 		ArrayList<TestObject> fieldValue = null;
 
 		try {
-			Class clz = testObject.getClass();
-			Field field = ReflectionUtils.getField(clz, fieldName);
+			final Class clz = testObject.getClass();
+			final Field field = ReflectionUtils.getField(clz, fieldName);
 			field.setAccessible(true);
 			fieldValue = (ArrayList<TestObject>) field.get(testObject);
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
+		} catch (final SecurityException e) {
 			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
+		} catch (final IllegalArgumentException e) {
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
+		} catch (final IllegalAccessException e) {
 			e.printStackTrace();
 		}
 		return fieldValue;

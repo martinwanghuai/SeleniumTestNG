@@ -30,6 +30,7 @@ public class DBManager {
 	private Connection conn;
 
 	public DBManager() {
+
 		this.connectURL = Config.getInstance()
 				.getProperty("default.connectURL");
 		this.dbaUser = Config.getInstance().getProperty("default.user");
@@ -50,10 +51,8 @@ public class DBManager {
 					dbaPassword));
 
 		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	public final String getDriverName() {
@@ -61,7 +60,7 @@ public class DBManager {
 		return driverName;
 	}
 
-	public final void setDriverName(String driverName) {
+	public final void setDriverName(final String driverName) {
 
 		this.driverName = driverName;
 	}
@@ -70,7 +69,7 @@ public class DBManager {
 		return dbaUser;
 	}
 
-	public void setDbaUser(String dbaUser) {
+	public void setDbaUser(final String dbaUser) {
 		this.dbaUser = dbaUser;
 	}
 
@@ -78,7 +77,7 @@ public class DBManager {
 		return dbaPassword;
 	}
 
-	public void setDbaPassword(String dbaPassword) {
+	public void setDbaPassword(final String dbaPassword) {
 		this.dbaPassword = dbaPassword;
 	}
 
@@ -86,7 +85,7 @@ public class DBManager {
 		return connectURL;
 	}
 
-	public void setConnectURL(String connectURL) {
+	public void setConnectURL(final String connectURL) {
 		this.connectURL = connectURL;
 	}
 
@@ -94,20 +93,15 @@ public class DBManager {
 		return dbType;
 	}
 
-	public void setDbType(String dbType) {
+	public void setDbType(final String dbType) {
 		this.dbType = dbType;
 	}
-
-	// public static void main(String[] args) {
-	// DBManager dbmgr= new DBManager();
-	// }
 
 	public Connection getConn() {
 		return conn;
 	}
 
-	public void setConn(Connection conn) {
+	public void setConn(final Connection conn) {
 		this.conn = conn;
 	}
-
 }

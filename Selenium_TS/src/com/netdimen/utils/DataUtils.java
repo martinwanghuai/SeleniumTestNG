@@ -27,61 +27,57 @@ import com.netdimen.config.Config;
  */
 public class DataUtils {
 
-	// Suppress default constructor for noninstantiability
 	private DataUtils() {
-
 		throw new AssertionError();
 	}
 
 	public static String LINESEPARATOR = "\n";
 	public static String FILE_PATH_SEPARATOR = "/";
 
-	public static String decodeURL(String URL) {
+	public static String decodeURL(final String URL) {
 		String result = "";
 		try {
 			result = URLDecoder.decode(URL, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
+		} catch (final UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
 
 	public static String getCurrentTimeAsStr() {
-		Calendar cal = Calendar.getInstance();
+		final Calendar cal = Calendar.getInstance();
 		return new SimpleDateFormat(Config.getInstance().getProperty(
 				"timeFormat")).format(cal.getTime());
 	}
 
-	public static Calendar strToCalendarDate(String dateStr) {
-		Calendar cal = Calendar.getInstance();
+	public static Calendar strToCalendarDate(final String dateStr) {
+		final Calendar cal = Calendar.getInstance();
 		try {
-			Date date = new SimpleDateFormat(Config.getInstance().getProperty(
+			final Date date = new SimpleDateFormat(Config.getInstance().getProperty(
 					"dateFormat")).parse(dateStr);
 			cal.setTime(date);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+		} catch (final ParseException e) {
 			e.printStackTrace();
 		}
 
 		return cal;
 	}
 
-	public static String calendarDateToString(Calendar date) {
-		String dateStr = new SimpleDateFormat(Config.getInstance().getProperty(
+	public static String calendarDateToString(final Calendar date) {
+		final String dateStr = new SimpleDateFormat(Config.getInstance().getProperty(
 				"dateFormat")).format(date);
 		return dateStr;
 	}
 
-	public static String dateToString(Date date) {
-		String dateStr = new SimpleDateFormat(Config.getInstance().getProperty(
+	public static String dateToString(final Date date) {
+		final String dateStr = new SimpleDateFormat(Config.getInstance().getProperty(
 				"dateFormat")).format(date);
 		return dateStr;
 	}
 
 	public static String getTimeStamp() {
-		Date now = new Date();
-		String timeStamp = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss")
+		final Date now = new Date();
+		final String timeStamp = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss")
 				.format(now);
 		return timeStamp;
 	}
@@ -92,65 +88,57 @@ public class DataUtils {
 	 * @param superClz
 	 * @return
 	 */
-	private static String handleAbstractMethods(String superClz) {
-		StringBuilder sb = new StringBuilder();
+	private static String handleAbstractMethods(final String superClz) {
+		final StringBuilder sb = new StringBuilder();
 
 		try {
 
-			ArrayList<Method> abstractMethods = new ArrayList<Method>();
-			Class clz = Class.forName(superClz);
-			Method[] methods = clz.getMethods();
-			for (Method method : methods) {
+			final ArrayList<Method> abstractMethods = new ArrayList<Method>();
+			final Class clz = Class.forName(superClz);
+			final Method[] methods = clz.getMethods();
+			for (final Method method : methods) {
 				if (Modifier.isAbstract(method.getModifiers())) {
 					abstractMethods.add(method);
 				}
 			}
 
-			for (Method method : abstractMethods) {
-				/*
-				 * sb.append(method.toString()).append("{").
-				 * append(LINESEPARATOR
-				 * ).append("}").append(LINESEPARATOR).append(LINESEPARATOR);
-				 */
-
+			for (final Method method : abstractMethods) {
 				sb.append(translateReflectedMethod(method));
 			}
 
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (final ClassNotFoundException e) {
 			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
+		} catch (final SecurityException e) {
 			e.printStackTrace();
 		}
 
 		return sb.toString();
 	}
 
-	private static String translateReflectedMethod(Method method) {
-		StringBuilder sb = new StringBuilder();
-		String modifier = Modifier.toString(method.getModifiers()
+	private static String translateReflectedMethod(final Method method) {
+		final StringBuilder sb = new StringBuilder();
+		final String modifier = Modifier.toString(method.getModifiers()
 				- Modifier.ABSTRACT);
-		String returnType = method.getReturnType().toString();
-		String methodName = method.getName();
-		Class[] paraList = method.getParameterTypes();
+		final String returnType = method.getReturnType().toString();
+		final String methodName = method.getName();
+		final Class[] paraList = method.getParameterTypes();
 
 		sb.append(modifier).append(" ").append(returnType).append(" ")
 				.append(methodName).append("(");
 
 		int i = 0;
 		for (; i < paraList.length - 1; i++) {
-			Class para = paraList[i];
+			final Class para = paraList[i];
 			sb.append(para.getName()).append(" para" + i + ",");
 		}
 
-		Class para = paraList[i];
+		final Class para = paraList[i];
 		sb.append(para.getName()).append(" para" + i + "){")
 				.append(LINESEPARATOR);
 
 		// method body
 		if (!returnType.equalsIgnoreCase("void")) {
-			Class type = method.getReturnType();
+			final Class type = method.getReturnType();
 			sb.append(method.getReturnType().toString()).append(" result = ")
 					.append(getDefaultValue(type)).append(";")
 					.append(LINESEPARATOR);
@@ -163,7 +151,7 @@ public class DataUtils {
 		return sb.toString();
 	}
 
-	public static Object getDefaultValue(Class clazz) {
+	public static Object getDefaultValue(final Class clazz) {
 		Object result = null;
 		if (clazz.equals(boolean.class)) {
 			result = false;
@@ -186,12 +174,12 @@ public class DataUtils {
 		return result;
 	}
 
-	public static void createClassFromExcel(String packageName,
-			String superClz, String clzName, ArrayList<String> fieldList,
-			ArrayList<String> methodList) {
-		StringBuilder sb = new StringBuilder();
-		ArrayList<String> fields = new ArrayList<String>();
-		for (String field : fieldList) {
+	public static void createClassFromExcel(final String packageName,
+			final String superClz, final String clzName, final ArrayList<String> fieldList,
+			final ArrayList<String> methodList) {
+		final StringBuilder sb = new StringBuilder();
+		final ArrayList<String> fields = new ArrayList<String>();
+		for (final String field : fieldList) {
 			if (!ReflectionUtils.containField_Recursive(superClz, field)) {
 				fields.add(field);
 			}
@@ -219,7 +207,7 @@ public class DataUtils {
 		if (fields.size() > 0) {
 			sb.append("private String ");
 			for (int i = 0; i < fields.size() - 1; i++) {
-				String field = fields.get(i);
+				final String field = fields.get(i);
 				sb.append(field + "=\"\",");
 				if (i % 4 == 0) {
 					sb.append(LINESEPARATOR);
@@ -238,7 +226,7 @@ public class DataUtils {
 		sb.append("}").append(LINESEPARATOR).append(LINESEPARATOR);
 
 		for (int i = 0; i < fields.size(); i++) {
-			String field = fields.get(i);
+			final String field = fields.get(i);
 			sb.append("public String get" + field + "(){")
 					.append(LINESEPARATOR);
 			sb.append("\t\treturn " + field + ";").append(LINESEPARATOR);
@@ -246,7 +234,7 @@ public class DataUtils {
 		}
 
 		for (int i = 0; i < fields.size(); i++) {
-			String field = fields.get(i);
+			final String field = fields.get(i);
 			sb.append(
 					"public void set" + field + "(String "
 							+ field.toLowerCase() + "){").append(LINESEPARATOR);
@@ -256,7 +244,7 @@ public class DataUtils {
 		}
 
 		for (int i = 0; i < fields.size(); i++) {
-			String field = fields.get(i);
+			final String field = fields.get(i);
 			sb.append(
 					"public void set" + field
 							+ "_UI(WebDriver driver, String str){").append(
@@ -266,8 +254,8 @@ public class DataUtils {
 			sb.append("}").append(LINESEPARATOR).append(LINESEPARATOR);
 		}
 
-		ArrayList<String> methods = new ArrayList<String>();
-		for (String method : methodList) {
+		final ArrayList<String> methods = new ArrayList<String>();
+		for (final String method : methodList) {
 			if (!ReflectionUtils.containMethod_Recursive(superClz, method)
 					&& !methods.contains(method)) {
 				methods.add(method);
@@ -275,7 +263,7 @@ public class DataUtils {
 		}
 
 		for (int i = 0; i < methods.size(); i++) {
-			String method = methodList.get(i);
+			final String method = methodList.get(i);
 			sb.append("public void " + method + "(WebDriver driver){").append(
 					LINESEPARATOR);
 
@@ -284,7 +272,7 @@ public class DataUtils {
 					.append(LINESEPARATOR);
 
 			for (int j = 0; j < fields.size(); j++) {
-				String field = fields.get(j);
+				final String field = fields.get(j);
 				sb.append(
 						"\t\tthis.set" + field + "_UI(driver, this.get" + field
 								+ "());").append(LINESEPARATOR);
@@ -295,39 +283,39 @@ public class DataUtils {
 
 		sb.append("}");
 
-		String classFile = System.getProperty("user.dir") + "/src/"
+		final String classFile = System.getProperty("user.dir") + "/src/"
 				+ packageName.replace(".", "/") + "/" + clzName + ".java";
 
 		DataUtils.saveFile(classFile, sb.toString());
 
 	}
 
-	public static void mapExcelToJavaClass(String sheetName) {
+	public static void mapExcelToJavaClass(final String sheetName) {
 		DataUtils.mapExcelToJavaClass(sheetName, "com.netdimen.model",
 				"com.netdimen.abstractclasses.TestObject");
 	}
 
-	public static void mapExcelToJavaClass(String sheetName,
-			String packageName, String superClz) {
+	public static void mapExcelToJavaClass(final String sheetName,
+			final String packageName, final String superClz) {
 		try {
-			FileInputStream file = new FileInputStream(Config.getInstance()
+			final FileInputStream file = new FileInputStream(Config.getInstance()
 					.getProperty("testDataFile") + "");
-			HSSFWorkbook wb = new HSSFWorkbook(file);
-			HSSFSheet sheet = wb.getSheet(sheetName);
+			final HSSFWorkbook wb = new HSSFWorkbook(file);
+			final HSSFSheet sheet = wb.getSheet(sheetName);
 
 			wb.getCreationHelper().createFormulaEvaluator().evaluateAll();
 
-			int rowIndex = 0;
-			int columnIndex_start = 0;
-			ArrayList<String> fieldList = POIUtils.getRowFromExcel(sheet,
+			final int rowIndex = 0;
+			final int columnIndex_start = 0;
+			final ArrayList<String> fieldList = POIUtils.getRowFromExcel(sheet,
 					rowIndex, columnIndex_start);
 
-			int columnIndex = 0;
-			int rowIndex_start = 1;
-			ArrayList<String> methodList = POIUtils.getColumnFromExcel(sheet,
+			final int columnIndex = 0;
+			final int rowIndex_start = 1;
+			final ArrayList<String> methodList = POIUtils.getColumnFromExcel(sheet,
 					columnIndex, rowIndex_start);
 
-			String clzName = sheetName;
+			final String clzName = sheetName;
 			DataUtils.createClassFromExcel(packageName, superClz, clzName,
 					fieldList, methodList);
 
@@ -337,40 +325,29 @@ public class DataUtils {
 							+ ".java. To see the result, pls press F5 to refresh package:"
 							+ packageName);
 
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (final FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static void saveFile(String path, String content) {
+	public static void saveFile(final String path, final String content) {
 		try {
-			BufferedWriter br = new BufferedWriter(new FileWriter(path));
+			final BufferedWriter br = new BufferedWriter(new FileWriter(path));
 			br.write(content);
 			br.flush();
 			br.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 
-		String sheetName = "KC";
-		String packageName = "com.netdimen.model";
-		String superClz = "com.netdimen.abstractclasses.TestObject";
+		final String sheetName = "KC";
+		final String packageName = "com.netdimen.model";
+		final String superClz = "com.netdimen.abstractclasses.TestObject";
 		DataUtils.mapExcelToJavaClass(sheetName, packageName, superClz);
-
-		/*
-		 * String sheetName = "QuestionDragAndDrop"; String packageName =
-		 * "com.netdimen.model"; String superClz =
-		 * "com.netdimen.model.QuestionHotspot";
-		 * DataUtils.mapExcelToJavaClass(sheetName, packageName, superClz);
-		 */
 	}
-
 }

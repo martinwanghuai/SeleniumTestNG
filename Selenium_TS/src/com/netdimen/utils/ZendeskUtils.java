@@ -13,6 +13,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
+import com.google.common.collect.Lists;
 import com.netdimen.config.Config;
 import com.netdimen.view.Navigator;
 
@@ -29,13 +30,13 @@ public class ZendeskUtils {
 	 * @param destDir
 	 * @param fileName
 	 */
-	public static void downloadReleaseNotes(String destDir, String fileName) {
-		String uid = "martin.wang@netdimensions.com";
-		String pwd = "abcd1234";
-		String URL = "https://secure.gooddata.com/account.html?lastUrl=%252F#/login";
+	public static void downloadReleaseNotes(final String destDir, final String fileName) {
+		final String uid = "martin.wang@netdimensions.com";
+		final String pwd = "abcd1234";
+		final String URL = "https://secure.gooddata.com/account.html?lastUrl=%252F#/login";
 
 		// 1. Setup profile
-		FirefoxProfile fxProfile = new FirefoxProfile();
+		final FirefoxProfile fxProfile = new FirefoxProfile();
 		fxProfile.setPreference("browser.download.folderList", 2);// 0: desktop;
 																	// 1:
 																	// default
@@ -46,11 +47,11 @@ public class ZendeskUtils {
 				"application/vnd.ms-excel");
 		fxProfile.setPreference("browser.download.manager.showWhenStarting",
 				false);
-		WebDriver driver = WebDriverUtils.getWebDriver_new(fxProfile);
+		final WebDriver driver = WebDriverUtils.getWebDriver_new(fxProfile);
 
 		// 2. Delete existing file before downloading
-		String outputFileName = destDir + "\\" + fileName + ".xls";
-		File file = new File(outputFileName);
+		final String outputFileName = destDir + "\\" + fileName + ".xls";
+		final File file = new File(outputFileName);
 		if (file.exists()) {
 			file.delete();
 		}
@@ -100,23 +101,23 @@ public class ZendeskUtils {
 	 *            : ekp version as a filter
 	 * @param outputFileName
 	 */
-	public static void generateReleaseNotes(String inputFileName,
-			String columnName, String filterValue, String outputFileName) {
+	public static void generateReleaseNotes(final String inputFileName,
+			final String columnName, final String filterValue, final String outputFileName) {
 		try {
-			ArrayList<ArrayList<String>> results = new ArrayList<ArrayList<String>>();
-			FileInputStream file = new FileInputStream(inputFileName);
-			HSSFWorkbook wb = new HSSFWorkbook(file);
+			final ArrayList<ArrayList<String>> results = Lists.newArrayList();
+			final FileInputStream file = new FileInputStream(inputFileName);
+			final HSSFWorkbook wb = new HSSFWorkbook(file);
 
 			// load all tests: all test cases are configured in EKPMain page
 			int filterColumn = -1;
 			for (int i = 0; i < wb.getNumberOfSheets(); i++) {
-				HSSFSheet sheet = wb.getSheetAt(i);
+				final HSSFSheet sheet = wb.getSheetAt(i);
 
-				ArrayList<String> rowData = POIUtils.getRowFromExcel(sheet, 1);// labels
+				final ArrayList<String> rowData = POIUtils.getRowFromExcel(sheet, 1);// labels
 																				// row
 				results.add(rowData);
 				for (int j = 0; j < rowData.size(); j++) {
-					String columnData = rowData.get(j);
+					final String columnData = rowData.get(j);
 					if (columnData.equals(columnName)) {
 						filterColumn = j;
 						break;
@@ -125,17 +126,17 @@ public class ZendeskUtils {
 
 				for (int j = 2; j < sheet.getPhysicalNumberOfRows(); j++) {// data
 																			// row
-					Row row = sheet.getRow(j);
+					final Row row = sheet.getRow(j);
 
 					if (j % 10 == 0) {
 						System.out.println("Handling Row:" + j);
 					}
 
 					if (row != null) {
-						ArrayList<String> rowData_tmp = POIUtils
+						final ArrayList<String> rowData_tmp = POIUtils
 								.getRowFromExcel(sheet, j);
 						if (rowData_tmp != null) {
-							String testData = rowData_tmp.get(filterColumn);
+							final String testData = rowData_tmp.get(filterColumn);
 							if (testData.contains(filterValue)) {
 								results.add(rowData_tmp);
 							}
@@ -147,31 +148,29 @@ public class ZendeskUtils {
 						results);
 			}
 			file.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (final FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		// 1. Manually Download release notes template, name it as
 		// "All Fixes Report.xls" and place it in
 		// Config.getInstance().getProperty("test.report.dir") folder
 		// Click "Insights" -> "GoodData" -> "Reports" -> "Release Notes" in the
 		// left-pane -> "All
-		String fileName = "All Fixes Report";
-		String destDir = System.getProperty("user.dir")
+		final String fileName = "All Fixes Report";
+		final String destDir = System.getProperty("user.dir")
 				+ "\\"
 				+ Config.getInstance().getProperty("test.report.dir")
 						.substring(2);
 
 		// 2. Generate release notes for a specific ekp version
-		String columnName = "Build Commit Information!";
-		String filterValue = "11.1";
-		String outputFileName = destDir + "\\ReleaseNotes_" + filterValue
+		final String columnName = "Build Commit Information!";
+		final String filterValue = "11.1";
+		final String outputFileName = destDir + "\\ReleaseNotes_" + filterValue
 				+ ".xls";
 		ZendeskUtils.generateReleaseNotes(destDir + "\\" + fileName + ".xls",
 				columnName, filterValue, outputFileName);
