@@ -11,6 +11,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -29,8 +30,11 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 
+import com.google.common.base.Predicate;
 import com.google.common.base.Throwables;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.netdimen.abstractclasses.TestObject;
 import com.netdimen.annotation.NetDTestWatcher;
 import com.netdimen.annotation.NetdTestRule;
@@ -77,7 +81,7 @@ public class TestDriver {
 
 	public static DBManager dbManager = new DBManager();
 
-	private static HashMap<String, TestObject> ID_testObjects = new HashMap<String, TestObject>();
+	private static HashMap<String, TestObject> ID_testObjects = Maps.newHashMap();
 
 	public TestDriver(final TestObject testObject, final String objID) {
 
@@ -87,21 +91,16 @@ public class TestDriver {
 
 	public static void addTestObject(final String ID, final TestObject obj) {
 
-		if (ID_testObjects.containsKey(ID)) {
-			System.out.println("Duplicate ID:" + ID);
-		} else {
+		if (!ID_testObjects.containsKey(ID)) {
 			ID_testObjects.put(ID, obj);
+		} else {
+			System.out.println("Duplicate ID:" + ID);
 		}
 	}
 
 	public static TestObject getTestObject(final String ID) {
 
-		TestObject obj_tmp = null;
-		if (ID_testObjects.containsKey(ID)) {
-			obj_tmp = ID_testObjects.get(ID);
-		}
-
-		return obj_tmp;
+		return ID_testObjects.containsKey(ID)?ID_testObjects.get(ID):null;
 	}
 
 	public static TestObject getCurrentTestObject() {
@@ -139,7 +138,7 @@ public class TestDriver {
 	// name = "{1}"=Use TestObject.toString() as test case name
 	public static Collection<Object[]> data() {
 
-		final Collection<Object[]> objList = new ArrayList<Object[]>();
+		final Collection<Object[]> objList = Lists.newArrayList();
 
 		FileInputStream file = null;
 		try {
@@ -287,7 +286,6 @@ public class TestDriver {
 					TestDriver.setUser_current(user);
 				}
 			}
-
 		} catch (final SecurityException e) {
 			e.printStackTrace();
 		} catch (final IllegalArgumentException e) {
@@ -299,7 +297,6 @@ public class TestDriver {
 
 	private static int testSuiteNo = 1;
 
-	// static HashMap<String, User> id_dbUsers = new HashMap<>();
 	@Test
 	public void test() throws Exception {
 
@@ -309,7 +306,6 @@ public class TestDriver {
 
 		// 3. do tasks before execution
 		logger.start(testObject);
-
 		try {
 			// 4. execute the test case
 			if (executeTestMethod(testObject, driver)) {
@@ -342,22 +338,23 @@ public class TestDriver {
 		POIUtils.filterDebugMsg(e, testObject);
 		logger.failed(e, obj);
 		fail(Throwables.getRootCause(e).toString());
-
 	}
 
-	private ArrayList<Field> getAnnotationOfNetdTestRule() {
+	private Collection<Field> getAnnotationOfNetdTestRule() {
 
-		final Field[] fields = TestDriver.class.getDeclaredFields();
-		final ArrayList<Field> list = new ArrayList<Field>();
-		for (final Field field : fields) {
-			final Annotation[] annotations = field.getDeclaredAnnotations();
-			for (final Annotation annotation : annotations) {
-				if (annotation instanceof NetdTestRule) {
-					list.add(field);
+		return Collections2.filter(Arrays.asList(TestDriver.class.getDeclaredFields()), new Predicate<Field>(){
+			
+			@Override
+			public boolean apply(final Field field){
+			
+				for (final Annotation annotation : field.getDeclaredAnnotations()) {
+					if (annotation instanceof NetdTestRule) {
+						return true;
+					}
 				}
+				return false;
 			}
-		}
-		return list;
+		});
 	}
 
 	/*
@@ -366,7 +363,7 @@ public class TestDriver {
 	public boolean skipNonScheduled(final TestObject testObj) {
 
 		boolean skipTest = false;
-		final ArrayList<Field> fields = getAnnotationOfNetdTestRule();
+		final Collection<Field> fields = getAnnotationOfNetdTestRule();
 		// 1. Invoke listeners before execution: only concern about listeners
 		// annotated with "NetdTestRule" and is subclass of "NetDTestWatcher"
 		for (final Field field : fields) {
