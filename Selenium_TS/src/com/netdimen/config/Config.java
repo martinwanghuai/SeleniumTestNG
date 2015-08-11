@@ -9,8 +9,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
+import com.netdimen.utils.Checker;
 import com.netdimen.utils.MapFormatUtils;
-import com.netdimen.utils.Validate;
 
 /**
  * @author lester.li This is config. class which is used to load all config.
@@ -29,11 +29,9 @@ public class Config {
 
 	private static Properties testingProperties;
 
-	private Properties ekpProperties;
+	private final Properties ekpProperties;
 
-	// private Properties standard_en_properties;
-
-	private Properties allProperties;
+	private final Properties allProperties;
 
 	private static final Config instance = new Config();
 
@@ -42,7 +40,7 @@ public class Config {
 
 	private ResourceBundleImpl userLocaleBundle;
 
-	public void setUserLocale(Locale newLocale) {
+	public void setUserLocale(final Locale newLocale) {
 		this.userLocale = newLocale;
 		userLocaleBundle = new ResourceBundleImpl(this.userLocale);
 	}
@@ -55,10 +53,10 @@ public class Config {
 		return instance;
 	}
 
-	public String getProperty(String key) {
-		String value = allProperties.getProperty(key);
-		if (Validate.isBlank(value)) {
-			if (Validate.isBlank(this.userLocaleBundle.getString(key))) {
+	public String getProperty(final String key) {
+		final String value = allProperties.getProperty(key);
+		if (Checker.isBlank(value)) {
+			if (Checker.isBlank(this.userLocaleBundle.getString(key))) {
 				return "Cannot find the property value with key=" + key;
 			}
 			return this.userLocaleBundle.getString(key);
@@ -67,21 +65,19 @@ public class Config {
 		}
 	}
 
-	public void setProperty(String key, String value) {
+	public void setProperty(final String key, final String value) {
 		allProperties.setProperty(key, value);
 	}
 
-	private static void loadProperties(Properties prop, String sProperties) {
+	private static void loadProperties(final Properties prop, final String sProperties) {
 
 		InputStream input = null;
 		try {
 			input = new FileInputStream(sProperties);
-			// load a properties file
 			prop.load(input);
 
-			// only use replacing in Selenium conf.
 			if (!(prop.getProperty("test.report.dir") == null)) {
-				Map<String, String> map = new HashMap<String, String>();
+				final Map<String, String> map = new HashMap<String, String>();
 				map.put("IP", prop.getProperty("IP"));
 				map.put("port", prop.getProperty("port"));
 				map.put("domain", prop.getProperty("domain"));
@@ -105,8 +101,8 @@ public class Config {
 
 				// replace the {baseURL} with = prop.getProperty("baseURL") in
 				// loginURL property
-				for (Iterator iter = prop.keySet().iterator(); iter.hasNext();) {
-					String key = (String) iter.next();
+				for (final Iterator iter = prop.keySet().iterator(); iter.hasNext();) {
+					final String key = (String) iter.next();
 					prop.setProperty(key,
 							MapFormatUtils.format(prop.getProperty(key), map));
 				}
@@ -118,13 +114,13 @@ public class Config {
 				}
 			}
 
-		} catch (IOException ex) {
+		} catch (final IOException ex) {
 			ex.printStackTrace();
 		} finally {
 			if (input != null) {
 				try {
 					input.close();
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -134,7 +130,6 @@ public class Config {
 	private Config() {
 		ekpProperties = new Properties();
 		testingProperties = new Properties();
-		// standard_en_properties = new Properties();
 		allProperties = new Properties();
 		loadProperties(testingProperties, "./conf/config.properties");
 		allProperties.putAll(testingProperties);
@@ -142,20 +137,6 @@ public class Config {
 		loadProperties(ekpProperties, getProperty("ekp.properties"));
 		allProperties.putAll(ekpProperties);
 		setUserLocale(defaultLocale);
-
-		/*
-		 * if(Config.DEBUG_MODE){ System.out.println("baseURL:" +
-		 * getProperty("baseURL")); System.out.println("loginURL:" +
-		 * getProperty("loginURL")); System.out.println("UID:" +
-		 * getProperty("sys.ndadmin")); System.out.println("PWD:" +
-		 * getProperty("sys.ndadmin.pass")); System.out.println("HomePage:" +
-		 * getProperty("HomePage")); System.out.println("ManageCenter:" +
-		 * getProperty("ManageCenter")); System.out.println("ManageCenter:" +
-		 * getProperty("ManageCenter")); System.out.println("ekp.properties:" +
-		 * getProperty("ekp.properties")); System.out.println("default.user" +
-		 * getProperty("default.user")); }
-		 */
-
 	}
 
 }

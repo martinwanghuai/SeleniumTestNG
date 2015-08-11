@@ -11,7 +11,7 @@ import org.openqa.selenium.WebDriver;
 import com.netdimen.config.Labels;
 import com.netdimen.junit.JUnitAssert;
 import com.netdimen.utils.CriteriaParser;
-import com.netdimen.utils.Validate;
+import com.netdimen.utils.Checker;
 import com.netdimen.utils.WebDriverUtils;
 import com.netdimen.view.FunctionUI;
 import com.netdimen.view.Navigator;
@@ -92,7 +92,7 @@ public class Catalog extends com.netdimen.abstractclasses.TestObject {
 		WebDriverUtils.switchToPopUpWin(driver);
 		Navigator.explicitWait(1000);
 		
-		if (!Validate.isBlank(this.getReadPerm())){
+		if (!Checker.isBlank(this.getReadPerm())){
 			by = By.name("permissionButton");			
 			WebDriverUtils.clickButton(driver, by);
 			
@@ -102,7 +102,7 @@ public class Catalog extends com.netdimen.abstractclasses.TestObject {
 			WebDriverUtils.switchToParentWin(driver);
 		}
 		
-		if (!Validate.isBlank(this.getWritePerm())){
+		if (!Checker.isBlank(this.getWritePerm())){
 			by = By.name("permissionButton");			
 			WebDriverUtils.clickButton(driver, by);
 			

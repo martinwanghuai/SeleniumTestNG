@@ -44,7 +44,7 @@ public class CriteriaParser {
 					values = new ArrayList<String>();
 				}
 
-				if (Validate.isBlank(valueSeperator)) { // can also be blank,
+				if (Checker.isBlank(valueSeperator)) { // can also be blank,
 														// then pass null or ""
 					values.add(strs_tmp[1]);
 				} else {

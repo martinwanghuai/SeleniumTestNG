@@ -11,7 +11,7 @@ import com.netdimen.config.Config;
 import com.netdimen.config.Labels;
 import com.netdimen.controller.TestDriver;
 import com.netdimen.junit.JUnitAssert;
-import com.netdimen.utils.Validate;
+import com.netdimen.utils.Checker;
 import com.netdimen.utils.WebDriverUtils;
 import com.netdimen.view.Navigator;
 import com.netdimen.view.SelectorsUI;
@@ -47,7 +47,7 @@ public class Program extends LearningModule {
 	
 	public void setSubModules_UI(WebDriver driver, String str){
 		
-		if (!Validate.isBlank(str)){		
+		if (!Checker.isBlank(str)){		
 			String[] modules = str.split(";");		
 			ArrayList<String> Modules = new ArrayList<String>(Arrays.asList(modules));	
 			SelectorsUI.PopUp_Selector(driver,

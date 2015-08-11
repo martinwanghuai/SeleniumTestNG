@@ -16,7 +16,7 @@ import com.netdimen.config.Labels;
 import com.netdimen.controller.TestDriver;
 import com.netdimen.junit.JUnitAssert;
 import com.netdimen.utils.CriteriaParser;
-import com.netdimen.utils.Validate;
+import com.netdimen.utils.Checker;
 import com.netdimen.utils.WebDriverUtils;
 import com.netdimen.view.FunctionUI;
 import com.netdimen.view.Navigator;
@@ -990,7 +990,7 @@ public class LearningModule extends TestObjectSignature {
 		WebDriverUtils.switchToFrame(driver, "BSCAT_MAIN");
 		
 		
-		if (!Validate.isBlank(this.getReadPerm())){
+		if (!Checker.isBlank(this.getReadPerm())){
 			By by = By.name("permissionButton");
 			Navigator.explicitWait(1000);
 			WebDriverUtils.clickButton(driver, by);
@@ -1001,7 +1001,7 @@ public class LearningModule extends TestObjectSignature {
 			WebDriverUtils.switchToParentWin(driver);
 		}
 		
-		if (!Validate.isBlank(this.getWritePerm())){
+		if (!Checker.isBlank(this.getWritePerm())){
 			By by = By.name("permissionButton");
 			Navigator.explicitWait(1000);
 			WebDriverUtils.clickButton(driver, by);

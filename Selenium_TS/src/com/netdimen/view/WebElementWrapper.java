@@ -3,7 +3,7 @@ package com.netdimen.view;
 import org.openqa.selenium.By;
 
 import com.netdimen.config.Config;
-import com.netdimen.utils.Validate;
+import com.netdimen.utils.Checker;
 
 /**
  * 

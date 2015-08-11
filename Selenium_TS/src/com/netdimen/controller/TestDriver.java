@@ -87,9 +87,7 @@ public class TestDriver {
 	public static void addTestObject(final String ID, final TestObject obj) {
 
 		if (ID_testObjects.containsKey(ID)) {
-			if (Config.DEBUG_MODE) {
 				System.out.println("Duplicate ID:" + ID);
-			}
 		} else {
 			ID_testObjects.put(ID, obj);
 		}
@@ -126,12 +124,11 @@ public class TestDriver {
 				System.out.println(file.getAbsolutePath() + " is deleted!");
 			} else {
 				System.out.println("Delete " + file.getAbsolutePath()
-						+ " operation is failed.");
+						+ " operation fails.");
 			}
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	private static int totalTestSuite = 0;
@@ -158,14 +155,12 @@ public class TestDriver {
 			for (final ExcelSheetObject excelSheetObj : POIUtils
 					.getExcelSheetObjectFromExcel(sheet, dataRowIndex_start)) {
 
-				final String sheetName = excelSheetObj.getSheetName();
-				sheet = wb.getSheet(sheetName);
+				sheet = wb.getSheet(excelSheetObj.getSheetName());
 				if (sheet == null) {
 					System.out.println("Cannot find file:" + sheetName_main);
 					continue;
 				}
 
-				final String rowNum = excelSheetObj.getRowNum();
 				final List<Integer> rowNumsToScan = Lists.newArrayList();
 				boolean hasSpecifyRowNum = false;
 				if (excelSheetObj.getRowNum().equals("")) {
@@ -175,7 +170,7 @@ public class TestDriver {
 					}
 				} else {
 					hasSpecifyRowNum = true;
-					for (final String rowNum_str : rowNum.split(";")) {
+					for (final String rowNum_str : excelSheetObj.getRowNum().split(";")) {
 						rowNumsToScan.add(Integer.parseInt(rowNum_str));
 					}
 				}

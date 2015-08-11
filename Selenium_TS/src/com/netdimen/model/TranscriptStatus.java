@@ -3,7 +3,7 @@ package com.netdimen.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import com.netdimen.utils.Validate;
+import com.netdimen.utils.Checker;
 import com.netdimen.utils.WebDriverUtils;
 import com.netdimen.view.FunctionUI;
 import com.netdimen.view.Navigator;
@@ -69,7 +69,7 @@ public class TranscriptStatus extends com.netdimen.abstractclasses.TestObject {
 		if (!str.equals("")) {
 			By by = By.xpath("//tr[descendant::td[contains(text(),'"+this.getStatus()+"')]]/td/div/ul/li/a[contains(text(),'Permissions')]");
 			WebDriverUtils.clickLink(driver, by);	
-			if (!Validate.isBlank(this.getReadPerm())){
+			if (!Checker.isBlank(this.getReadPerm())){
 				by = By.name("permissionButton");			
 				WebDriverUtils.clickButton(driver, by);
 				WebDriverUtils.switchToPopUpWin(driver);
@@ -77,7 +77,7 @@ public class TranscriptStatus extends com.netdimen.abstractclasses.TestObject {
 				PermissionUI.setPermission_UI(driver, false, this.getReadPerm());
 				WebDriverUtils.switchToParentWin(driver);
 			}
-			if (!Validate.isBlank(this.getWritePerm())){
+			if (!Checker.isBlank(this.getWritePerm())){
 				by = By.name("permissionButton");			
 				WebDriverUtils.clickButton(driver, by);
 				WebDriverUtils.switchToPopUpWin(driver);

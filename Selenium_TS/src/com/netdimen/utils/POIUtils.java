@@ -624,8 +624,8 @@ public class POIUtils {
 								.getCell(ExcelSheetObjectMap.SHEETNAME
 										.getColumnIndex()));
 
-						if (Validate.isBlank(funcName)
-								|| Validate.isBlank(sheetName)) {
+						if (Checker.isBlank(funcName)
+								|| Checker.isBlank(sheetName)) {
 							return null;
 						}
 
