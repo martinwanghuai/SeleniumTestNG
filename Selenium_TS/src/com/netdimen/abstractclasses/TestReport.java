@@ -53,7 +53,7 @@ public class TestReport extends TestWatcher {
 		return TestReport.current_report_row_in_failed_case;
 	}
 
-	public static synchronized void setCurrent_report_row_in_failed_case(int row) {
+	public static synchronized void setCurrent_report_row_in_failed_case(final int row) {
 		TestReport.current_report_row_in_failed_case = row;
 	}
 
@@ -61,7 +61,7 @@ public class TestReport extends TestWatcher {
 		return TestReport.current_report_row_in_passed_case;
 	}
 
-	public static synchronized void setCurrent_report_row_in_passed_case(int row) {
+	public static synchronized void setCurrent_report_row_in_passed_case(final int row) {
 		TestReport.current_report_row_in_passed_case = row;
 	}
 
@@ -69,7 +69,7 @@ public class TestReport extends TestWatcher {
 		return TestReport.current_row;
 	}
 
-	public static synchronized void setCurrent_row(int row) {
+	public static synchronized void setCurrent_row(final int row) {
 		TestReport.current_row = row;
 	}
 
@@ -88,45 +88,32 @@ public class TestReport extends TestWatcher {
 			fileIS = new FileInputStream(template);
 			return new HSSFWorkbook(fileIS);
 
-		} catch (FileNotFoundException e) {
+		} catch (final FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 
 	}
-
+	
 	public void SaveSuccessTestReportToExcel() {
-
-		String sheetName;
-		sheetName = Config.getInstance()
-				.getProperty("test.report.passed.sheet");
-		HSSFSheet sheet = getReportTemplate().getSheet(sheetName);
-		if (sheet == null) {
-			sheet = getReportTemplate().createSheet(sheetName);
-		}
-		IncrementTheCurrentRowOfReportingCase(sheet);
-		writeToExcel(true, sheet, TestDriver.getCurrentTestObject().toString(),
-				"Pass");
+		
+		final String sheetName = Config.getInstance().getProperty(
+				"test.report.passed.sheet");
+		this.writeToExcel(sheetName, "Pass", true);
 	}
 
-	public void SaveFailReportToExcel(String errorDetail) {
-		String sheetName;
-		sheetName = Config.getInstance()
-				.getProperty("test.report.failed.sheet");
-		HSSFSheet sheet = getReportTemplate().getSheet(sheetName);
-		if (sheet == null) {
-			sheet = getReportTemplate().createSheet(sheetName);
-		}
-		IncrementTheCurrentRowOfReportingCase(sheet);
-		writeToExcel(false, sheet,
-				TestDriver.getCurrentTestObject().toString(), errorDetail);
+	public void SaveFailReportToExcel(final String errorDetail) {
+		
+		final String sheetName = Config.getInstance().getProperty(
+				"test.report.failed.sheet");
+		this.writeToExcel(sheetName, errorDetail, false);
 	}
 
-	public void IncrementTheCurrentRowOfReportingCase(HSSFSheet sheet) {
+	public void IncrementTheCurrentRowOfReportingCase(final HSSFSheet sheet) {
 		String sheetName;
 		sheetName = sheet.getSheetName();
 		if (sheetName.equalsIgnoreCase(Config.getInstance().getProperty(
@@ -146,18 +133,29 @@ public class TestReport extends TestWatcher {
 		}
 	}
 
-	public static int failedCaseRowNumInReport(HSSFSheet sheet) {
+	public static int failedCaseRowNumInReport(final HSSFSheet sheet) {
 		return POIUtils.getRowNum(sheet, 0, TestDriver.getCurrentTestObject()
 				.toString());
 
 	}
 
-	public static boolean caseExisted(HSSFSheet sheet) {
+	public static boolean caseExisted(final HSSFSheet sheet) {
 		if (failedCaseRowNumInReport(sheet) > 0) {
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+	private void writeToExcel(final String sheetName, final String info, final boolean passed){
+		
+		HSSFSheet sheet = getReportTemplate().getSheet(sheetName);
+		if (sheet == null) {
+			sheet = getReportTemplate().createSheet(sheetName);
+		}
+		IncrementTheCurrentRowOfReportingCase(sheet);
+		writeToExcel(passed, sheet, TestDriver.getCurrentTestObject().toString(),
+				info);
 	}
 
 	/**
@@ -171,7 +169,7 @@ public class TestReport extends TestWatcher {
 	 * @param detail
 	 *            = the detail of fail or just "Pass" for success case
 	 */
-	private void writeToExcel(boolean Passed, HSSFSheet sheet, String casename,
+	private void writeToExcel(final boolean Passed, final HSSFSheet sheet, String casename,
 			String detail) {
 
 		String orginalDetail = "";
@@ -220,25 +218,25 @@ public class TestReport extends TestWatcher {
 
 		setErrorRptCellStyle(sheet);
 		try {
-			FileOutputStream outFile = new FileOutputStream(Config
+			final FileOutputStream outFile = new FileOutputStream(Config
 					.getInstance().getProperty("test.report.excel"));
-			HSSFWorkbook wb = sheet.getWorkbook();
+			final HSSFWorkbook wb = sheet.getWorkbook();
 			wb.write(outFile);
 			outFile.close();
-		} catch (FileNotFoundException e) {
+		} catch (final FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
 
-	public void setErrorRptCellStyle(HSSFSheet sheet) {
+	public void setErrorRptCellStyle(final HSSFSheet sheet) {
 		// by default hypelrinks are blue and underlined and are top
-		CellStyle hlink_style = sheet.getWorkbook().createCellStyle();
-		Font hlink_font = sheet.getWorkbook().createFont();
+		final CellStyle hlink_style = sheet.getWorkbook().createCellStyle();
+		final Font hlink_font = sheet.getWorkbook().createFont();
 		hlink_font.setUnderline(Font.U_SINGLE);
 		hlink_font.setColor(IndexedColors.BLUE.getIndex());
 		hlink_style.setVerticalAlignment(HSSFCellStyle.VERTICAL_TOP);
