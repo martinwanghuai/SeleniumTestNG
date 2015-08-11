@@ -244,16 +244,15 @@ public abstract class TestObject implements ITestObject {
 	/**
 	 * 
 	 * @param sheetName
-	 * @param funcType
-	 * @param rowIndex
-	 *            excel row is starting from 0, so +1 to represent the actual
+	 * @param funcName
+	 * @param rowIndex: excel row is starting from 0, so +1 to represent the actual
 	 *            row for human readable
 	 * @return
 	 */
-	public static String genObjectID(final String sheetName, final String funcType,
+	public static String genObjectID(final String sheetName, final String funcName,
 			final int rowIndex) {
 		return new StringBuilder().append(sheetName).append("_")
-				.append(funcType).append("_").append(rowIndex + 1).toString();
+				.append(funcName).append("_").append(rowIndex + 1).toString();
 	}
 
 	/**
@@ -263,9 +262,7 @@ public abstract class TestObject implements ITestObject {
 	 * @return object if object is not null, otherwise return defaultValue
 	 */
 	public static final <T> T defaultIfNull(final T object, final T defaultValue) {
-		if (object == null)
-			return defaultValue;
-		else
-			return object;
+		
+		return object == null ? defaultValue:object; 
 	}
 }
