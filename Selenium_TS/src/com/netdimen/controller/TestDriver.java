@@ -274,14 +274,7 @@ public class TestDriver {
 				TestDriver.setUser_current(user);
 			} else {
 				final User logonUser = TestDriver.getUser_current();
-				if (!testObject_UID.equalsIgnoreCase(logonUser.getUID())) { // check
-																			// if
-																			// previous
-																			// case
-																			// use
-																			// same
-																			// user
-																			// id
+				if (!testObject_UID.equalsIgnoreCase(logonUser.getUID())) {
 					// different user, then logout first
 					logonUser.logout(driver);
 					final User user = new User(testObject.getUID(),
@@ -292,13 +285,10 @@ public class TestDriver {
 			}
 
 		} catch (final SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (final IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (final IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -335,7 +325,6 @@ public class TestDriver {
 			handFailCaseReporting(e, testObject);
 		} catch (final InvocationTargetException e) {
 			handFailCaseReporting(e, testObject);
-			// TODO Auto-generated catch block
 		} finally {
 			// 6 do finish task
 			logger.finished(testObject);
@@ -419,16 +408,12 @@ public class TestDriver {
 					}
 				}
 			} catch (final InstantiationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (final IllegalAccessException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (final NoSuchMethodException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (final SecurityException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
