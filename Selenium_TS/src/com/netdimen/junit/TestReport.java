@@ -33,32 +33,18 @@ public class TestReport extends TestWatcher {
 	private static int current_report_row_in_failed_case = 1;
 	private static int current_report_row_in_passed_case = 1;
 	private static int current_row = -1;
-	private WebDriver driver;
+	private final WebDriver driver;
 	private static TestReport instance;
 
-	public TestReport(WebDriver driver) {
+	public TestReport(final WebDriver driver) {
 		this.driver = driver;
-
 	}
-
-	// public static TestReport getInstance(){
-	//
-	// if (instance == null) {
-	// synchronized (TestReport.class) { // Add a synch block
-	// if (instance == null) { // verify some other synch block didn't
-	// // create a WebElementManager yet...
-	// instance = new TestReport();
-	// }
-	// }
-	// }
-	// return instance;
-	// }
 
 	public static synchronized int getCurrent_report_row_in_failed_case() {
 		return TestReport.current_report_row_in_failed_case;
 	}
 
-	public static synchronized void setCurrent_report_row_in_failed_case(int row) {
+	public static synchronized void setCurrent_report_row_in_failed_case(final int row) {
 		TestReport.current_report_row_in_failed_case = row;
 	}
 
@@ -66,7 +52,7 @@ public class TestReport extends TestWatcher {
 		return TestReport.current_report_row_in_passed_case;
 	}
 
-	public static synchronized void setCurrent_report_row_in_passed_case(int row) {
+	public static synchronized void setCurrent_report_row_in_passed_case(final int row) {
 		TestReport.current_report_row_in_passed_case = row;
 	}
 
@@ -74,40 +60,29 @@ public class TestReport extends TestWatcher {
 		return TestReport.current_row;
 	}
 
-	public static synchronized void setCurrent_row(int row) {
+	public static synchronized void setCurrent_row(final int row) {
 		TestReport.current_row = row;
 	}
 
 	public HSSFWorkbook getReportTemplate() {
 
 		try {
-			File template;
-			FileInputStream fileIS;
-			if (current_report_row_in_failed_case == 1
-					&& current_report_row_in_passed_case == 1)
-				template = new File(Config.getInstance().getProperty(
-						"test.report.excel.template"));
-			else
-				template = new File(Config.getInstance().getProperty(
-						"test.report.excel"));
-			fileIS = new FileInputStream(template);
-			return new HSSFWorkbook(fileIS);
-
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			final String fileName = (current_report_row_in_failed_case == 1
+					&& current_report_row_in_passed_case == 1) ? "test.report.excel.template":"test.report.excel";
+			
+			return new HSSFWorkbook(new FileInputStream(new File(Config.getInstance().getProperty(
+					fileName))));
+		} catch (final FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 		return null;
-
 	}
 
 	public void SaveSuccessTestReportToExcel() {
 
-		String sheetName;
-		sheetName = Config.getInstance()
+		final String sheetName = Config.getInstance()
 				.getProperty("test.report.passed.sheet");
 		HSSFSheet sheet = getReportTemplate().getSheet(sheetName);
 		if (sheet == null) {
@@ -118,18 +93,9 @@ public class TestReport extends TestWatcher {
 				"Pass");
 	}
 
-	/*
-	 * public void SaveFailReportToExcel(String errorDetail){ String sheetName;
-	 * sheetName= Config.getInstance().getProperty("test.report.failed.sheet");
-	 * HSSFSheet sheet= getReportTemplate().getSheet(sheetName); if (sheet==
-	 * null) { sheet=getReportTemplate().createSheet(sheetName); }
-	 * IncrementTheCurrentRowOfReportingCase(sheet); writeToExcel(false, sheet,
-	 * TestDriver.getCurrentTestObject().toString(), errorDetail); }
-	 */
-	public void SaveEKPErrToExcel(String errorDetail) {
-		String sheetName;
+	public void SaveEKPErrToExcel(final String errorDetail) {
 
-		sheetName = Config.getInstance()
+		final String sheetName = Config.getInstance()
 				.getProperty("test.report.failed.sheet");
 
 		HSSFSheet sheet = getReportTemplate().getSheet(sheetName);
@@ -137,45 +103,34 @@ public class TestReport extends TestWatcher {
 			sheet = getReportTemplate().createSheet(sheetName);
 		}
 		IncrementTheCurrentRowOfReportingCase(sheet);
-		// method overload in subclass
 		writeToExcel(sheet, TestDriver.getCurrentTestObject().toString(),
 				errorDetail);
 
 	}
 
-	public void IncrementTheCurrentRowOfReportingCase(HSSFSheet sheet) {
-		String sheetName;
-		sheetName = sheet.getSheetName();
+	public void IncrementTheCurrentRowOfReportingCase(final HSSFSheet sheet) {
+
+		final String sheetName = sheet.getSheetName();
 		if (sheetName.equalsIgnoreCase(Config.getInstance().getProperty(
 				"test.report.passed.sheet"))) {
 			setCurrent_row(TestReport.current_report_row_in_passed_case);
 			setCurrent_report_row_in_passed_case(TestReport.current_row + 1);
-
 		} else {
-			// report every fail in new row in "Failed" sheet
-			// if (TestReport.caseExisted(sheet)){
-			// TestReport.current_row=failedCaseRowNumInReport(sheet);
-			// }else{
 			setCurrent_row(TestReport.current_report_row_in_failed_case);
 			setCurrent_report_row_in_failed_case(TestReport.current_row + 1);
-
-			// }
 		}
-
 	}
 
-	public static int failedCaseRowNumInReport(HSSFSheet sheet) {
+	public static int failedCaseRowNumInReport(final HSSFSheet sheet) {
+		
 		return POIUtils.getRowNum(sheet, 0, TestDriver.getCurrentTestObject()
 				.toString());
 
 	}
 
-	public static boolean caseExisted(HSSFSheet sheet) {
-		if (failedCaseRowNumInReport(sheet) > 0) {
-			return true;
-		} else {
-			return false;
-		}
+	public static boolean caseExisted(final HSSFSheet sheet) {
+		
+		return failedCaseRowNumInReport(sheet) > 0 ? true: false; 
 	}
 
 	/**
@@ -189,10 +144,9 @@ public class TestReport extends TestWatcher {
 	 * @param detail
 	 *            = the detail of fail or just "Pass" for success case
 	 */
-	private void writeToExcel(boolean Passed, HSSFSheet sheet, String casename,
+	private void writeToExcel(final boolean Passed, final HSSFSheet sheet, String casename,
 			String detail) {
 
-		// String orginalDetail="";
 		if (casename.length() == 0) {
 			casename = "empty";
 			detail = "empty";
@@ -218,34 +172,19 @@ public class TestReport extends TestWatcher {
 		detailCell.setCellValue(detail);
 		caseNameCell.setCellValue(casename);
 
-		// if (TestReport.caseExisted(sheet)){
-		// detailCell = row.getCell(1);
-		// if (detailCell == null){
-		// detailCell = row.createCell(1);
-		// }
-		// else
-		// orginalDetail=System.lineSeparator()+detailCell.getStringCellValue();
-		// }else{
-		// detailCell = row.createCell(1);
-		// }
-
 		if (!Passed) {
-			// detailCell.setCellValue(orginalDetail+detail+System.lineSeparator()+"TestReport Debug: current_report_row_in_failed_case="
-			// + TestReport.current_report_row_in_failed_case);
 			setErrorRptCellStyle(sheet);
 		}
 
 		try {
-			FileOutputStream outFile = new FileOutputStream(Config
+			final FileOutputStream outFile = new FileOutputStream(Config
 					.getInstance().getProperty("test.report.excel"));
-			HSSFWorkbook wb = sheet.getWorkbook();
+			final HSSFWorkbook wb = sheet.getWorkbook();
 			wb.write(outFile);
 			outFile.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (final FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 
@@ -260,7 +199,7 @@ public class TestReport extends TestWatcher {
 	 * @param ekplog
 	 *            = ekp exception details
 	 */
-	private void writeToExcel(HSSFSheet sheet, String casename, String ekplog) {
+	private void writeToExcel(final HSSFSheet sheet, final String casename, final String ekplog) {
 
 		HSSFRow row = sheet.getRow(TestReport.getCurrent_row());
 
@@ -281,25 +220,23 @@ public class TestReport extends TestWatcher {
 		noteCell.setCellValue(TimeLogger.UIstatus
 				+ " in UI testing; EKP exception is found in ekp.log");
 		try {
-			FileOutputStream outFile = new FileOutputStream(Config
+			final FileOutputStream outFile = new FileOutputStream(Config
 					.getInstance().getProperty("test.report.excel"));
-			HSSFWorkbook wb = sheet.getWorkbook();
+			final HSSFWorkbook wb = sheet.getWorkbook();
 			wb.write(outFile);
 			outFile.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (final FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	public void setErrorRptCellStyle(HSSFSheet sheet) {
+	public void setErrorRptCellStyle(final HSSFSheet sheet) {
 		// by default hypelrinks are blue and underlined and are top
-		CellStyle hlink_style = sheet.getWorkbook().createCellStyle();
-		Font hlink_font = sheet.getWorkbook().createFont();
+		final CellStyle hlink_style = sheet.getWorkbook().createCellStyle();
+		final Font hlink_font = sheet.getWorkbook().createFont();
 		hlink_font.setUnderline(Font.U_SINGLE);
 		hlink_font.setColor(IndexedColors.BLUE.getIndex());
 		hlink_style.setVerticalAlignment(HSSFCellStyle.VERTICAL_TOP);
@@ -307,9 +244,9 @@ public class TestReport extends TestWatcher {
 	}
 
 	@Override
-	protected void failed(Throwable e, Description description) {
-		String sheetName;
-		sheetName = Config.getInstance()
+	protected void failed(final Throwable e, final Description description) {
+
+		final String sheetName = Config.getInstance()
 				.getProperty("test.report.failed.sheet");
 		HSSFSheet sheet = getReportTemplate().getSheet(sheetName);
 		if (sheet == null) {
@@ -320,14 +257,14 @@ public class TestReport extends TestWatcher {
 				TestDriver.getCurrentTestObject().toString(), Throwables
 						.getRootCause(e).toString());
 	}
-
+	
 	@Override
-	protected void succeeded(Description description) {
+	protected void succeeded(final Description description) {
 
 	}
 
 	@Override
-	protected void finished(Description description) {
+	protected void finished(final Description description) {
 
 	}
 

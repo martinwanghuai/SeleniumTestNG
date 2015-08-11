@@ -10,22 +10,19 @@ import static org.junit.Assert.fail;
  */
 public class JUnitAssert {
 
-	public static void assertEquals(String expectedResult, String actualResult) {
-		boolean matched = expectedResult.equalsIgnoreCase(actualResult);
+	public static void assertEquals(final String expectedResult, final String actualResult) {
+		
+		final boolean matched = expectedResult.equalsIgnoreCase(actualResult);
 		if (!matched) {
 			System.out.println("Expected:" + expectedResult + "; actual:"
 					+ actualResult);
-			// TestReport.getInstance().SaveFailReportToExcel("Expected:" +
-			// expectedResult + "; actual:" +
-			// actualResult+System.lineSeparator());
 			fail("Expected:" + expectedResult + "; actual:" + actualResult);
 		}
 	}
 
-	public static void assertTrue(boolean condition, String msgForFail) {
+	public static void assertTrue(final boolean condition, final String msgForFail) {
 		if (!condition) {
 			System.out.println(msgForFail);
-			// TestReport.getInstance().SaveFailReportToExcel(msgForFail+System.lineSeparator());
 			fail(msgForFail);
 		}
 	}

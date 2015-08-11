@@ -15,5 +15,7 @@ public interface ITestObject {
 
 	public void run(WebDriver driver);
 
+	@Override
 	public String toString();
+	
 }

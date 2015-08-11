@@ -25,7 +25,6 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
-import com.google.common.base.Throwables;
 import com.netdimen.config.Config;
 import com.netdimen.controller.TestDriver;
 import com.netdimen.model.User;
@@ -41,41 +40,41 @@ import com.netdimen.utils.WebDriverUtils;
  */
 public class ScreenShotOnFailed extends TestReport {
 
-	private WebDriver driver;
+	private final WebDriver driver;
 	private static String absolute_FileName;
 
 	public static String getAbsolute_FileName() {
 		return absolute_FileName;
 	}
 
-	public static void setAbsolute_FileName(String absolute_FileName) {
+	public static void setAbsolute_FileName(final String absolute_FileName) {
 		ScreenShotOnFailed.absolute_FileName = absolute_FileName;
 	}
 
-	public ScreenShotOnFailed(WebDriver driver) {
+	public ScreenShotOnFailed(final WebDriver driver) {
 		super(driver);
 		this.driver = driver;
 
 	}
 
 	@Override
-	public void failed(Throwable e, Description description) {
-		TakesScreenshot takesScreenshot = (TakesScreenshot) driver;
+	public void failed(final Throwable e, final Description description) {
+		final TakesScreenshot takesScreenshot = (TakesScreenshot) driver;
 
-		File scrFile = takesScreenshot.getScreenshotAs(OutputType.FILE);
-		File destFile = getDestinationFile(description.getDisplayName());
+		final File scrFile = takesScreenshot.getScreenshotAs(OutputType.FILE);
+		final File destFile = getDestinationFile(description.getDisplayName());
 		try {
 			FileUtils.copyFile(scrFile, destFile);
-		} catch (IOException ioe) {
+		} catch (final IOException ioe) {
 			throw new RuntimeException(ioe);
 		}
 		SaveFailReportToExcel();
 
 		WebDriverUtils.closeAllPopUpWins(driver);
 
-		String UID = Config.getInstance().getProperty("sys.ndadmin");
-		String PWD = Config.getInstance().getProperty("sys.ndadmin.pass");
-		User user = new User(UID, PWD);
+		final String UID = Config.getInstance().getProperty("sys.ndadmin");
+		final String PWD = Config.getInstance().getProperty("sys.ndadmin.pass");
+		final User user = new User(UID, PWD);
 		user.login(driver);
 		setAbsolute_FileName("");
 	}
@@ -106,7 +105,7 @@ public class ScreenShotOnFailed extends TestReport {
 	 * @param detail
 	 *            = the detail of fail
 	 */
-	private void writeToExcel(HSSFSheet sheet, String casename) {
+	private void writeToExcel(final HSSFSheet sheet, final String casename) {
 
 		HSSFRow row = sheet.getRow(TestReport.getCurrent_row());
 
@@ -119,44 +118,36 @@ public class ScreenShotOnFailed extends TestReport {
 			caseNameCell = row.createCell(0);
 		Cell detailCell;
 		detailCell = row.createCell(1);
-		// if (TestReport.caseExisted(sheet)){
-		// detailCell = row.getCell(1);
-		// }else{
-		// detailCell = row.createCell(1);
-		// }
 
 		caseNameCell.setCellValue(casename);
 		detailCell.setCellValue("Link:" + generateSheetName());
 
 		try {
 			if (!ScreenShotOnFailed.getAbsolute_FileName().isEmpty()) {
-				CreationHelper createHelper = sheet.getWorkbook()
+				final CreationHelper createHelper = sheet.getWorkbook()
 						.getCreationHelper();
-				HSSFSheet sheet2 = createSheetPicture(sheet);
-				Hyperlink link2 = createHelper
+				final HSSFSheet sheet2 = createSheetPicture(sheet);
+				final Hyperlink link2 = createHelper
 						.createHyperlink(Hyperlink.LINK_DOCUMENT);
 				link2.setAddress("'" + sheet2.getSheetName() + "'!A1");
-				// caseNameCell.setHyperlink(link2);
 				detailCell.setHyperlink(link2);
 				super.setErrorRptCellStyle(sheet);
 			}
-			FileOutputStream outFile = new FileOutputStream(Config
+			final FileOutputStream outFile = new FileOutputStream(Config
 					.getInstance().getProperty("test.report.excel"));
-			HSSFWorkbook wb = sheet.getWorkbook();
+			final HSSFWorkbook wb = sheet.getWorkbook();
 			wb.write(outFile);
 			outFile.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (final FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	private HSSFSheet createSheetPicture(HSSFSheet sheet) {
-		HSSFSheet my_sheet = sheet.getWorkbook().createSheet(
+	private HSSFSheet createSheetPicture(final HSSFSheet sheet) {
+		final HSSFSheet my_sheet = sheet.getWorkbook().createSheet(
 				generateSheetName());
 		/* Read the input image into InputStream */
 		InputStream my_banner_image;
@@ -165,16 +156,16 @@ public class ScreenShotOnFailed extends TestReport {
 					ScreenShotOnFailed.getAbsolute_FileName());
 
 			/* Convert Image to byte array */
-			byte[] bytes = IOUtils.toByteArray(my_banner_image);
+			final byte[] bytes = IOUtils.toByteArray(my_banner_image);
 			/* Add Picture to workbook and get a index for the picture */
-			int my_picture_id = sheet.getWorkbook().addPicture(bytes,
+			final int my_picture_id = sheet.getWorkbook().addPicture(bytes,
 					Workbook.PICTURE_TYPE_JPEG);
 			/* Close Input Stream */
 			my_banner_image.close();
 			/* Create the drawing container */
-			HSSFPatriarch drawing = my_sheet.createDrawingPatriarch();
+			final HSSFPatriarch drawing = my_sheet.createDrawingPatriarch();
 			/* Create an anchor point */
-			ClientAnchor my_anchor = new HSSFClientAnchor();
+			final ClientAnchor my_anchor = new HSSFClientAnchor();
 			/*
 			 * Define top left corner, and we can resize picture suitable from
 			 * there
@@ -182,26 +173,26 @@ public class ScreenShotOnFailed extends TestReport {
 			my_anchor.setCol1(2);
 			my_anchor.setRow1(1);
 			/* Invoke createPicture and pass the anchor point and ID */
-			HSSFPicture my_picture = drawing.createPicture(my_anchor,
+			final HSSFPicture my_picture = drawing.createPicture(my_anchor,
 					my_picture_id);
 			/* Call resize method, which resizes the image */
 			my_picture.resize();
 			/* Write changes to the workbook */
-			FileOutputStream out = new FileOutputStream(new File(Config
+			final FileOutputStream out = new FileOutputStream(new File(Config
 					.getInstance().getProperty("test.report.excel")));
 			sheet.getWorkbook().write(out);
 			out.close();
-		} catch (FileNotFoundException e) {
+		} catch (final FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			System.out.println(e);
 		}
 		return my_sheet;
 	}
 
 	@Override
-	protected void succeeded(Description description) {
+	protected void succeeded(final Description description) {
 		/*
 		 * WebDriverUtils.closeAllPopUpWins(driver); Navigator.navigate(driver,
 		 * Navigator.URL.HomePage);
@@ -209,20 +200,20 @@ public class ScreenShotOnFailed extends TestReport {
 	}
 
 	@Override
-	protected void finished(Description description) {
+	protected void finished(final Description description) {
 		/*
 		 * WebDriverUtils.closeAllPopUpWins(driver); Navigator.navigate(driver,
 		 * Navigator.URL.HomePage);
 		 */
 	}
 
-	public static File getDestinationFile(String name) {
-		String userDirectory = Config.getInstance()
+	public static File getDestinationFile(final String name) {
+		final String userDirectory = Config.getInstance()
 				.getProperty("screenShotDir");
-		String fileName = name + "_" + DataUtils.getTimeStamp() + ".png";
+		final String fileName = name + "_" + DataUtils.getTimeStamp() + ".png";
 		absolute_FileName = userDirectory + DataUtils.FILE_PATH_SEPARATOR
 				+ fileName;
-		File file = new File(absolute_FileName);
+		final File file = new File(absolute_FileName);
 		return file;
 	}
 

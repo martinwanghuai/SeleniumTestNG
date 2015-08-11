@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 
 import com.google.common.base.Throwables;
 import com.netdimen.abstractclasses.TestReport;
-import com.netdimen.utils.WebDriverUtils;
 
 /**
  * This class will detect ekp error after test case execution
@@ -15,26 +14,25 @@ import com.netdimen.utils.WebDriverUtils;
  */
 public class EKPErrorDetector extends TestReport {
 
-	private WebDriver driver;
+	private final WebDriver driver;
 
-	public EKPErrorDetector(WebDriver driver) {
+	public EKPErrorDetector(final WebDriver driver) {
 		this.driver = driver;
 	}
 
 	@Override
-	protected void failed(Throwable e, Description description) {
+	protected void failed(final Throwable e, final Description description) {
 
 		SaveFailReportToExcel(Throwables.getStackTraceAsString(e));
 	}
 
 	@Override
-	protected void succeeded(Description description) {
+	protected void succeeded(final Description description) {
 
 	}
 
 	@Override
-	protected void finished(Description description) {
+	protected void finished(final Description description) {
 
 	}
-
 }
