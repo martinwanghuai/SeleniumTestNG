@@ -66,7 +66,7 @@ public class TestDriver {
 
 	private static WebDriver driver;
 
-	private TestObject testObject;
+	private final TestObject testObject;
 
 	private static TestObject curentTestObject;
 
@@ -78,13 +78,13 @@ public class TestDriver {
 
 	private static HashMap<String, TestObject> ID_testObjects = new HashMap<String, TestObject>();
 
-	public TestDriver(TestObject testObject, String objID) {
+	public TestDriver(final TestObject testObject, final String objID) {
 
 		this.testObject = testObject;
 		curentTestObject = testObject;
 	}
 
-	public static void addTestObject(String ID, TestObject obj) {
+	public static void addTestObject(final String ID, final TestObject obj) {
 
 		if (ID_testObjects.containsKey(ID)) {
 			if (Config.DEBUG_MODE) {
@@ -95,7 +95,7 @@ public class TestDriver {
 		}
 	}
 
-	public static TestObject getTestObject(String ID) {
+	public static TestObject getTestObject(final String ID) {
 
 		TestObject obj_tmp = null;
 		if (ID_testObjects.containsKey(ID)) {
@@ -110,7 +110,7 @@ public class TestDriver {
 		return curentTestObject;
 	}
 
-	public static void setCurrentTestObject(TestObject obj) {
+	public static void setCurrentTestObject(final TestObject obj) {
 
 		curentTestObject = obj;
 	}
@@ -120,7 +120,7 @@ public class TestDriver {
 
 		driver = WebDriverUtils.getWebDriver_new();
 		try {
-			File file = new File(Config.getInstance()
+			final File file = new File(Config.getInstance()
 					.getProperty("test.result"));
 			if (file.delete()) {
 				System.out.println(file.getAbsolutePath() + " is deleted!");
@@ -128,7 +128,7 @@ public class TestDriver {
 				System.out.println("Delete " + file.getAbsolutePath()
 						+ " operation is failed.");
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 
@@ -141,21 +141,21 @@ public class TestDriver {
 	// name = "{1}"=Use TestObject.toString() as test case name
 	public static Collection<Object[]> data() {
 
-		Collection<Object[]> objList = new ArrayList<Object[]>();
+		final Collection<Object[]> objList = new ArrayList<Object[]>();
 
 		FileInputStream file = null;
 		try {
 			file = new FileInputStream(Config.getInstance().getProperty(
 					"testDataFile"));
-			HSSFWorkbook wb = new HSSFWorkbook(file);
+			final HSSFWorkbook wb = new HSSFWorkbook(file);
 
 			// load all tests: all test cases are configured in EKPMain page
-			String sheetName_main = "EKPMain";
-			int dataRowIndex_start = 1;
+			final String sheetName_main = "EKPMain";
+			final int dataRowIndex_start = 1;
 
 			HSSFSheet sheet = wb.getSheet(sheetName_main);
 
-			for (ExcelSheetObject excelSheetObj : POIUtils
+			for (final ExcelSheetObject excelSheetObj : POIUtils
 					.getExcelSheetObjectFromExcel(sheet, dataRowIndex_start)) {
 
 				final String sheetName = excelSheetObj.getSheetName();
@@ -175,22 +175,22 @@ public class TestDriver {
 					}
 				} else {
 					hasSpecifyRowNum = true;
-					for (String rowNum_str : rowNum.split(";")) {
+					for (final String rowNum_str : rowNum.split(";")) {
 						rowNumsToScan.add(Integer.parseInt(rowNum_str));
 					}
 				}
 				addTestCases(objList, wb, sheet, excelSheetObj, rowNumsToScan,
 						hasSpecifyRowNum);
 			}
-		} catch (FileNotFoundException ex) {
+		} catch (final FileNotFoundException ex) {
 			ex.printStackTrace();
-		} catch (IOException ex) {
+		} catch (final IOException ex) {
 			ex.printStackTrace();
 		} finally {
 			if (file != null) {
 				try {
 					file.close();
-				} catch (IOException ex) {
+				} catch (final IOException ex) {
 					ex.printStackTrace();
 				}
 			}
@@ -201,15 +201,13 @@ public class TestDriver {
 	}
 
 	private static Collection<Object[]> addTestCases(
-			Collection<Object[]> objList, HSSFWorkbook wb, HSSFSheet sheet,
-			ExcelSheetObject excelSheetObj, List<Integer> rowNumsToScan,
-			boolean hasSpecifyRowNum) {
+			final Collection<Object[]> objList, final HSSFWorkbook wb, final HSSFSheet sheet,
+			final ExcelSheetObject excelSheetObj, final List<Integer> rowNumsToScan,
+			final boolean hasSpecifyRowNum) {
 
 		boolean found = false;
-		for (Integer rowNum : rowNumsToScan) {
-			TestObject obj = POIUtils.loadTestCaseFromExcelRow(
-					excelSheetObj.getSheetName(), excelSheetObj.getFuncName(),
-					rowNum, wb);
+		for (final Integer rowNum : rowNumsToScan) {
+			final TestObject obj = POIUtils.loadTestCaseFromExcelRow(excelSheetObj, wb);
 			found = addTestCaseToList(objList, obj);
 			if (obj != null) {
 				obj.setLabel(excelSheetObj.getLabel());
@@ -230,8 +228,8 @@ public class TestDriver {
 		return objList;
 	}
 
-	private static boolean addTestCaseToList(Collection<Object[]> objList,
-			TestObject obj) {
+	private static boolean addTestCaseToList(final Collection<Object[]> objList,
+			final TestObject obj) {
 
 		boolean found = false;
 		if (obj != null & !objList.contains(obj)) {
@@ -252,15 +250,15 @@ public class TestDriver {
 	@Rule
 	public ScreenShotOnFailed screenShootRule = new ScreenShotOnFailed(driver);
 
-	public static void switchUser(TestObject testObject) {
+	public static void switchUser(final TestObject testObject) {
 
 		try {
 			String testObject_UID = testObject.getUID();
 			if (testObject_UID.equals("")) {// not setup -> defined in super
 											// class.
-				String fieldName = "UID";
+				final String fieldName = "UID";
 				// Search it in super class.ie: Online>LearningModule>TestObject
-				Field UID_field = ReflectionUtils.getField_superClz(
+				final Field UID_field = ReflectionUtils.getField_superClz(
 						testObject.getClass(), fieldName);
 				if (UID_field != null) {
 					UID_field.setAccessible(true);
@@ -276,11 +274,11 @@ public class TestDriver {
 			}
 			// Initialized logon user object when first time start up
 			if (TestDriver.getUser_current() == null) {
-				User user = new User(testObject.getUID(), testObject.getPWD());
+				final User user = new User(testObject.getUID(), testObject.getPWD());
 				user.login(driver);
 				TestDriver.setUser_current(user);
 			} else {
-				User logonUser = TestDriver.getUser_current();
+				final User logonUser = TestDriver.getUser_current();
 				if (!testObject_UID.equalsIgnoreCase(logonUser.getUID())) { // check
 																			// if
 																			// previous
@@ -291,20 +289,20 @@ public class TestDriver {
 																			// id
 					// different user, then logout first
 					logonUser.logout(driver);
-					User user = new User(testObject.getUID(),
+					final User user = new User(testObject.getUID(),
 							testObject.getPWD());
 					user.login(driver);
 					TestDriver.setUser_current(user);
 				}
 			}
 
-		} catch (SecurityException e) {
+		} catch (final SecurityException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
+		} catch (final IllegalAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -330,17 +328,17 @@ public class TestDriver {
 				// exception occur
 				logger.succeeded(testObject);
 			}
-		} catch (IllegalAccessException e) {
+		} catch (final IllegalAccessException e) {
 			handFailCaseReporting(e, testObject);
-		} catch (NoSuchMethodException e) {
+		} catch (final NoSuchMethodException e) {
 			handFailCaseReporting(e, testObject);
-		} catch (StaleElementReferenceException e) {
+		} catch (final StaleElementReferenceException e) {
 			handFailCaseReporting(e, testObject);
-		} catch (WebDriverException e) {
+		} catch (final WebDriverException e) {
 			handFailCaseReporting(e, testObject);
-		} catch (RuntimeException e) {
+		} catch (final RuntimeException e) {
 			handFailCaseReporting(e, testObject);
-		} catch (InvocationTargetException e) {
+		} catch (final InvocationTargetException e) {
 			handFailCaseReporting(e, testObject);
 			// TODO Auto-generated catch block
 		} finally {
@@ -350,7 +348,7 @@ public class TestDriver {
 
 	}
 
-	private void handFailCaseReporting(Exception e, TestObject obj) {
+	private void handFailCaseReporting(final Exception e, final TestObject obj) {
 
 		intFailCases++;
 		POIUtils.filterDebugMsg(e, testObject);
@@ -361,11 +359,11 @@ public class TestDriver {
 
 	private ArrayList<Field> getAnnotationOfNetdTestRule() {
 
-		Field[] fields = TestDriver.class.getDeclaredFields();
-		ArrayList<Field> list = new ArrayList<Field>();
-		for (Field field : fields) {
-			Annotation[] annotations = field.getDeclaredAnnotations();
-			for (Annotation annotation : annotations) {
+		final Field[] fields = TestDriver.class.getDeclaredFields();
+		final ArrayList<Field> list = new ArrayList<Field>();
+		for (final Field field : fields) {
+			final Annotation[] annotations = field.getDeclaredAnnotations();
+			for (final Annotation annotation : annotations) {
 				if (annotation instanceof NetdTestRule) {
 					list.add(field);
 				}
@@ -377,31 +375,31 @@ public class TestDriver {
 	/*
 	 * Filter the test case not need to run with annotation schedule checking
 	 */
-	public boolean skipNonScheduled(TestObject testObj) {
+	public boolean skipNonScheduled(final TestObject testObj) {
 
 		boolean skipTest = false;
-		ArrayList<Field> fields = getAnnotationOfNetdTestRule();
+		final ArrayList<Field> fields = getAnnotationOfNetdTestRule();
 		// 1. Invoke listeners before execution: only concern about listeners
 		// annotated with "NetdTestRule" and is subclass of "NetDTestWatcher"
-		for (Field field : fields) {
+		for (final Field field : fields) {
 
-			Class<NetDTestWatcher> fieldClz = (Class<NetDTestWatcher>) field
+			final Class<NetDTestWatcher> fieldClz = (Class<NetDTestWatcher>) field
 					.getType();
 			Object fieldObj;
 			try {
 				fieldObj = fieldClz.newInstance();
 
 				// 1. judge whether can skip a class
-				NetDTestWatcher watchDog = (NetDTestWatcher) fieldObj;
+				final NetDTestWatcher watchDog = (NetDTestWatcher) fieldObj;
 
 				if (watchDog.isSkipClass(testObj)) {
 					skipTest = true;
 				} else {
 
-					String methodName = testObj.getFuncType();
+					final String methodName = testObj.getFuncType();
 
 					if (!methodName.equals("")) {
-						ArrayList<TestObject> objectParams = testObj
+						final ArrayList<TestObject> objectParams = testObj
 								.getObjectParams();
 
 						Method method = null;
@@ -425,16 +423,16 @@ public class TestDriver {
 						}
 					}
 				}
-			} catch (InstantiationException e) {
+			} catch (final InstantiationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (IllegalAccessException e) {
+			} catch (final IllegalAccessException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
+			} catch (final NoSuchMethodException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (SecurityException e) {
+			} catch (final SecurityException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -457,7 +455,7 @@ public class TestDriver {
 	 *            : Web Driver
 	 * @return boolean test execute result
 	 */
-	private boolean executeTestMethod(TestObject testObject, WebDriver driver)
+	private boolean executeTestMethod(final TestObject testObject, final WebDriver driver)
 			throws Exception {
 
 		boolean success = false;
@@ -494,10 +492,10 @@ public class TestDriver {
 					} else {
 						// 3.2 if has object params, WebDriver and ObjectInput
 						// are the params
-						StringBuilder sb = new StringBuilder();
+						final StringBuilder sb = new StringBuilder();
 						sb.append(testObject.toString());
 						sb.append(" with object inputs:");
-						for (TestObject objectParam : testObject
+						for (final TestObject objectParam : testObject
 								.getObjectParams()) {
 							sb.append(System.lineSeparator() + "\t\"")
 									.append(objectParam.toString())
@@ -527,20 +525,20 @@ public class TestDriver {
 				// 2.2 If "TestSuite" field is not empty, ignore test suite
 				// but execute its test cases
 				startTime = System.currentTimeMillis();
-				ArrayList<TestObject> testCases = testObject.getTestCaseArray();
+				final ArrayList<TestObject> testCases = testObject.getTestCaseArray();
 				if (testCases != null) {
 					System.out.println("Run test suite:\""
 							+ testObject.toString() + "\" with test cases:");
 
-					for (TestObject testCase : testCases) {
+					for (final TestObject testCase : testCases) {
 						if (testCase != null) {
 							// stored original ID
-							String ID = testCase.getID();
+							final String ID = testCase.getID();
 							// IMPORTANT: modify id for reporting purpose
 							// only
 							testCase.setID(testObject.getID() + "{"
 									+ testCase.getID() + "}");
-							boolean testResult = executeTestMethod(testCase,
+							final boolean testResult = executeTestMethod(testCase,
 									driver);
 							// reset back to original ID'
 							testCase.setID(ID);
@@ -576,7 +574,7 @@ public class TestDriver {
 		return totalExecution;
 	}
 
-	public static void setTotalExecution(int totalExecution) {
+	public static void setTotalExecution(final int totalExecution) {
 
 		TestDriver.totalExecution = totalExecution;
 	}
@@ -598,7 +596,7 @@ public class TestDriver {
 		System.out.println("Total test suite run:" + totalTestSuite);
 		driver.manage().deleteAllCookies(); // clear cache
 		driver.quit();
-		Hashtable<String, String> properties = new Hashtable<String, String>();
+		final Hashtable<String, String> properties = new Hashtable<String, String>();
 		properties.put("Total.Cases", String.valueOf(getTotalExecution()));
 		properties.put("Total.Pass.Cases",
 				String.valueOf(getTotalExecution() - intFailCases));
@@ -613,7 +611,7 @@ public class TestDriver {
 		return user_current;
 	}
 
-	public static void setUser_current(User user_current) {
+	public static void setUser_current(final User user_current) {
 
 		TestDriver.user_current = user_current;
 	}
