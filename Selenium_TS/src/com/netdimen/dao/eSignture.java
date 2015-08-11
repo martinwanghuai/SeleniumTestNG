@@ -25,7 +25,7 @@ public class eSignture {
 	public eSigntureType certUpdate = eSigntureType.Inherite;
 	public eSigntureType certDelete = eSigntureType.Inherite;
 
-	public String getESignTypeEnableTextifItisEnabled(eSigntureType e) {
+	public String getESignTypeEnableTextifItisEnabled(final eSigntureType e) {
 		if (e.compareTo(eSigntureType.Enable) == 0) {
 			return "enable";
 		}
@@ -36,7 +36,7 @@ public class eSignture {
 		return certUpdate;
 	}
 
-	public void setCertUpdate(eSigntureType certUpdate) {
+	public void setCertUpdate(final eSigntureType certUpdate) {
 		this.certUpdate = certUpdate;
 	}
 
@@ -44,7 +44,7 @@ public class eSignture {
 		return certDelete;
 	}
 
-	public void setCertDelete(eSigntureType certDelete) {
+	public void setCertDelete(final eSigntureType certDelete) {
 		this.certDelete = certDelete;
 	}
 
@@ -52,7 +52,7 @@ public class eSignture {
 		return courseCSVloader;
 	}
 
-	public void setCourseCSVloader(eSigntureType courseCSVloader) {
+	public void setCourseCSVloader(final eSigntureType courseCSVloader) {
 		this.courseCSVloader = courseCSVloader;
 	}
 
@@ -60,7 +60,7 @@ public class eSignture {
 		return ProgCSVloader;
 	}
 
-	public void setProgCSVloader(eSigntureType progCSVloader) {
+	public void setProgCSVloader(final eSigntureType progCSVloader) {
 		ProgCSVloader = progCSVloader;
 	}
 
@@ -68,7 +68,7 @@ public class eSignture {
 		return withdraws;
 	}
 
-	public void setWithdraws(eSigntureType withdraws) {
+	public void setWithdraws(final eSigntureType withdraws) {
 		this.withdraws = withdraws;
 	}
 
@@ -76,7 +76,7 @@ public class eSignture {
 		return courseUpdate;
 	}
 
-	public void setCourseUpdate(eSigntureType courseUpdate) {
+	public void setCourseUpdate(final eSigntureType courseUpdate) {
 		this.courseUpdate = courseUpdate;
 	}
 
@@ -84,7 +84,7 @@ public class eSignture {
 		return courselaunch;
 	}
 
-	public void setCourselaunch(eSigntureType courselaunch) {
+	public void setCourselaunch(final eSigntureType courselaunch) {
 		this.courselaunch = courselaunch;
 	}
 
@@ -92,7 +92,7 @@ public class eSignture {
 		return courseimporter;
 	}
 
-	public void setCourseimporter(eSigntureType courseimporter) {
+	public void setCourseimporter(final eSigntureType courseimporter) {
 		this.courseimporter = courseimporter;
 	}
 
@@ -100,7 +100,7 @@ public class eSignture {
 		return coursefinish;
 	}
 
-	public void setCoursefinish(eSigntureType coursefinish) {
+	public void setCoursefinish(final eSigntureType coursefinish) {
 		this.coursefinish = coursefinish;
 	}
 
@@ -108,7 +108,7 @@ public class eSignture {
 		return examlaunch;
 	}
 
-	public void setExamlaunch(eSigntureType examlaunch) {
+	public void setExamlaunch(final eSigntureType examlaunch) {
 		this.examlaunch = examlaunch;
 	}
 
@@ -116,7 +116,7 @@ public class eSignture {
 		return questionStatus;
 	}
 
-	public void setQuestionStatus(eSigntureType questionStatus) {
+	public void setQuestionStatus(final eSigntureType questionStatus) {
 		this.questionStatus = questionStatus;
 	}
 
@@ -124,7 +124,7 @@ public class eSignture {
 		return questionImporter;
 	}
 
-	public void setQuestionImporter(eSigntureType questionImporter) {
+	public void setQuestionImporter(final eSigntureType questionImporter) {
 		this.questionImporter = questionImporter;
 	}
 
@@ -132,7 +132,7 @@ public class eSignture {
 		return manualGrading;
 	}
 
-	public void setManualGrading(eSigntureType manualGrading) {
+	public void setManualGrading(final eSigntureType manualGrading) {
 		this.manualGrading = manualGrading;
 	}
 
@@ -141,7 +141,7 @@ public class eSignture {
 	}
 
 	public void setTranscriptModifiedByReviewer(
-			eSigntureType transcriptModifiedByReviewer) {
+			final eSigntureType transcriptModifiedByReviewer) {
 		this.transcriptModifiedByReviewer = transcriptModifiedByReviewer;
 	}
 
@@ -150,7 +150,7 @@ public class eSignture {
 	}
 
 	public void setTranscriptModifiedViaCatalogEditor(
-			eSigntureType transcriptModifiedViaCatalogEditor) {
+			final eSigntureType transcriptModifiedViaCatalogEditor) {
 		this.transcriptModifiedViaCatalogEditor = transcriptModifiedViaCatalogEditor;
 	}
 
@@ -159,7 +159,7 @@ public class eSignture {
 	}
 
 	public void setTranscriptAttendanceModification(
-			eSigntureType transcriptAttendanceModification) {
+			final eSigntureType transcriptAttendanceModification) {
 		this.transcriptAttendanceModification = transcriptAttendanceModification;
 	}
 
@@ -168,7 +168,7 @@ public class eSignture {
 	}
 
 	public void setTranscriptModifiedViaEnrollWizard(
-			eSigntureType transcriptModifiedViaEnrollWizard) {
+			final eSigntureType transcriptModifiedViaEnrollWizard) {
 		this.transcriptModifiedViaEnrollWizard = transcriptModifiedViaEnrollWizard;
 	}
 
@@ -176,12 +176,11 @@ public class eSignture {
 		return externalTrainingRecord;
 	}
 
-	public void setExternalTrainingRecord(eSigntureType externalTrainingRecord) {
+	public void setExternalTrainingRecord(final eSigntureType externalTrainingRecord) {
 		this.externalTrainingRecord = externalTrainingRecord;
 	}
 
 	public eSignture() {
-		// TODO Auto-generated constructor stub
 	}
 
 }

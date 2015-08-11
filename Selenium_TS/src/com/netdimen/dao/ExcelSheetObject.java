@@ -51,5 +51,4 @@ public class ExcelSheetObject {
 
 		return author;
 	}
-
 }

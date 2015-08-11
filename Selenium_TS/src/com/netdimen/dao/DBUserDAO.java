@@ -11,8 +11,9 @@ import com.netdimen.config.Config;
  * @author lester.li This is a class which is to use as get DBUser from DB
  */
 public class DBUserDAO {
-	private Connection sqlConnnection;
-	private DBUser dbUser;
+
+	private final Connection sqlConnnection;
+	private final DBUser dbUser;
 	// users is not a table but a view in DB
 	public String sqlFindbyUserId = "select users.userid,dappraiser,dappraiserid,costcenter,userrole,userprefs.time_zone,leaf_orgid,orgcode,description,"
 			+ "parentid,logical_domain.domain_id,logical_domain.domain_name,level1id,level2id,level3id,level4id,level5id "
@@ -21,7 +22,8 @@ public class DBUserDAO {
 
 	public String sqlUserLanguage = "select users_meta.languagepref from users_meta,users where users.currentPID =? and users.currentPID=users_meta.currentPID";
 
-	public DBUserDAO(Connection conn) {
+	public DBUserDAO(final Connection conn) {
+
 		this.sqlConnnection = conn;
 		dbUser = new DBUser();
 
@@ -35,7 +37,6 @@ public class DBUserDAO {
 		case "mysql":
 			this.sqlFindbyUserId = sqlFindbyUserId;
 			break;
-
 		default:
 			System.out.println("warning: No config");
 		}
@@ -49,14 +50,11 @@ public class DBUserDAO {
 
 			preparedStatement = sqlConnnection
 					.prepareStatement(sqlFindbyUserId);
-			// System.out.println("findByUserId with usrId= "+usrId +
-			// sqlFindbyUserId.toLowerCase());
 			if (usrId.equals("")) {
 				return null;
-				// usrId = Config.getInstance().getProperty("sys.ndadmin");
 			}
+			
 			preparedStatement.setString(1, usrId);
-
 			rs = preparedStatement.executeQuery();
 			if (rs.next()) {
 				this.dbUser.setUser_ID(usrId);
@@ -92,7 +90,7 @@ public class DBUserDAO {
 			}
 			rs.close();
 			preparedStatement.close();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -102,10 +100,4 @@ public class DBUserDAO {
 		}
 		return dbUser;
 	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

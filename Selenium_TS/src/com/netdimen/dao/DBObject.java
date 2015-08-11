@@ -1,8 +1,10 @@
 package com.netdimen.dao;
 
-import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.Map;
+
+import com.google.common.collect.Maps;
+import com.netdimen.utils.Checker;
 
 /**
  * @author lester.li This is a class which is to use as general class to map db
@@ -10,28 +12,24 @@ import java.util.Set;
  */
 public abstract class DBObject {
 
-	private Hashtable<String, String> dbMappingTable;
+	private final Map<String, String> dbMappingTable;
 	private String EKPID;
 
 	public DBObject() {
-		// TODO Auto-generated constructor stub
-		dbMappingTable = new Hashtable<String, String>();
+		dbMappingTable = Maps.newHashMap();
 		dbMappingTable.put("*NONE*", "");
 		dbMappingTable.put("NULL", "");
 	}
 
 	public String MapDBValue(String valueToMap) {
-		String temp;
-		if (valueToMap == null) {
-			valueToMap = "null";
-		}
-		Set<String> set = dbMappingTable.keySet();
-		Iterator<String> itr = set.iterator();
+		
+		valueToMap = Checker.isBlank(valueToMap)? "null": valueToMap;
+		final Iterator<String> itr = dbMappingTable.keySet().iterator();
 		while (itr.hasNext()) {
-			String key = itr.next();
-			temp = dbMappingTable.get(key);
+			final String key = itr.next();
+			final String temp = dbMappingTable.get(key);
 			if (key.equalsIgnoreCase(valueToMap)) {
-				valueToMap = temp;
+				return temp;
 			}
 		}
 		return valueToMap;
@@ -41,16 +39,12 @@ public abstract class DBObject {
 		return EKPID;
 	}
 
-	public void setEKPID(String eKPID) {
+	public void setEKPID(final String eKPID) {
 		EKPID = eKPID;
 	}
 
-	public boolean ekpEquals(String ekpId) {
-		if (this.EKPID.equalsIgnoreCase(ekpId)) {
-			return true;
-		} else {
-			return false;
-		}
+	public boolean ekpEquals(final String ekpId) {
+		
+		return this.EKPID.equalsIgnoreCase(ekpId)?true:false;
 	}
-
 }

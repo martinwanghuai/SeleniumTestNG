@@ -1,6 +1,7 @@
 package com.netdimen.dao;
 
 public class AdobeObject {
+	
 	public String getUrl() {
 		return url;
 	}
@@ -17,19 +18,19 @@ public class AdobeObject {
 		return chartType;
 	}
 
-	public void setUrl(String url) {
+	public void setUrl(final String url) {
 		this.url = url;
 	}
 
-	public void setKeys(String[] keys) {
+	public void setKeys(final String[] keys) {
 		this.keys = keys;
 	}
 
-	public void setExpectedResults(String[] expectedResults) {
+	public void setExpectedResults(final String[] expectedResults) {
 		this.expectedResults = expectedResults;
 	}
 
-	public void setChartType(ChartType chartType) {
+	public void setChartType(final ChartType chartType) {
 		this.chartType = chartType;
 	}
 
@@ -38,8 +39,8 @@ public class AdobeObject {
 	private String[] expectedResults;
 	private ChartType chartType;
 
-	public AdobeObject(String url, ChartType chartType, String[] keys,
-			String[] expectedResults) {
+	public AdobeObject(final String url, final ChartType chartType, final String[] keys,
+			final String[] expectedResults) {
 		this.url = url;
 		this.chartType = chartType;
 		this.keys = keys;

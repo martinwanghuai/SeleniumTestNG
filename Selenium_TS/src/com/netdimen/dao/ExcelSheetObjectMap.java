@@ -15,5 +15,4 @@ public enum ExcelSheetObjectMap {
 
 		return columnIndex;
 	}
-
 }

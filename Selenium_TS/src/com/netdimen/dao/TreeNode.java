@@ -1,7 +1,8 @@
 package com.netdimen.dao;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import com.google.common.collect.Lists;
 
 public class TreeNode<T> {
 
@@ -13,15 +14,15 @@ public class TreeNode<T> {
 
 	private T nodeObject;
 
-	public TreeNode(T nodeObject) {
+	public TreeNode(final T nodeObject) {
 
 		this(nodeObject, false);
 	}
 
-	public TreeNode(T nodeObject, boolean collapsed) {
+	public TreeNode(final T nodeObject, final boolean collapsed) {
 
 		this.parentNode = null;
-		this.childNodes = new ArrayList<TreeNode<T>>();
+		this.childNodes = Lists.newArrayList();
 		this.nodeObject = nodeObject;
 
 	}
@@ -31,7 +32,7 @@ public class TreeNode<T> {
 		return nodeObject;
 	}
 
-	public void setNodeObject(T nodeObject) {
+	public void setNodeObject(final T nodeObject) {
 
 		this.nodeObject = nodeObject;
 	}
@@ -53,7 +54,7 @@ public class TreeNode<T> {
 		}
 	}
 
-	public void addChild(TreeNode<T> childNode) {
+	public void addChild(final TreeNode<T> childNode) {
 
 		childNode.parentNode = this;
 		if (!childNodes.contains(childNode)) {
@@ -61,27 +62,27 @@ public class TreeNode<T> {
 		}
 	}
 
-	public void removeChild(TreeNode<T> childNode) {
+	public void removeChild(final TreeNode<T> childNode) {
 
 		if (childNodes.contains(childNode)) {
 			childNodes.remove(childNode);
 		}
 	}
 
-	public TreeNode<T> findTreeNode(T targetNodeObject,
-			boolean searchRecursively) {
+	public TreeNode<T> findTreeNode(final T targetNodeObject,
+			final boolean searchRecursively) {
 
 		if (nodeObject != null && nodeObject.equals(targetNodeObject)) {
 			return this;
 		}
 
-		for (TreeNode<T> currentNode : childNodes) {
+		for (final TreeNode<T> currentNode : childNodes) {
 			if (currentNode.nodeObject != null
 					&& currentNode.nodeObject.equals(targetNodeObject)) {
 				return currentNode;
 			}
 			if (searchRecursively) {
-				TreeNode<T> result = currentNode.findTreeNode(targetNodeObject,
+				final TreeNode<T> result = currentNode.findTreeNode(targetNodeObject,
 						searchRecursively);
 				if (result != null) {
 					return result;
@@ -101,7 +102,7 @@ public class TreeNode<T> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 
 		if (!(obj instanceof TreeNode<?>)) {
 			return false;

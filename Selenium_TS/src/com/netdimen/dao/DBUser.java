@@ -24,17 +24,16 @@ public class DBUser extends DBObject {
 	private String User_Language;
 	private Locale User_Locale;
 
-	private Locale China_HK_Locale = new Locale("zh", "HK");
-	private Locale China_CN_Locale = new Locale("zh", "CN");
-	private Locale China_TW_Locale = new Locale("zh", "TW");
-	private Locale English_Locale = new Locale("en");
-	private Locale Deutsch_Locale = new Locale("de");
-	private Locale Japan_Locale = new Locale("jp");
-	private Locale Franch_Locale = new Locale("fr");
-	private Locale Canada_Locale = new Locale("en", "CA");
+	private final Locale China_HK_Locale = new Locale("zh", "HK");
+	private final Locale China_CN_Locale = new Locale("zh", "CN");
+	private final Locale China_TW_Locale = new Locale("zh", "TW");
+	private final Locale English_Locale = new Locale("en");
+	private final Locale Deutsch_Locale = new Locale("de");
+	private final Locale Japan_Locale = new Locale("jp");
+	private final Locale Franch_Locale = new Locale("fr");
+	private final Locale Canada_Locale = new Locale("en", "CA");
 
 	public Locale getUser_Locale() {
-		// no match return default
 		return User_Locale;
 	}
 
@@ -46,7 +45,7 @@ public class DBUser extends DBObject {
 		return Time_zone;
 	}
 
-	public void setTime_zone(String time_zone) {
+	public void setTime_zone(final String time_zone) {
 		Time_zone = time_zone;
 	}
 
@@ -54,11 +53,11 @@ public class DBUser extends DBObject {
 		return Domain_name;
 	}
 
-	public void setDomain_name(String domain_name) {
+	public void setDomain_name(final String domain_name) {
 		Domain_name = domain_name;
 	}
 
-	public void setOrgCode(String orgCode) {
+	public void setOrgCode(final String orgCode) {
 		OrgCode = orgCode;
 	}
 
@@ -66,19 +65,18 @@ public class DBUser extends DBObject {
 		return OrgDescription;
 	}
 
-	public void setOrgDescription(String orgDescription) {
+	public void setOrgDescription(final String orgDescription) {
 		OrgDescription = orgDescription;
 	}
 
 	public DBUser() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getAppraiserId() {
 		return appraiserId;
 	}
 
-	public void setAppraiserId(String appraiserId) {
+	public void setAppraiserId(final String appraiserId) {
 		this.appraiserId = MapDBValue(appraiserId);
 	}
 
@@ -86,7 +84,7 @@ public class DBUser extends DBObject {
 		return LEVEL1ID;
 	}
 
-	public void setLEVEL1ID(String lEVEL1ID) {
+	public void setLEVEL1ID(final String lEVEL1ID) {
 		LEVEL1ID = MapDBValue(lEVEL1ID);
 	}
 
@@ -94,7 +92,7 @@ public class DBUser extends DBObject {
 		return LEVEL2ID;
 	}
 
-	public void setLEVEL2ID(String lEVEL2ID) {
+	public void setLEVEL2ID(final String lEVEL2ID) {
 		LEVEL2ID = MapDBValue(lEVEL2ID);
 	}
 
@@ -102,7 +100,7 @@ public class DBUser extends DBObject {
 		return LEVEL3ID;
 	}
 
-	public void setLEVEL3ID(String lEVEL3ID) {
+	public void setLEVEL3ID(final String lEVEL3ID) {
 		LEVEL3ID = MapDBValue(lEVEL3ID);
 	}
 
@@ -110,7 +108,7 @@ public class DBUser extends DBObject {
 		return LEVEL4ID;
 	}
 
-	public void setLEVEL4ID(String lEVEL4ID) {
+	public void setLEVEL4ID(final String lEVEL4ID) {
 		LEVEL4ID = MapDBValue(lEVEL4ID);
 	}
 
@@ -118,7 +116,7 @@ public class DBUser extends DBObject {
 		return LEVEL5ID;
 	}
 
-	public void setLEVEL5ID(String lEVEL5ID) {
+	public void setLEVEL5ID(final String lEVEL5ID) {
 		LEVEL5ID = MapDBValue(lEVEL5ID);
 	}
 
@@ -126,7 +124,7 @@ public class DBUser extends DBObject {
 		return COSTCENTER;
 	}
 
-	public void setCOSTCENTER(String cOSTCENTER) {
+	public void setCOSTCENTER(final String cOSTCENTER) {
 		COSTCENTER = MapDBValue(cOSTCENTER);
 	}
 
@@ -134,7 +132,7 @@ public class DBUser extends DBObject {
 		return USERROLE;
 	}
 
-	public void setUSERROLE(String uSERROLE) {
+	public void setUSERROLE(final String uSERROLE) {
 		USERROLE = uSERROLE;
 	}
 
@@ -142,7 +140,7 @@ public class DBUser extends DBObject {
 		return Current_ORGID;
 	}
 
-	public void setCurrent_ORGID(String current_ORGID) {
+	public void setCurrent_ORGID(final String current_ORGID) {
 		Current_ORGID = current_ORGID;
 	}
 
@@ -150,7 +148,7 @@ public class DBUser extends DBObject {
 		return Parent_ORGID;
 	}
 
-	public void setParent_ORGID(String parent_ORGID) {
+	public void setParent_ORGID(final String parent_ORGID) {
 		Parent_ORGID = parent_ORGID;
 	}
 
@@ -158,7 +156,7 @@ public class DBUser extends DBObject {
 		return appraiserId_EKPID;
 	}
 
-	public void setAppraiserId_EKPID(String appraiserId_EKPID) {
+	public void setAppraiserId_EKPID(final String appraiserId_EKPID) {
 		this.appraiserId_EKPID = MapDBValue(appraiserId_EKPID);
 	}
 
@@ -166,7 +164,7 @@ public class DBUser extends DBObject {
 		return DOMAIN_ID;
 	}
 
-	public void setDOMAIN_ID(String dOMAIN_ID) {
+	public void setDOMAIN_ID(final String dOMAIN_ID) {
 		DOMAIN_ID = dOMAIN_ID;
 	}
 
@@ -174,11 +172,11 @@ public class DBUser extends DBObject {
 		return User_ID;
 	}
 
-	public void setUser_ID(String user_ID) {
+	public void setUser_ID(final String user_ID) {
 		User_ID = user_ID;
 	}
 
-	public void setUser_Language(String string) {
+	public void setUser_Language(final String string) {
 		this.User_Language = string;
 		switch (this.User_Language) {
 		case "1":
