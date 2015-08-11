@@ -39,9 +39,8 @@ public class TestReport extends TestWatcher {
 	public static TestReport getInstance() {
 
 		if (instance == null) {
-			synchronized (TestReport.class) { // Add a synch block
-				if (instance == null) { // verify some other synch block didn't
-										// create a WebElementManager yet...
+			synchronized (TestReport.class) {
+				if (instance == null) { 
 					instance = new TestReport();
 				}
 			}
@@ -76,27 +75,16 @@ public class TestReport extends TestWatcher {
 	public HSSFWorkbook getReportTemplate() {
 
 		try {
-			File template;
-			FileInputStream fileIS;
-			if (current_report_row_in_failed_case == 1
-					&& current_report_row_in_passed_case == 1)
-				template = new File(Config.getInstance().getProperty(
-						"test.report.excel.template"));
-			else
-				template = new File(Config.getInstance().getProperty(
-						"test.report.excel"));
-			fileIS = new FileInputStream(template);
-			return new HSSFWorkbook(fileIS);
+			final String fileName = current_report_row_in_failed_case == 1
+					&& current_report_row_in_passed_case == 1 ? "test.report.excel.template":"test.report.excel";
+			return new HSSFWorkbook(new FileInputStream(new File(Config.getInstance().getProperty(fileName))));
 
 		} catch (final FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (final IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
-
 	}
 	
 	public void SaveSuccessTestReportToExcel() {
@@ -114,21 +102,18 @@ public class TestReport extends TestWatcher {
 	}
 
 	public void IncrementTheCurrentRowOfReportingCase(final HSSFSheet sheet) {
-		String sheetName;
-		sheetName = sheet.getSheetName();
+
+		final String sheetName = sheet.getSheetName();
 		if (sheetName.equalsIgnoreCase(Config.getInstance().getProperty(
 				"test.report.passed.sheet"))) {
 			setCurrent_row(TestReport.current_report_row_in_passed_case);
 			setCurrent_report_row_in_passed_case(TestReport.current_row + 1);
-
 		} else {
-
 			if (TestReport.caseExisted(sheet)) {
 				TestReport.current_row = failedCaseRowNumInReport(sheet);
 			} else {
 				setCurrent_row(TestReport.current_report_row_in_failed_case);
 				setCurrent_report_row_in_failed_case(TestReport.current_row + 1);
-
 			}
 		}
 	}
@@ -140,11 +125,8 @@ public class TestReport extends TestWatcher {
 	}
 
 	public static boolean caseExisted(final HSSFSheet sheet) {
-		if (failedCaseRowNumInReport(sheet) > 0) {
-			return true;
-		} else {
-			return false;
-		}
+		
+		return failedCaseRowNumInReport(sheet) > 0 ? true: false; 
 	}
 
 	private void writeToExcel(final String sheetName, final String info, final boolean passed){
@@ -193,26 +175,18 @@ public class TestReport extends TestWatcher {
 		if (TestReport.caseExisted(sheet)) {
 			detailCell = row.getCell(1);
 			if (detailCell == null) {
-
-				// orginalDetail="Pls check this case in sheet="+sheet.getSheetName()
-				// +" case= "+casename+" row "+ TestReport.current_row;
-				// System.out.println("Pls check this case in sheet="+sheet.getSheetName()
-				// +" case= "+casename+" row "+ TestReport.current_row);
 				detailCell = row.createCell(1);
-			} else
+			} else{
 				orginalDetail = System.lineSeparator()
 						+ detailCell.getStringCellValue();
+			}
 		} else {
 			detailCell = row.createCell(1);
 		}
 		caseNameCell.setCellValue(casename);
 		if (Passed) {
-			// detailCell.setCellValue(detail+System.lineSeparator()+"TestReport Debug: current_report_row_in_passed_case="
-			// + TestReport.current_report_row_in_passed_case);
 			detailCell.setCellValue(detail);
 		} else {
-			// detailCell.setCellValue(orginalDetail+detail+System.lineSeparator()+"TestReport Debug: current_report_row_in_failed_case="
-			// + TestReport.current_report_row_in_failed_case);
 			detailCell.setCellValue(orginalDetail + detail);
 		}
 
@@ -224,10 +198,8 @@ public class TestReport extends TestWatcher {
 			wb.write(outFile);
 			outFile.close();
 		} catch (final FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (final IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
