@@ -3,12 +3,12 @@ package com.netdimen.config;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
+import com.google.common.collect.ImmutableMap;
 import com.netdimen.utils.Checker;
 import com.netdimen.utils.MapFormatUtils;
 
@@ -77,30 +77,31 @@ public class Config {
 			prop.load(input);
 
 			if (!(prop.getProperty("test.report.dir") == null)) {
-				final Map<String, String> map = new HashMap<String, String>();
-				map.put("IP", prop.getProperty("IP"));
-				map.put("port", prop.getProperty("port"));
-				map.put("domain", prop.getProperty("domain"));
-				map.put("configDir", prop.getProperty("configDir"));
-				map.put("resourceDir", prop.getProperty("resourceDir"));
-				map.put("test.report.dir", prop.getProperty("test.report.dir"));
-				map.put("screenShotDir", prop.getProperty("screenShotDir"));
-				map.put("skikuliDir", prop.getProperty("skikuliDir"));
-				map.put("tomcatDir", System.getenv("CATALINA_HOME")
-						+ "/webapps");
-				map.put("ImplicitWait_millis",
-						prop.getProperty("ImplicitWait_millis"));
-				map.put("ExplicitWait_millis",
-						prop.getProperty("ExplicitWait_millis"));
-				map.put("HighlightElement_millis",
-						prop.getProperty("HighlightElement_millis"));
-				map.put("dateFormat", prop.getProperty("dateFormat"));
+				final Map<String, String> map = ImmutableMap
+						.<String, String> builder()
+						.put("IP", prop.getProperty("IP"))
+						.put("port", prop.getProperty("port"))
+						.put("domain", prop.getProperty("domain"))
+						.put("configDir", prop.getProperty("configDir"))
+						.put("resourceDir", prop.getProperty("resourceDir"))
+						.put("test.report.dir",
+								prop.getProperty("test.report.dir"))
+						.put("screenShotDir", prop.getProperty("screenShotDir"))
+						.put("skikuliDir", prop.getProperty("skikuliDir"))
+						.put("tomcatDir",
+								System.getenv("CATALINA_HOME") + "/webapps")
+						.put("ImplicitWait_millis",
+								prop.getProperty("ImplicitWait_millis"))
+						.put("ExplicitWait_millis",
+								prop.getProperty("ExplicitWait_millis"))
+						.put("HighlightElement_millis",
+								prop.getProperty("HighlightElement_millis"))
+						.put("dateFormat", prop.getProperty("dateFormat"))
+						.put("baseURL", prop.getProperty("baseURL")).build();
+
 				prop.setProperty("baseURL",
 						MapFormatUtils.format(prop.getProperty("baseURL"), map));
-				map.put("baseURL", prop.getProperty("baseURL"));
-
-				// replace the {baseURL} with = prop.getProperty("baseURL") in
-				// loginURL property
+				
 				for (final Iterator iter = prop.keySet().iterator(); iter.hasNext();) {
 					final String key = (String) iter.next();
 					prop.setProperty(key,
