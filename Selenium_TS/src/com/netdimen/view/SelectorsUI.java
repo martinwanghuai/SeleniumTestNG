@@ -11,7 +11,6 @@ import com.netdimen.utils.WebDriverUtils;
 public class SelectorsUI {
 
 	private SelectorsUI() {
-		// Suppress default constructor for non-instantiability
 		throw new AssertionError();
 	}
 
@@ -35,9 +34,9 @@ public class SelectorsUI {
 	 * @param selector
 	 * @param keyword
 	 */
-	public static void PopUp_Selector(WebDriver driver, PopUpSelector selector,
-			String keyword) {
-		ArrayList<String> keywords = new ArrayList<String>();
+	public static void PopUp_Selector(final WebDriver driver, final PopUpSelector selector,
+			final String keyword) {
+		final ArrayList<String> keywords = new ArrayList<String>();
 		keywords.add(keyword);
 		PopUp_Selector(driver, selector, keywords);
 	}
@@ -52,8 +51,8 @@ public class SelectorsUI {
 	 * @param selector
 	 * @param keywords
 	 */
-	public static void PopUp_Selector(WebDriver driver, PopUpSelector selector,
-			ArrayList<String> keywords) {
+	public static void PopUp_Selector(final WebDriver driver, final PopUpSelector selector,
+			final ArrayList<String> keywords) {
 
 		switch (selector) {
 		case UserSelector:
@@ -72,7 +71,7 @@ public class SelectorsUI {
 			break;
 		case TreeSelector_Radio: // Org/Catalog: Report R015> Organization
 									// Parameter
-			String keyword = keywords.get(0);
+			final String keyword = keywords.get(0);
 			tree_radio_Selector(driver, keyword);
 			break;
 		case InnerUserSelector:// CDC->Assessment->Peer Reviewer selector
@@ -87,9 +86,8 @@ public class SelectorsUI {
 			// (driver, keywords.get(0));
 			break;
 		default:
-			System.out
-					.println("warning: selector not support yet in WebDriverUtils:"
-							+ "PopUp_Selector(WebDriver driver, WebElementWrapper web)");
+			throw new AssertionError("warning: selector not support yet in WebDriverUtils:"
+					+ "PopUp_Selector(WebDriver driver, WebElementWrapper web)");
 		}
 	}
 
@@ -100,12 +98,11 @@ public class SelectorsUI {
 	 * @param web
 	 * @param keywords
 	 */
-	private static void general_Selector(WebDriver driver, String pagename,
-			ArrayList<String> keywords) {
+	private static void general_Selector(final WebDriver driver, final String pagename,
+			final ArrayList<String> keywords) {
 		if (keywords.size() > 0) {
 			By by = null;
-			// WebElementWrapper searchElm = null;
-			for (String keyword : keywords) {
+			for (final String keyword : keywords) {
 				by = XMLWebElementManager.getInstance().getBy(pagename,
 						"SearchText");
 				WebDriverUtils.fillin_textbox(driver, by, keyword);
@@ -115,7 +112,7 @@ public class SelectorsUI {
 				WebDriverUtils.clickButton(driver, by);
 
 				by = By.id("avlParmSelector");
-				int index = 0;
+				final int index = 0;
 				WebDriverUtils.select_selector(driver, by, index);
 
 				by = XMLWebElementManager.getInstance().getBy(pagename,
@@ -136,12 +133,12 @@ public class SelectorsUI {
 	 * @param web
 	 * @param keywords
 	 */
-	private static void UserIDValidator(WebDriver driver, String pagename,
-			ArrayList<String> keywords) {
+	private static void UserIDValidator(final WebDriver driver, final String pagename,
+			final ArrayList<String> keywords) {
 		if (keywords.size() > 0) {
 			By by = null;
 
-			for (String keyword : keywords) {
+			for (final String keyword : keywords) {
 
 				by = XMLWebElementManager.getInstance().getBy(pagename,
 						"DataEntryList");
@@ -163,13 +160,13 @@ public class SelectorsUI {
 	 * @param driver
 	 * @param keywords
 	 */
-	public static void tree_chkbox_Selector(WebDriver driver,
-			ArrayList<String> keywords) {
+	public static void tree_chkbox_Selector(final WebDriver driver,
+			final ArrayList<String> keywords) {
 		By by = By
 				.linkText(Config.getInstance().getProperty("link.ExpandTree"));
 		WebDriverUtils.clickLink(driver, by);
 
-		for (String keyword : keywords) {
+		for (final String keyword : keywords) {
 			tree_chkbox_Selector_single(driver, keyword);
 		}
 
@@ -184,18 +181,14 @@ public class SelectorsUI {
 	 * @param driver
 	 * @param keyword
 	 */
-	private static void tree_chkbox_Selector_single(WebDriver driver,
-			String keyword) {
+	private static void tree_chkbox_Selector_single(final WebDriver driver,
+			final String keyword) {
 		By by = null;
 
 		if (!keyword.equals("")) {
 			String xpath = "";
 
 			if (!keyword.contains("/")) {
-				/*
-				 * xpath = "//tr[descendant::td[contains(text(),'" + keyword +
-				 * "')]]/td/input[@type='CHECKBOX'][1]";
-				 */
 
 				xpath = "//tr[descendant::td[text()='" + keyword.trim()
 						+ "']]/td/input[@type='CHECKBOX'][1]";
@@ -203,8 +196,8 @@ public class SelectorsUI {
 				by = By.xpath(xpath);
 				WebDriverUtils.check_checkbox(driver, by);
 			} else {
-				String[] keywords = keyword.split("/");
-				String str = keywords[keywords.length - 1];
+				final String[] keywords = keyword.split("/");
+				final String str = keywords[keywords.length - 1];
 				tree_chkbox_Selector_single(driver, str);
 			}
 		}
@@ -216,7 +209,7 @@ public class SelectorsUI {
 	 * @param driver
 	 * @param keyword
 	 */
-	public static void tree_radio_Selector(WebDriver driver, String keyword) {
+	public static void tree_radio_Selector(final WebDriver driver, final String keyword) {
 		By by = By
 				.linkText(Config.getInstance().getProperty("link.ExpandTree"));
 		WebDriverUtils.clickLink(driver, by);
@@ -234,27 +227,22 @@ public class SelectorsUI {
 	 * @param keyword
 	 */
 
-	private static void tree_radio_Selector_single(WebDriver driver,
-			String keyword) {
+	private static void tree_radio_Selector_single(final WebDriver driver,
+			final String keyword) {
 		By by = null;
 
 		if (!keyword.equals("")) {
 			String xpath = "";
 
 			if (!keyword.contains("/")) {
-				/*
-				 * xpath = "//tr[descendant::td[contains(text(),'" + keyword +
-				 * "')]]/td/input[@type='CHECKBOX'][1]";
-				 */
-
 				xpath = "//tr[descendant::td[text()='" + keyword
 						+ "']]/td/input[@type='RADIO'][1]";
 
 				by = By.xpath(xpath);
 				WebDriverUtils.check_checkbox(driver, by);
 			} else {
-				String[] keywords = keyword.split("/");
-				String str = keywords[keywords.length - 1];
+				final String[] keywords = keyword.split("/");
+				final String str = keywords[keywords.length - 1];
 				tree_radio_Selector_single(driver, str);
 			}
 		}

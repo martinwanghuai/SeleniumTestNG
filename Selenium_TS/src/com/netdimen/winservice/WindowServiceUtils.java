@@ -27,7 +27,7 @@ public final class WindowServiceUtils extends WindowCMD {
 		throw new Exception("Default constructor is not allowed.");
 	}
 
-	public WindowServiceUtils(String ServiceName) {
+	public WindowServiceUtils(final String ServiceName) {
 		this.strServiceName = ServiceName;
 		this.commandScript.add("sc");
 
@@ -55,13 +55,16 @@ public final class WindowServiceUtils extends WindowCMD {
 		StartService();
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	protected void executeCMD() {
 
 		String[] commmandArr = new String[commandScript.size()];
 		commmandArr = commandScript.toArray(commmandArr);
-		for (String s : commmandArr)
+		for (final String s : commmandArr){
 			System.out.println(s);
+		}
+			
 		// You will probably be prompted for the password with following command
 		// String startCommandScript[] = { "runas.exe", "/user:Administrator",
 		// "sc", "Start", "OracleServiceXE" };
@@ -69,9 +72,9 @@ public final class WindowServiceUtils extends WindowCMD {
 		Process process;
 		try {
 			process = new ProcessBuilder(commmandArr).start();
-			InputStream is = process.getInputStream();
-			InputStreamReader isr = new InputStreamReader(is);
-			BufferedReader br = new BufferedReader(isr);
+			final InputStream is = process.getInputStream();
+			final InputStreamReader isr = new InputStreamReader(is);
+			final BufferedReader br = new BufferedReader(isr);
 			String line;
 
 			// System.out.printf("Output of running cmd /c dir is:");
@@ -88,15 +91,8 @@ public final class WindowServiceUtils extends WindowCMD {
 			is.close();
 			process.destroy();
 
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 	}
-
-	public static void main(String[] args) {
-		WindowServiceUtils OracleService = new WindowServiceUtils(
-				"OracleServiceXE");
-		OracleService.ReStartService();
-	}
-
 }

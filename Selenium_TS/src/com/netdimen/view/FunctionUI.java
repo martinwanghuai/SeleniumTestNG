@@ -1,7 +1,5 @@
 package com.netdimen.view;
 
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,7 +7,6 @@ import java.util.Iterator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import com.netdimen.config.Config;
 import com.netdimen.utils.CriteriaParser;
 import com.netdimen.utils.WebDriverUtils;
 
@@ -24,9 +21,7 @@ import com.netdimen.utils.WebDriverUtils;
  */
 public class FunctionUI {
 
-	// Suppress default constructor for noninstantiability
 	private FunctionUI() {
-
 		throw new AssertionError();
 	}
 
@@ -36,10 +31,10 @@ public class FunctionUI {
 	 * @param driver
 	 * @param moduleid
 	 */
-	public static void SearchModuleInManagerCenter(WebDriver driver,
-			String moduleId) {
+	public static void SearchModuleInManagerCenter(final WebDriver driver,
+			final String moduleId) {
 
-		By by = By.id(Navigator.xmlWebElmtMgr.getWebElementWrapper(
+		final By by = By.id(Navigator.xmlWebElmtMgr.getWebElementWrapper(
 				"ManageCenter", "SearchModule").getElementValue());
 		driver.findElement(by).clear();
 		driver.findElement(by).sendKeys(moduleId);
@@ -54,8 +49,9 @@ public class FunctionUI {
 	 * @param values
 	 * @param by
 	 */
-	public static void setOrgAttributes_UI(WebDriver driver,
-			ArrayList<String> values, By by) {
+	public static void setOrgAttributes_UI(final WebDriver driver,
+			final ArrayList<String> values, final By by) {
+		
 		Navigator.explicitWait();
 		WebDriverUtils.clickButton(driver, by);
 		FunctionUI.setOrgAttributes_UI(driver, values.toArray(new String[0]));
@@ -72,8 +68,9 @@ public class FunctionUI {
 	 * @param str_participants
 	 * @param by
 	 */
-	public static void setParticipants_UI(WebDriver driver,
-			String str_participants, By by) {
+	public static void setParticipants_UI(final WebDriver driver,
+			final String str_participants, final By by) {
+		
 		FunctionUI.setParticipants_UI(driver,
 				CriteriaParser.parseKeyValueList(":", null, str_participants),
 				by);
@@ -87,15 +84,16 @@ public class FunctionUI {
 	 * @param webElement
 	 *            : Web Element for "Organization Attributes"
 	 */
-	public static void setParticipants_UI(WebDriver driver,
-			HashMap<String, ArrayList<String>> criteria_values, By webElement) {
-		Iterator<String> criteria_ite = criteria_values.keySet().iterator();
+	public static void setParticipants_UI(final WebDriver driver,
+			final HashMap<String, ArrayList<String>> criteria_values, final By webElement) {
+		
+		final Iterator<String> criteria_ite = criteria_values.keySet().iterator();
 		while (criteria_ite.hasNext()) {
 			// Organization Attributes:Org_Numeric=0 to 200
-			String criteria = criteria_ite.next(); // criteria =
+			final String criteria = criteria_ite.next(); // criteria =
 													// Organization
 													// Attributes
-			ArrayList<String> values = criteria_values.get(criteria);// values =
+			final ArrayList<String> values = criteria_values.get(criteria);// values =
 																		// Org_Numeric=0
 																		// to
 																		// 200
@@ -106,7 +104,7 @@ public class FunctionUI {
 				break;
 
 			case "organization":
-				By by = By.xpath("//a[contains(text(),'Organization')]");
+				final By by = By.xpath("//a[contains(text(),'Organization')]");
 				WebDriverUtils.clickLink(driver, by);
 				WebDriverUtils.switchToPopUpWin(driver);
 				Navigator.explicitWait(1000);
@@ -128,9 +126,10 @@ public class FunctionUI {
 	 * @param driver
 	 * @param path
 	 */
-	public static void expandTree_UI(WebDriver driver, String path) {
+	public static void expandTree_UI(final WebDriver driver, final String path) {
 		if (!path.equals("")) {
-			String[] nodes = path.split("/");
+			
+			final String[] nodes = path.split("/");
 			String xpath_parent = "//li[descendant::span/a[contains(text(),'"
 					+ nodes[0].trim() + "')]]/";
 			By by = null;
@@ -153,19 +152,19 @@ public class FunctionUI {
 	 * @param orgAttributes
 	 *            : e.g., Org_DropDown=list2-CS;Org_Numeric=0 to 200\n
 	 */
-	public static void setOrgAttributes_UI(WebDriver driver,
-			String[] orgAttributes) {
+	public static void setOrgAttributes_UI(final WebDriver driver,
+			final String[] orgAttributes) {
 
 		By by = null;
 		// values = Org_DropDown=list2-CS;Org_Numeric=0 to 200\n
-		for (String value : orgAttributes) { // value: Org_Numeric = 0 to 200
-			String value_tmp = value.toLowerCase();
+		for (final String value : orgAttributes) { // value: Org_Numeric = 0 to 200
+			final String value_tmp = value.toLowerCase();
 			if (value_tmp.contains("org_numeric")) {
 				by = By.xpath("//label[contains(text(),'Org_Numeric')]/input[1]");
 				Navigator.explicitWait(1000);
 				WebDriverUtils.check_checkbox(driver, by);
 
-				String[] strs = value.split("=")[1].split("to");
+				final String[] strs = value.split("=")[1].split("to");
 
 				by = By.xpath("//label[contains(text(),'Org_Numeric')]/input[2]");
 				Navigator.explicitWait(1000);
@@ -179,7 +178,7 @@ public class FunctionUI {
 				Navigator.explicitWait(1000);
 				WebDriverUtils.check_checkbox(driver, by);
 
-				String str = value.split("=")[1];
+				final String str = value.split("=")[1];
 
 				by = By.xpath("//div[descendant::div/label[contains(text(),'Org_FreeText')]]/div[2]/div/input");
 				Navigator.explicitWait(1000);
@@ -190,7 +189,7 @@ public class FunctionUI {
 				WebDriverUtils.check_checkbox(driver, by);
 
 				// value = Org_DropDown=list2-CS
-				String str = value.split("=")[1];
+				final String str = value.split("=")[1];
 
 				by = By.xpath("//div[contains(text(),'" + str
 						+ "')]/input[@type='CHECKBOX']");
@@ -202,14 +201,15 @@ public class FunctionUI {
 				Navigator.explicitWait(1000);
 				WebDriverUtils.check_checkbox(driver, by);
 
-				String str = value.split("=")[1];
+				final String str = value.split("=")[1];
 				by = By.xpath("//textarea[@class='org-attr-textarea large required']");
 				WebDriverUtils.fillin_textbox(driver, by, str);
 			}
 		}
 	}
 
-	public static void fillESignature(WebDriver driver, String UID, String PWD) {
+	public static void fillESignature(final WebDriver driver, final String UID, final String PWD) {
+		
 		driver.findElement(By.id("ESIGNATURE-username")).clear();
 		driver.findElement(By.id("ESIGNATURE-username")).sendKeys(UID);
 		driver.findElement(By.id("ESIGNATURE-password")).clear();
@@ -225,10 +225,11 @@ public class FunctionUI {
 	 * @param driver
 	 * @param keywords
 	 */
-	public static void searchInAjaxSearchBox(WebDriver driver,
-			ArrayList<String> keywords) {
+	public static void searchInAjaxSearchBox(final WebDriver driver,
+			final ArrayList<String> keywords) {
+		
 		if (keywords != null) {
-			for (String keyword : keywords) {
+			for (final String keyword : keywords) {
 				Navigator.explicitWait(1000);
 				By by = By.id("SEARCHMODELCOMP_input");
 				driver.findElement(by).clear();
@@ -245,16 +246,18 @@ public class FunctionUI {
 		}
 	}
 
-	public static String XpathCalendarIcon(WebDriver driver, String name) {
-		String xpath = "//div[@class='date-container'][descendant::div/input[@name='"
+	public static String XpathCalendarIcon(final WebDriver driver, final String name) {
+		
+		final String xpath = "//div[@class='date-container'][descendant::div/input[@name='"
 				+ name + "']]/div[@class='date-button-container']/a";
 		return xpath;
 	}
 
-	public static void setDates_UI(WebDriver driver, String sDate,
-			String inputname) {
+	public static void setDates_UI(final WebDriver driver, final String sDate,
+			final String inputname) {
+		
 		if (!sDate.equals("")) {
-			String xpath_calendar = FunctionUI.XpathCalendarIcon(driver,
+			final String xpath_calendar = FunctionUI.XpathCalendarIcon(driver,
 					inputname);
 			WebDriverUtils.dateSelect_Calandar(driver, sDate, xpath_calendar);
 		}

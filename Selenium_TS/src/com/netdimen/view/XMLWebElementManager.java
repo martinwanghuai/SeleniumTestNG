@@ -18,6 +18,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.google.common.collect.Lists;
 import com.netdimen.config.Config;
 
 public class XMLWebElementManager {
@@ -25,22 +26,22 @@ public class XMLWebElementManager {
 	private Document m_doc;
 	private static XMLWebElementManager instance;
 
-	private XMLWebElementManager(String xmlfile) {
+	private XMLWebElementManager(final String xmlfile) {
+		
 		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory
+			final DocumentBuilderFactory factory = DocumentBuilderFactory
 					.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			File Xml = new File(xmlfile);
+			final DocumentBuilder builder = factory.newDocumentBuilder();
+			final File Xml = new File(xmlfile);
 			m_doc = builder.parse(new FileInputStream(Xml));
 		} catch (IOException | SAXException | ParserConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	public static XMLWebElementManager getInstance() {
-		// String xmlfile = "./Conf/WebElements.xml";
-		String xmlfile = System.getProperty("user.dir") + "\\"
+		
+		final String xmlfile = System.getProperty("user.dir") + "\\"
 				+ Config.getInstance().getProperty("XMLWebElements");
 		if (instance == null) {
 			synchronized (XMLWebElementManager.class) { // Add a synch block
@@ -53,52 +54,53 @@ public class XMLWebElementManager {
 		return instance;
 	}
 
-	public By getBy(String parentNodeName, String targetChildName) {
-		WebElementWrapper webElm = getWebElementWrapper(parentNodeName,
+	public By getBy(final String parentNodeName, final String targetChildName) {
+		final WebElementWrapper webElm = getWebElementWrapper(parentNodeName,
 				targetChildName);
 		return webElm.getBy();
 	}
 
-	private int getChildCount(String parentTag, int parentIndex, String childTag) {
-		NodeList list = m_doc.getElementsByTagName(parentTag);
-		Element parent = (Element) list.item(parentIndex);
-		NodeList childList = parent.getElementsByTagName(childTag);
+	private int getChildCount(final String parentTag, final int parentIndex, final String childTag) {
+		final NodeList list = m_doc.getElementsByTagName(parentTag);
+		final Element parent = (Element) list.item(parentIndex);
+		final NodeList childList = parent.getElementsByTagName(childTag);
 		return childList.getLength();
 	}
 
-	private String getChildValue(String parentTag, int parentIndex,
-			String childTag, int childIndex) {
-		NodeList list = m_doc.getElementsByTagName(parentTag);
-		Element parent = (Element) list.item(parentIndex);
-		NodeList childList = parent.getElementsByTagName(childTag);
-		Element field = (Element) childList.item(childIndex);
-		Node child = field.getFirstChild();
+	private String getChildValue(final String parentTag, final int parentIndex,
+			final String childTag, final int childIndex) {
+		final NodeList list = m_doc.getElementsByTagName(parentTag);
+		final Element parent = (Element) list.item(parentIndex);
+		final NodeList childList = parent.getElementsByTagName(childTag);
+		final Element field = (Element) childList.item(childIndex);
+		final Node child = field.getFirstChild();
 		if (child instanceof CharacterData) {
-			CharacterData cd = (CharacterData) child;
+			final CharacterData cd = (CharacterData) child;
 			return cd.getData();
 		}
 		return "";
 	}
 
-	private String getChildAttribute(String parentTag, int parentIndex,
-			String childTag, int childIndex, String attributeTag) {
-		NodeList list = m_doc.getElementsByTagName(parentTag);
-		Element parent = (Element) list.item(parentIndex);
-		NodeList childList = parent.getElementsByTagName(childTag);
-		Element element = (Element) childList.item(childIndex);
+	private String getChildAttribute(final String parentTag, final int parentIndex,
+			final String childTag, final int childIndex, final String attributeTag) {
+		final NodeList list = m_doc.getElementsByTagName(parentTag);
+		final Element parent = (Element) list.item(parentIndex);
+		final NodeList childList = parent.getElementsByTagName(childTag);
+		final Element element = (Element) childList.item(childIndex);
 		return element.getAttribute(attributeTag);
 	}
 
-	private Element getChild(String parentName, String targetChildName) {
-		NodeList list = m_doc.getElementsByTagName(parentName);
-		if (list.getLength() > 2 || list.getLength() < 1)
+	private Element getChild(final String parentName, final String targetChildName) {
+		final NodeList list = m_doc.getElementsByTagName(parentName);
+		if (list.getLength() > 2 || list.getLength() < 1){
 			return null; // Error in xml document as there should be only one
-							// parent element in xml files
-		Element parent = (Element) list.item(0);// get the parent element
-		ArrayList<Node> child = new ArrayList<Node>();
+			// parent element in xml files
+		}
+
+		final ArrayList<Node> child = Lists.newArrayList();
 		visitRecursively(list.item(0), targetChildName, child);
 		if (child.size() == 0) {
-			throw new RuntimeException("Cannot find the targer child element="
+			throw new AssertionError("Cannot find the targer child element="
 					+ targetChildName);
 		}
 		return (Element) child.get(0);
@@ -110,26 +112,24 @@ public class XMLWebElementManager {
 	 * @param targetChildName
 	 * @return
 	 */
-	public WebElementWrapper getWebElementWrapper(String parentNodeName,
-			String targetChildName) {
+	public WebElementWrapper getWebElementWrapper(final String parentNodeName,
+			final String targetChildName) {
 		return createWebElementWrapperFromXMLElement(getChild(parentNodeName,
 				targetChildName));
 	}
 
-	private void visitRecursively(Node node, String targetChildName,
-			ArrayList<Node> child) {
+	private void visitRecursively(final Node node, final String targetChildName,
+			final ArrayList<Node> child) {
 
 		// get all child nodes
-		NodeList list = node.getChildNodes();
+		final NodeList list = node.getChildNodes();
 
 		for (int i = 0; i < list.getLength(); i++) {
 			// get child node
 
-			Node childNode = list.item(i);
+			final Node childNode = list.item(i);
 			if (childNode.getNodeType() == Node.ELEMENT_NODE
 					&& targetChildName.equals(childNode.getNodeName())) {
-				// System.out.println("Found Node: " + childNode.getNodeName()+
-				// " - with value: " + childNode.getNodeValue());
 				child.add(childNode);
 			}
 			// visit child node
@@ -139,7 +139,7 @@ public class XMLWebElementManager {
 	}
 
 	private WebElementWrapper createWebElementWrapperFromXMLElement(
-			Element element) {
+			final Element element) {
 		String type = "", id, value = "";
 		String parameter = "";
 		id = element.getNodeName();
@@ -186,10 +186,10 @@ public class XMLWebElementManager {
 	}
 
 	public ArrayList<WebElementWrapper> getNavigationPathList(
-			String parentNodeName, String targetChildName) {
+			final String parentNodeName, final String targetChildName) {
 
-		ArrayList<WebElementWrapper> list = new ArrayList<WebElementWrapper>();
-		ArrayList<Element> elementsList = new ArrayList<Element>();
+		final ArrayList<WebElementWrapper> list = new ArrayList<WebElementWrapper>();
+		final ArrayList<Element> elementsList = new ArrayList<Element>();
 		Element elemt = getChild(parentNodeName, targetChildName);
 		elementsList.add(elemt);
 		do {
@@ -199,28 +199,10 @@ public class XMLWebElementManager {
 		Collections.reverse(elementsList);
 
 		for (int i = 0; i < elementsList.size(); i++) {
-			Element element = (Element) (elementsList.get(i));
-			// if (!element.getNodeName().equals(parentNodeName)){
+			final Element element = (elementsList.get(i));
 			list.add(createWebElementWrapperFromXMLElement(element));
-			// }
 		}
 		return list;
 
-	}
-
-	public static void main(String[] args) {
-		try {
-			// XMLWebElementManager doc = new
-			// XMLWebElementManager("./Conf/WebElements.xml");
-			XMLWebElementManager doc = XMLWebElementManager.getInstance();
-			ArrayList<WebElementWrapper> list = doc.getNavigationPathList(
-					"LearningCenter", "OrgUserReview");
-			for (WebElementWrapper elem : list) {
-				System.out.println(elem.getElementValue());
-			}
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
 	}
 }

@@ -3,7 +3,6 @@ package com.netdimen.view;
 import org.openqa.selenium.By;
 
 import com.netdimen.config.Config;
-import com.netdimen.utils.Checker;
 
 /**
  * 
@@ -15,7 +14,6 @@ public class WebElementWrapper {
 	private String id;
 	private By by;
 	private String parentId;
-	// private String expectMsg;
 	public static final String ROOT = "ROOT";
 	public static final String ByClassName = "CLASSNAME";
 	public static final String ByCssSelector = "CSSSELECTOR";
@@ -35,7 +33,7 @@ public class WebElementWrapper {
 		return parameter;
 	}
 
-	public void setParameter(String parameter) {
+	public void setParameter(final String parameter) {
 		this.parameter = parameter;
 	}
 
@@ -43,7 +41,7 @@ public class WebElementWrapper {
 		return topMenu;
 	}
 
-	public void setTopMenu(boolean topMenu) {
+	public void setTopMenu(final boolean topMenu) {
 		this.topMenu = topMenu;
 	}
 
@@ -64,8 +62,8 @@ public class WebElementWrapper {
 	 * @throws Exception
 	 *             if type is not supported
 	 */
-	public WebElementWrapper(String id, String type, String value,
-			String parameter, boolean topMenu, String parentId) {
+	public WebElementWrapper(final String id, final String type, final String value,
+			final String parameter, final boolean topMenu, final String parentId) {
 		this.setId(id);
 		this.setElementType(type);
 		this.setElementValue(value);
@@ -73,11 +71,10 @@ public class WebElementWrapper {
 		this.setParameter(parameter);
 		this.setTopMenu(topMenu);
 		this.setBy(this.constructBy(type, value, parameter, topMenu));
-		// this.expectMsg=expectMsg;
 	}
 
-	private By constructBy(String type, String value, String parameter,
-			boolean topMenu) {
+	private By constructBy(final String type, String value, final String parameter,
+			final boolean topMenu) {
 		By by = null;
 		switch (type.toUpperCase()) {
 		case ByClassName:
@@ -110,9 +107,9 @@ public class WebElementWrapper {
 			break;
 		case ByXPath:// self customized xpath
 			if (parameter.equals(WebElementWrapper.LABLEKEY)) {
-				String labelKey = value.split("'")[1]; // example:
+				final String labelKey = value.split("'")[1]; // example:
 														// xpath=//a[descendant::span[text()='menu.org.user.review']]
-				String label_text = Config.getInstance().getProperty(labelKey);
+				final String label_text = Config.getInstance().getProperty(labelKey);
 				value = value.replace(labelKey, label_text);
 				by = By.xpath(value);
 			} else {
@@ -120,10 +117,8 @@ public class WebElementWrapper {
 			}
 			break;
 		default:
-			System.out
-					.println("WebElementWrapper does not support such WebElement type="
-							+ this.ElementType);
-			break;
+			throw new AssertionError("WebElementWrapper does not support such WebElement type="
+					+ this.ElementType);
 		}
 
 		return by;
@@ -133,13 +128,13 @@ public class WebElementWrapper {
 		return ElementType;
 	}
 
-	public void setElementType(String elementType) {
+	public void setElementType(final String elementType) {
 		ElementType = elementType;
 	}
 
 	public String getElementValue() {
 		if (ElementValue.contains("?")) {
-			throw new RuntimeException(
+			throw new AssertionError(
 					"Error>>WebElementWrapper:paramters is not set yet "
 							+ ElementValue
 							+ "Pls use setParamter(String[] parameters)  to replace ? before call getElementValue");
@@ -148,7 +143,7 @@ public class WebElementWrapper {
 		}
 	}
 
-	public void setElementValue(String elementValue) {
+	public void setElementValue(final String elementValue) {
 		ElementValue = elementValue;
 	}
 
@@ -156,7 +151,7 @@ public class WebElementWrapper {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(final String id) {
 		this.id = id;
 	}
 
@@ -164,7 +159,7 @@ public class WebElementWrapper {
 		return by;
 	}
 
-	public void setBy(By by) {
+	public void setBy(final By by) {
 		this.by = by;
 	}
 
@@ -172,7 +167,7 @@ public class WebElementWrapper {
 		return parentId;
 	}
 
-	public void setParentId(String parentId) {
+	public void setParentId(final String parentId) {
 		this.parentId = parentId;
 	}
 
@@ -181,10 +176,10 @@ public class WebElementWrapper {
 	 * @param parameters
 	 *            to replace the "?" in the element value
 	 */
-	public void setParamters(String[] parameters) {
+	public void setParamters(final String[] parameters) {
 		// check if value has "?" to replace
 		if (this.ElementValue.contains("?")) {
-			String[] splited = this.ElementValue.split("[?]");
+			final String[] splited = this.ElementValue.split("[?]");
 			if (splited.length == parameters.length + 1) {
 				this.ElementValue = "";
 				for (int i = 0; i < splited.length - 1; i++) {
@@ -194,16 +189,12 @@ public class WebElementWrapper {
 				this.ElementValue = this.ElementValue
 						+ splited[splited.length - 1];
 			} else {
-				System.out
-						.println("Error>>WebElementWrapper: setParamter: parameters size is not matched");
-				throw new RuntimeException(
+				throw new AssertionError(
 						"Error>>WebElementWrapper: setParamter: parameters size is not matched");
 			}
 			by = By.xpath(this.ElementValue);
 		} else {
-			System.out
-					.println("Error>>WebElementWrapper: setParamter: parameters not existed");
-			throw new RuntimeException(
+			throw new AssertionError(
 					"Error>>WebElementWrapper: setParamter: parameters not existed");
 		}
 

@@ -19,8 +19,8 @@ import com.netdimen.utils.WebDriverUtils;
  */
 public class TSSystemUI {
 
-	public boolean equals(com.netdimen.abstractclasses.TestObject para0) {
-		boolean result = true;
+	public boolean equals(final com.netdimen.abstractclasses.TestObject para0) {
+		final boolean result = true;
 		return result;
 	}
 
@@ -36,14 +36,14 @@ public class TSSystemUI {
 	 * @param driver
 	 * @param task
 	 */
-	public static void runScheduledTask(WebDriver driver, String task) {
+	public static void runScheduledTask(final WebDriver driver, final String task) {
 		Navigator.navigate(driver, Navigator.xmlWebElmtMgr
 				.getNavigationPathList("ManageCenter", "ScheduledTasks"));
 
 		String frequency = "", type = "";
-		HashMap<String, ArrayList<String>> tasks = CriteriaParser
+		final HashMap<String, ArrayList<String>> tasks = CriteriaParser
 				.parseKeyValueList(":", "", task);
-		Iterator<String> keySetIterator = tasks.keySet().iterator();
+		final Iterator<String> keySetIterator = tasks.keySet().iterator();
 		By by = null;
 		while (keySetIterator.hasNext()) {
 			frequency = keySetIterator.next();
@@ -62,7 +62,6 @@ public class TSSystemUI {
 					Labels.Msg_Tasks_Completed.toString()),
 					"Fail as Schedule Task is not completed successfully, task type="
 							+ type);
-
 		}
 	}
 
@@ -76,14 +75,14 @@ public class TSSystemUI {
 	 * @param driver
 	 * @param conf
 	 */
-	public static void setupSystemConf(WebDriver driver, String conf) {
+	public static void setupSystemConf(final WebDriver driver, final String conf) {
 		String key = "", value = "";
-		HashMap<String, ArrayList<String>> confs = CriteriaParser
+		final HashMap<String, ArrayList<String>> confs = CriteriaParser
 				.parseKeyValueList(":", "", conf);
 		Navigator.navigate(driver, Navigator.xmlWebElmtMgr
 				.getNavigationPathList("ManageCenter", "SystemConf"));
 
-		Iterator<String> keySetIterator = confs.keySet().iterator();
+		final Iterator<String> keySetIterator = confs.keySet().iterator();
 		By by = null;
 		while (keySetIterator.hasNext()) {
 			key = keySetIterator.next();

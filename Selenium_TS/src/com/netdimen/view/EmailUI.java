@@ -20,27 +20,25 @@ import com.netdimen.utils.WebDriverUtils;
 
 public class EmailUI {
 
-	// Suppress default constructor for noninstantiability
 	private EmailUI() {
-
 		throw new AssertionError();
 	}
 
-	public static void Send(String subject, String content) {
+	public static void Send(final String subject, final String content) {
 		// Recipient's email ID needs to be mentioned.
-		String[] recipients = Config.getInstance()
+		final String[] recipients = Config.getInstance()
 				.getProperty("mail.recipient").split(",");
 
 		// Sender's email ID needs to be mentioned
-		String from = Config.getInstance().getProperty("mail.sender");
+		final String from = Config.getInstance().getProperty("mail.sender");
 
 		// Assuming you are sending email from localhost
-		String host = Config.getInstance().getProperty("mail.smtp.host");
+		final String host = Config.getInstance().getProperty("mail.smtp.host");
 		final String username = Config.getInstance().getProperty(
 				"smtp.AuthUserName");
 		final String passw = AES_Cipher.decrypt(Config.getInstance()
 				.getProperty("smtp.AuthPassword"));
-		Properties props = new Properties();
+		final Properties props = new Properties();
 		props.put("mail.smtp.host", host);
 		props.put("mail.smtp.socketFactory.port", "465");
 		props.put("mail.smtp.socketFactory.class",
@@ -48,21 +46,22 @@ public class EmailUI {
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.port", "465");
 
-		Session session = Session.getDefaultInstance(props,
+		final Session session = Session.getDefaultInstance(props,
 				new javax.mail.Authenticator() {
+					@Override
 					protected PasswordAuthentication getPasswordAuthentication() {
 						return new PasswordAuthentication(username, passw);
 					}
 				});
 		try {
 			// Create a default MimeMessage object.
-			MimeMessage message = new MimeMessage(session);
+			final MimeMessage message = new MimeMessage(session);
 
 			// Set From: header field of the header.
 			message.setFrom(new InternetAddress(from));
 
 			// Set To: header field of the header.
-			for (String recipient : recipients) {
+			for (final String recipient : recipients) {
 				message.addRecipient(Message.RecipientType.TO,
 						new InternetAddress(recipient));
 			}
@@ -76,7 +75,7 @@ public class EmailUI {
 			// Send message
 			Transport.send(message);
 			System.out.println("Sent email successfully....");
-		} catch (MessagingException mex) {
+		} catch (final MessagingException mex) {
 			mex.printStackTrace();
 		}
 	}
@@ -90,8 +89,8 @@ public class EmailUI {
 	 *            : Expected email content
 	 */
 
-	public static void CheckInternalEmail(WebDriver driver, String title,
-			String ExpectedContent) {
+	public static void CheckInternalEmail(final WebDriver driver, final String title,
+			final String ExpectedContent) {
 		JUnitAssert.assertTrue(checkIfEmailReceived(driver, title),
 				"Fail to receive email:" + title);
 		By by = By
@@ -100,7 +99,7 @@ public class EmailUI {
 						+ "') and descendant::img[contains(@src,'envelop_unread.png')]]");
 		WebDriverUtils.clickLink(driver, by);
 		by = By.xpath("//tr[@class='internal-mail-content']");
-		String ActualContent = WebDriverUtils.getText(driver, by);
+		final String ActualContent = WebDriverUtils.getText(driver, by);
 		JUnitAssert.assertTrue(ActualContent.contains(ExpectedContent),
 				"Email Content is wrong. Expected Result:" + ExpectedContent
 						+ ";Actual Result:" + ActualContent);
@@ -113,13 +112,13 @@ public class EmailUI {
 	 * @param EmailTitle
 	 * @return
 	 */
-	public static Boolean checkIfEmailReceived(WebDriver driver,
-			String EmailTitle) {
+	public static Boolean checkIfEmailReceived(final WebDriver driver,
+			final String EmailTitle) {
 
 		Navigator.navigate(driver, Navigator.xmlWebElmtMgr
 				.getNavigationPathList("LearningCenter", "MyEmails"));
 
-		By by = By
+		final By by = By
 				.xpath("//a[contains(text(),'"
 						+ EmailTitle
 						+ "') and descendant::img[contains(@src,'envelop_unread.png')]]");

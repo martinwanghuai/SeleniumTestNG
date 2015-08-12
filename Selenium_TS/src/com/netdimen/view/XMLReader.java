@@ -1,8 +1,12 @@
 package com.netdimen.view;
 
-import java.io.*;
-import org.xml.sax.*;
-import javax.xml.parsers.*;
+import java.io.File;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class XMLReader extends DefaultHandler {
@@ -13,8 +17,8 @@ public class XMLReader extends DefaultHandler {
 	static boolean displayBoolean;
 	static String findNode;
 
-	public static void main(String args[]) {
-		XMLReader obj = new XMLReader();
+	public static void main(final String args[]) {
+		final XMLReader obj = new XMLReader();
 		findNode = "MyCurrentCourses";
 		obj.childLoop("./Conf/WebElements.xml");
 
@@ -23,16 +27,17 @@ public class XMLReader extends DefaultHandler {
 		}
 	}
 
-	public void childLoop(String uri) {
-		DefaultHandler saxHandler = this;
-		SAXParserFactory saxFactory = SAXParserFactory.newInstance();
+	public void childLoop(final String uri) {
+		final DefaultHandler saxHandler = this;
+		final SAXParserFactory saxFactory = SAXParserFactory.newInstance();
 		try {
-			SAXParser saxParser = saxFactory.newSAXParser();
+			final SAXParser saxParser = saxFactory.newSAXParser();
 			saxParser.parse(new File(uri), saxHandler);
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 		}
 	}
 
+	@Override
 	public void startDocument() {
 		if (displayBoolean) {
 			displayText[numberLines] = indentation;
@@ -42,7 +47,9 @@ public class XMLReader extends DefaultHandler {
 		}
 	}
 
-	public void processingInstruction(String target, String data) {
+	@Override
+	public void processingInstruction(final String target, final String data) {
+		
 		if (displayBoolean) {
 			displayText[numberLines] = indentation;
 			displayText[numberLines] += "<?";
@@ -56,21 +63,21 @@ public class XMLReader extends DefaultHandler {
 		}
 	}
 
-	public void startElement(String uri, String localName,
-			String qualifiedName, Attributes attributes) {
+	@Override
+	public void startElement(final String uri, final String localName,
+			final String qualifiedName, final Attributes attributes) {
+		
 		if (qualifiedName.equals(findNode)) {
 			displayBoolean = true;
 		}
 
 		if (displayBoolean) {
 			displayText[numberLines] = indentation;
-
 			indentation += "    ";
-
 			displayText[numberLines] += '<';
 			displayText[numberLines] += qualifiedName;
 			if (attributes != null) {
-				int numberAttributes = attributes.getLength();
+				final int numberAttributes = attributes.getLength();
 				for (int loopIndex = 0; loopIndex < numberAttributes; loopIndex++) {
 					displayText[numberLines] += ' ';
 					displayText[numberLines] += attributes.getQName(loopIndex);
@@ -84,9 +91,10 @@ public class XMLReader extends DefaultHandler {
 		}
 	}
 
-	public void characters(char characters[], int start, int length) {
+	@Override
+	public void characters(final char characters[], final int start, final int length) {
 		if (displayBoolean) {
-			String characterData = (new String(characters, start, length))
+			final String characterData = (new String(characters, start, length))
 					.trim();
 			if (characterData.indexOf("\n") < 0 && characterData.length() > 0) {
 				displayText[numberLines] = indentation;
@@ -96,13 +104,14 @@ public class XMLReader extends DefaultHandler {
 		}
 	}
 
-	public void ignorableWhitespace(char characters[], int start, int length) {
+	@Override
+	public void ignorableWhitespace(final char characters[], final int start, final int length) {
 		if (displayBoolean) {
-			// characters(ch, start, length);
 		}
 	}
 
-	public void endElement(String uri, String localName, String qualifiedName) {
+	@Override
+	public void endElement(final String uri, final String localName, final String qualifiedName) {
 		if (displayBoolean) {
 			indentation = indentation.substring(0, indentation.length() - 4);
 			displayText[numberLines] = indentation;
@@ -116,15 +125,18 @@ public class XMLReader extends DefaultHandler {
 		}
 	}
 
-	public void warning(SAXParseException exception) {
+	@Override
+	public void warning(final SAXParseException exception) {
 		System.err.println("Warning: " + exception.getMessage());
 	}
 
-	public void error(SAXParseException exception) {
+	@Override
+	public void error(final SAXParseException exception) {
 		System.err.println("Error: " + exception.getMessage());
 	}
 
-	public void fatalError(SAXParseException exception) {
+	@Override
+	public void fatalError(final SAXParseException exception) {
 		System.err.println("Fatal error: " + exception.getMessage());
 	}
 }

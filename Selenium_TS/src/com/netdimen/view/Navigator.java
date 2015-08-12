@@ -17,12 +17,9 @@ import com.netdimen.utils.WebDriverUtils;
 
 public class Navigator {
 
-	// Suppress default constructor for noninstantiability
-
 	private static ArrayList<WebElementWrapper> prevWebElementList = null;
 
 	private Navigator() {
-
 		throw new AssertionError();
 	}
 
@@ -31,24 +28,24 @@ public class Navigator {
 	}
 
 	public static void setPrevWebElementList(
-			ArrayList<WebElementWrapper> prevWebElementList) {
+			final ArrayList<WebElementWrapper> prevWebElementList) {
 		Navigator.prevWebElementList = prevWebElementList;
 	}
 
 	public static final XMLWebElementManager xmlWebElmtMgr = XMLWebElementManager
 			.getInstance();
 
-	public static void navigate(WebDriver driver,
-			ArrayList<WebElementWrapper> webElementList) {
+	public static void navigate(final WebDriver driver,
+			final ArrayList<WebElementWrapper> webElementList) {
 		navigate(driver, webElementList, null);
 	}
 
-	public static void navigate(WebDriver driver,
-			ArrayList<WebElementWrapper> webElementList, TestObject obj) {
+	public static void navigate(final WebDriver driver,
+			final ArrayList<WebElementWrapper> webElementList, final TestObject obj) {
 
 		WebDriverUtils.acceptAlertIfPresent(driver);
 		WebDriverUtils.closeAllPopUpWins(driver);
-		WebElementWrapper parentWE = webElementList.get(0);
+		final WebElementWrapper parentWE = webElementList.get(0);
 		WebElementWrapper prevParentWE;
 		if (prevWebElementList != null) {
 			prevParentWE = prevWebElementList.get(0);
@@ -63,8 +60,8 @@ public class Navigator {
 		}
 
 		for (int i = 1; i < webElementList.size(); i++) {
-			WebElementWrapper we = webElementList.get(i);
-			By by = we.getBy();
+			final WebElementWrapper we = webElementList.get(i);
+			final By by = we.getBy();
 			WebDriverUtils.acceptAlertIfPresent(driver);
 			Navigator.waitForPageLoad(driver);
 			if (WebDriverUtils.getHowManyByPresntInPage(driver, by, false) == 0) {
@@ -85,11 +82,10 @@ public class Navigator {
 				"ExplicitWait_millis")));
 	}
 
-	public static void explicitWait(long wait_millis) {
+	public static void explicitWait(final long wait_millis) {
 		try {
 			Thread.sleep(wait_millis);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+		} catch (final InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
@@ -100,7 +96,7 @@ public class Navigator {
 	 * @param driver
 	 * @param by
 	 */
-	public static void waitForElementLoad(WebDriver driver, final By by) {
+	public static void waitForElementLoad(final WebDriver driver, final By by) {
 		/*
 		 * Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
 		 * .withTimeout(
@@ -112,7 +108,7 @@ public class Navigator {
 		waitForPageLoad(driver);
 		double startTime;
 		double endTime, totalTime;
-		Double period = Double.parseDouble(Config.getInstance().getProperty(
+		final Double period = Double.parseDouble(Config.getInstance().getProperty(
 				"WaitAjaxElment_millis"));
 		int size = WebDriverUtils.getHowManyByPresntInPage(driver, by, false);
 		startTime = System.currentTimeMillis();
@@ -131,11 +127,11 @@ public class Navigator {
 				Navigator.explicitWait(1000);
 				size = WebDriverUtils.getHowManyByPresntInPage(driver, by,
 						false);
-			} catch (StaleElementReferenceException ser) {
+			} catch (final StaleElementReferenceException ser) {
 				System.out.println("waitForElementLoad: " + ser.getMessage());
-			} catch (NoSuchElementException nse) {
+			} catch (final NoSuchElementException nse) {
 				System.out.println("waitForElementLoad: " + nse.getMessage());
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				System.out.println("waitForElementLoad: " + e.getMessage());
 			}
 		}
@@ -147,35 +143,30 @@ public class Navigator {
 	 * @param driver
 	 * @param by
 	 */
-	public static void waitForAjax(WebDriver driver, final By by) {
-		int timeoutInSeconds = Integer.parseInt(Config.getInstance()
+	public static void waitForAjax(final WebDriver driver, final By by) {
+		
+		final int timeoutInSeconds = Integer.parseInt(Config.getInstance()
 				.getProperty("WaitAjaxElment_millis")) / 1000;
-		// System.out.println("Checking active ajax calls by calling jquery.active");
 		waitForPageLoad(driver);
 		if (driver instanceof JavascriptExecutor) {
-			JavascriptExecutor jsDriver = (JavascriptExecutor) driver;
+			final JavascriptExecutor jsDriver = (JavascriptExecutor) driver;
 
 			for (int i = 0; i < timeoutInSeconds; i++) {
 				try {
-					Object numberOfAjaxConnections = jsDriver
+					final Object numberOfAjaxConnections = jsDriver
 							.executeScript("return jQuery.active");
 					// return should be a number
 					if (numberOfAjaxConnections instanceof Long) {
-						Long n = (Long) numberOfAjaxConnections;
+						final Long n = (Long) numberOfAjaxConnections;
 						// check n=0
 						if (n.intValue() == 0) {
 							break;
 						}
-						// System.out.println("\t wait for "+by.toString());
-						// System.out.println("\t No. of active jquery ajax calls: "
-						// + n.intValue());
 						explicitWait(500);
 					}
-				} catch (WebDriverException e) {
-					// System.out.println("\t  jQuery is not used in current (pop up) page");
+				} catch (final WebDriverException e) {
 					break;
 				}
-
 			}
 			// after finish loading Ajax Element, then look for it
 			waitForElementLoad(driver, by);
@@ -192,19 +183,17 @@ public class Navigator {
 	 * 
 	 * @param driver
 	 */
-	public static void waitForPageLoad(WebDriver driver) {
-		ExpectedCondition<Boolean> pageLoadCondition = new ExpectedCondition<Boolean>() {
-			public Boolean apply(WebDriver driver) {
+	public static void waitForPageLoad(final WebDriver driver) {
+		final ExpectedCondition<Boolean> pageLoadCondition = new ExpectedCondition<Boolean>() {
+			@Override
+			public Boolean apply(final WebDriver driver) {
 				return ((JavascriptExecutor) driver).executeScript(
 						"return document.readyState").equals("complete");
 			}
 		};
 
-		WebDriverWait wait = new WebDriverWait(driver, Integer.parseInt(Config
-				.getInstance().getProperty("WaitAjaxElment_millis")) / 1000);// wait
-																				// seconds
-																				// as
-																				// conf.
+		final WebDriverWait wait = new WebDriverWait(driver, Integer.parseInt(Config
+				.getInstance().getProperty("WaitAjaxElment_millis")) / 1000);
 		wait.until(pageLoadCondition);
 	}
 
@@ -214,8 +203,7 @@ public class Navigator {
 	 * 
 	 * @param driver
 	 */
-	public static void disableJQueryAnimation(WebDriver driver) {
+	public static void disableJQueryAnimation(final WebDriver driver) {
 		((JavascriptExecutor) driver).executeScript("jQuery.fx.off=true");
 	}
-
 }
