@@ -77,8 +77,6 @@ public final class WindowServiceUtils extends WindowCMD {
 			final BufferedReader br = new BufferedReader(isr);
 			String line;
 
-			// System.out.printf("Output of running cmd /c dir is:");
-
 			while ((line = br.readLine()) != null) {
 				if (line.matches("controlservice failed")) {
 					System.out.println(".......");
