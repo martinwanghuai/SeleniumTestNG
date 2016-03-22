@@ -7,8 +7,6 @@ import java.util.Iterator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import com.config.Labels;
-import com.junit.JUnitAssert;
 import com.utils.CriteriaParser;
 import com.utils.WebDriverUtils;
 
@@ -57,11 +55,6 @@ public class TSSystemUI {
 
 			by = By.xpath("//input[@value='Run scheduled tasks']");
 			WebDriverUtils.clickButton(driver, by);
-
-			JUnitAssert.assertTrue(WebDriverUtils.textPresentInPage(driver,
-					Labels.Msg_Tasks_Completed.toString()),
-					"Fail as Schedule Task is not completed successfully, task type="
-							+ type);
 		}
 	}
 

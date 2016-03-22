@@ -9,15 +9,10 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.openqa.selenium.WebDriver;
 
 import com.config.Config;
-import com.controller.TestDriver;
-import com.dao.DBUser;
-import com.dao.DBUserDAO;
 import com.dao.ExcelSheetObject;
 import com.google.common.collect.Lists;
 import com.interfaces.ITestObject;
-import com.junit.JUnitAssert;
 import com.utils.POIUtils;
-import com.utils.WebDriverUtils;
 
 /**
  * Extended by all testing objects (which are defined in "com.netdimen.model"
@@ -40,20 +35,8 @@ public abstract class TestObject implements ITestObject {
 		this.author = author;
 	}
 
-	private DBUser logonDBUser;
 	protected ArrayList<TestObject> testCaseArray = Lists.newArrayList();
 	protected ArrayList<TestObject> objectParams = Lists.newArrayList();
-
-	public String getUID() {
-		return UID;
-	}
-
-	public void setUID(final String uID) {
-		
-		UID = uID;
-		final DBUserDAO dbUserDAO = new DBUserDAO(TestDriver.dbManager.getConn());
-		this.logonDBUser = dbUserDAO.findByUserId(UID.toLowerCase().trim());
-	}
 
 	public String getScheduleTask() {
 		return ScheduleTask;
@@ -69,14 +52,6 @@ public abstract class TestObject implements ITestObject {
 
 	public void setSysConf(final String sysConf) {
 		SysConf = sysConf;
-	}
-
-	public DBUser getLogonDBUser() {
-		return logonDBUser;
-	}
-
-	public void setLogonDBUser(final DBUser logonUser) {
-		this.logonDBUser = logonUser;
 	}
 
 	public String getLabel() {
@@ -136,7 +111,7 @@ public abstract class TestObject implements ITestObject {
 
 	@Override
 	public String toString() {
-		return this.ID + "-" + this.getUID();
+		return this.ID;
 	}
 
 	/**
@@ -191,18 +166,6 @@ public abstract class TestObject implements ITestObject {
 	}
 
 	public abstract boolean equals(TestObject obj); // compare TestObject
-
-	/**
-	 * Failed if the page contains keyword "error"
-	 * 
-	 * @param driver
-	 * @param expectedResult
-	 */
-	public void checkExpectedResult_UI(final WebDriver driver, final String expectedResult) {
-		final String text = "Please contact the system administrator";
-		JUnitAssert.assertTrue(!WebDriverUtils.textPresentInPage(driver, text),
-				"EKP error was found in test case");
-	}
 
 	public String getPWD() {
 		return PWD;

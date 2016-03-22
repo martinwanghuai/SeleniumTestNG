@@ -31,7 +31,6 @@ import org.openqa.selenium.support.ui.Select;
 
 import com.config.Config;
 import com.dao.ChartType;
-import com.junit.JUnitAssert;
 import com.view.Navigator;
 
 /**
@@ -929,9 +928,6 @@ public class WebDriverUtils {
 		final By by = By.xpath("//set[@name='" + key + "']");
 		final String actualStatistic = WebDriverUtils.getAttribute(driver, by,
 				"value");
-		JUnitAssert.assertTrue(expectedResult.contains(actualStatistic),
-				expectedResult + " not contain:" + actualStatistic); // 25% vs.
-																		// 25
 	}
 
 	public static void checkAdobeFlashResults(final WebDriver driver,
@@ -949,11 +945,6 @@ public class WebDriverUtils {
 				final By by = By.xpath("//set[@name='" + key + "']");
 				final String actualStatistic = WebDriverUtils.getAttribute(driver,
 						by, "value");
-				JUnitAssert.assertTrue(
-						expectedResult.contains(actualStatistic),
-						expectedResult + " not contain:" + actualStatistic); // 25%
-																				// vs.
-																				// 25
 				counter++;
 			}
 			break;
@@ -963,11 +954,6 @@ public class WebDriverUtils {
 				final By by = By.xpath("//dataset[@seriesname='" + key + "']/set");
 				final String actualStatistic = WebDriverUtils.getAttribute(driver,
 						by, "value");
-				JUnitAssert.assertTrue(
-						actualStatistic.contains(expectedResult),
-						actualStatistic + " not contain:" + expectedResult); // 25%
-																				// vs.
-																				// 25
 				counter++;
 			}
 			break;
@@ -997,11 +983,6 @@ public class WebDriverUtils {
 
 				final String actualStatistic = WebDriverUtils.getAttribute(driver,
 						by, "value");
-				JUnitAssert.assertTrue(
-						actualStatistic.contains(expectedResult),
-						actualStatistic + " not contain:" + expectedResult); // 25%
-																				// vs.
-																				// 25
 				counter++;
 			}
 			break;
@@ -1064,10 +1045,6 @@ public class WebDriverUtils {
 			final By by = By.xpath("//set[@name='" + key + "']");
 			final String actualStatistic = WebDriverUtils.getAttribute(driver, by,
 					"value");
-			JUnitAssert.assertTrue(expectedResult.contains(actualStatistic),
-					expectedResult + " not contain:" + actualStatistic); // 25%
-																			// vs.
-																			// 25
 			counter++;
 		}
 	}

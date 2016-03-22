@@ -38,13 +38,6 @@ public class Config {
 	private final Locale defaultLocale = new Locale("en");
 	private Locale userLocale;
 
-	private ResourceBundleImpl userLocaleBundle;
-
-	public void setUserLocale(final Locale newLocale) {
-		this.userLocale = newLocale;
-		userLocaleBundle = new ResourceBundleImpl(this.userLocale);
-	}
-
 	public Locale getUserLocale() {
 		return this.userLocale;
 	}
@@ -55,14 +48,9 @@ public class Config {
 
 	public String getProperty(final String key) {
 		final String value = allProperties.getProperty(key);
-		if (Checker.isBlank(value)) {
-			if (Checker.isBlank(this.userLocaleBundle.getString(key))) {
-				return "Cannot find the property value with key=" + key;
-			}
-			return this.userLocaleBundle.getString(key);
-		} else {
-			return value;
-		}
+		return Checker.isBlank(value) ? "Cannot find the property value with key="
+				+ key
+				: value;
 	}
 
 	public void setProperty(final String key, final String value) {
@@ -137,7 +125,6 @@ public class Config {
 
 		loadProperties(ekpProperties, getProperty("ekp.properties"));
 		allProperties.putAll(ekpProperties);
-		setUserLocale(defaultLocale);
 	}
 
 }
