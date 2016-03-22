@@ -7,7 +7,6 @@ import java.util.Iterator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import com.utils.CriteriaParser;
 import com.utils.WebDriverUtils;
 
 /**
@@ -55,25 +54,6 @@ public class FunctionUI {
 		Navigator.explicitWait();
 		WebDriverUtils.clickButton(driver, by);
 		FunctionUI.setOrgAttributes_UI(driver, values.toArray(new String[0]));
-	}
-
-	/**
-	 * A controller to set participants based on organization/organization
-	 * attributes/Employment Information/User Attributes. This method can
-	 * support JobProfile/LearningModule auto-enroll, User Group Creation, User
-	 * DA assignment.
-	 *
-	 * 
-	 * @param driver
-	 * @param str_participants
-	 * @param by
-	 */
-	public static void setParticipants_UI(final WebDriver driver,
-			final String str_participants, final By by) {
-		
-		FunctionUI.setParticipants_UI(driver,
-				CriteriaParser.parseKeyValueList(":", null, str_participants),
-				by);
 	}
 
 	/**

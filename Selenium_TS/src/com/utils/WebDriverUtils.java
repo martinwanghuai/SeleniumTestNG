@@ -30,7 +30,6 @@ import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.support.ui.Select;
 
 import com.config.Config;
-import com.dao.ChartType;
 import com.view.Navigator;
 
 /**
@@ -928,67 +927,6 @@ public class WebDriverUtils {
 		final By by = By.xpath("//set[@name='" + key + "']");
 		final String actualStatistic = WebDriverUtils.getAttribute(driver, by,
 				"value");
-	}
-
-	public static void checkAdobeFlashResults(final WebDriver driver,
-			final ChartType chartType, final String url, final String[] keys,
-			final String[] expectedResults) {
-		// 1. Interact with Adobe Flash to check poll statistics
-		driver.get(url);
-
-		// 2. Check actual result
-		int counter = 0;
-		switch (chartType) {
-		case Pie:
-			for (final String expectedResult : expectedResults) {
-				final String key = keys[counter];
-				final By by = By.xpath("//set[@name='" + key + "']");
-				final String actualStatistic = WebDriverUtils.getAttribute(driver,
-						by, "value");
-				counter++;
-			}
-			break;
-		case Histogram:
-			for (final String expectedResult : expectedResults) {
-				final String key = keys[counter];
-				final By by = By.xpath("//dataset[@seriesname='" + key + "']/set");
-				final String actualStatistic = WebDriverUtils.getAttribute(driver,
-						by, "value");
-				counter++;
-			}
-			break;
-		case Table:
-			final HashMap<String, Integer> key_level = WebDriverUtils.getLevels(keys);
-
-			for (final String expectedResult : expectedResults) {
-				final String key = keys[counter];
-				final int level = key_level.get(key);
-
-				By by = null;
-				switch (level) {
-				case 1:
-					by = By.xpath("//dataset/set");
-					break;
-				case 2:
-					by = By.xpath("//dataset/set/set");
-					break;
-				case 3:
-					by = By.xpath("//dataset/set/set/set");
-					break;
-				case 4:
-				default:
-					by = By.xpath("//dataset/set/set/set/set");
-					break;
-				}
-
-				final String actualStatistic = WebDriverUtils.getAttribute(driver,
-						by, "value");
-				counter++;
-			}
-			break;
-		}
-		driver.get(Config.getInstance().getProperty("HomePage"));
-		Navigator.waitForPageLoad(driver);
 	}
 
 	private static HashMap<String, Integer> getLevels(final String[] keys) {
