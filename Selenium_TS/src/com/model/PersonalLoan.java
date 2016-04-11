@@ -12,8 +12,9 @@ import com.view.Navigator;
 public class PersonalLoan extends com.abstractclasses.TestObject {
 	private String Category = "";
 
-	public boolean equals(com.abstractclasses.TestObject para0) {
-		boolean result = false;
+	@Override
+	public boolean equals(final com.abstractclasses.TestObject para0) {
+		final boolean result = false;
 		return result;
 	}
 
@@ -25,11 +26,11 @@ public class PersonalLoan extends com.abstractclasses.TestObject {
 		return Category;
 	}
 
-	public void setCategory(String Category) {
+	public void setCategory(final String Category) {
 		this.Category = Category;
 	}
 
-	public void runCheckProducts(WebDriver driver) {
+	public void runCheckProducts(final WebDriver driver) {
 		
 		driver.get("http://www.moneyhero.com.hk/en");
 		Navigator.explicitWait();
@@ -38,17 +39,25 @@ public class PersonalLoan extends com.abstractclasses.TestObject {
 		WebDriverUtils.clickLink(driver, by);
 		Navigator.explicitWait();
 		
-		by = By.xpath("//a[span[contains(text(),'" + this.getCategory() + "')]]");
+		by = By.partialLinkText("Find a loan");
 		WebDriverUtils.clickLink(driver, by);
+		Navigator.explicitWait();
+		
+		by = By.xpath("//a[span[contains(text(),'" + this.getCategory() + "')]]");
+		WebDriverUtils.clickLink(driver, by);  
+		Navigator.explicitWait();
 		
 		by = By.partialLinkText("APPLY");
-		List<WebElement> applyBtns = driver.findElements(by);
+		final List<WebElement> applyBtns = driver.findElements(by);
+		
 		for(int i = 0; i < applyBtns.size() && i < 3; i ++){
 			applyBtns.get(i).click();
+			Navigator.explicitWait();
 			WebDriverUtils.switchToPopUpWin(driver);
+			Navigator.explicitWait();
 			WebDriverUtils.switchToBaseWin(driver);
+			Navigator.explicitWait();
 		}
-		
 	}
 
 }
