@@ -24,7 +24,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.abstractclasses.TestObject;
 import com.dao.ExcelSheetObject;
-import com.dao.ExcelSheetObjectMap;
+import com.dao.ExcelSheetObjectMapping;
 import com.google.common.base.Function;
 import com.google.common.base.Predicates;
 import com.google.common.collect.FluentIterable;
@@ -401,12 +401,11 @@ public class POIUtils {
 	
 	public static TestObject loadTestCaseFromExcelRow(final ExcelSheetObject excelSheetObj, final HSSFWorkbook wb){
 		
-		final String rowNumStr = excelSheetObj.getRowNum();
-		if( Checker.isBlank(rowNumStr)){
-			return null;
-		}
+		return loadTestCaseFromExcelRow(excelSheetObj, wb, Integer.parseInt(excelSheetObj.getRowNum()));
+	}
+
+	public static TestObject loadTestCaseFromExcelRow(final ExcelSheetObject excelSheetObj, final HSSFWorkbook wb, final int rowNum){
 		
-		final int rowNum = Integer.parseInt(excelSheetObj.getRowNum());
 		if (rowNum < 1) {
 			System.out
 					.println("POI:loadTestCaseFromExcelRow-->ERROR: Row Number should start from 1");
@@ -562,10 +561,10 @@ public class POIUtils {
 					public ExcelSheetObject apply(final Row row) {
 
 						final String funcName = getCellValue(row
-								.getCell(ExcelSheetObjectMap.FUNCNAME
+								.getCell(ExcelSheetObjectMapping.FUNCNAME
 										.getColumnIndex()));
 						final String sheetName = getCellValue(row
-								.getCell(ExcelSheetObjectMap.SHEETNAME
+								.getCell(ExcelSheetObjectMapping.SHEETNAME
 										.getColumnIndex()));
 
 						if (Checker.isBlank(funcName)
@@ -574,16 +573,26 @@ public class POIUtils {
 						}
 
 						final String rowNum = getCellValue(row
-								.getCell(ExcelSheetObjectMap.ROWNUM
+								.getCell(ExcelSheetObjectMapping.ROWNUM
 										.getColumnIndex()));
 						final String label = getCellValue(row
-								.getCell(ExcelSheetObjectMap.LABEL
+								.getCell(ExcelSheetObjectMapping.LABEL
 										.getColumnIndex()));
 						final String author = getCellValue(row
-								.getCell(ExcelSheetObjectMap.AUTHOR
+								.getCell(ExcelSheetObjectMapping.AUTHOR
 										.getColumnIndex()));
+						final String country = getCellValue(row
+								.getCell(ExcelSheetObjectMapping.COUNTRY
+										.getColumnIndex()));
+						final String language = getCellValue(row
+								.getCell(ExcelSheetObjectMapping.LANGUAGE
+										.getColumnIndex()));
+						final String browser = getCellValue(row
+								.getCell(ExcelSheetObjectMapping.BROWSER
+										.getColumnIndex()));
+						
 						return new ExcelSheetObject(funcName, rowNum,
-								sheetName, label, author);
+								sheetName, label, author, country, language, browser);
 					}
 				}).filter(Predicates.notNull()).toList();
 	}

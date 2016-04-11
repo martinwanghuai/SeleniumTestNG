@@ -6,8 +6,8 @@
       <class name="com.controller.TestDriverTestNG">
         <methods>
           <include name="afterClass"/>
-          <include name="beforeClass"/>
           <include name="test"/>
+          <include name="beforeClass"/>
         </methods>
       </class> <!-- com.controller.TestDriverTestNG -->
     </classes>

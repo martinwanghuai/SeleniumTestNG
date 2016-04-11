@@ -155,7 +155,7 @@ public class TestDriverTestNG {
 		boolean found = false;
 		for (final Integer rowNum : rowNumsToScan) {
 			final TestObject obj = POIUtils.loadTestCaseFromExcelRow(
-					excelSheetObj, wb);
+					excelSheetObj, wb, rowNum);
 			found = addTestCaseToList(testCaseList, obj);
 			if (obj != null) {
 				obj.setLabel(excelSheetObj.getLabel());
