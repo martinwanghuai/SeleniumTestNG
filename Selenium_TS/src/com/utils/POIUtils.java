@@ -401,6 +401,11 @@ public class POIUtils {
 	
 	public static TestObject loadTestCaseFromExcelRow(final ExcelSheetObject excelSheetObj, final HSSFWorkbook wb){
 		
+		final String rowNumStr = excelSheetObj.getRowNum();
+		if( Checker.isBlank(rowNumStr)){
+			return null;
+		}
+		
 		final int rowNum = Integer.parseInt(excelSheetObj.getRowNum());
 		if (rowNum < 1) {
 			System.out
@@ -415,7 +420,7 @@ public class POIUtils {
 											// start from 1, not 0
 		if (row != null) {
 			obj = POIUtils.mapExcelRowToTestObject(wb, row,
-					"com.netdimen.model." + excelSheetObj.getSheetName(), fieldNames);
+					"com.model." + excelSheetObj.getSheetName(), fieldNames);
 			final String funcTypeValue = ReflectionUtils.getFieldValueAsString(obj,
 					"FuncType");
 			if (funcTypeValue.trim().isEmpty()

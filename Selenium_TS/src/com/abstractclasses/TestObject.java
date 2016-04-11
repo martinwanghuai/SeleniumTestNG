@@ -15,7 +15,7 @@ import com.interfaces.ITestObject;
 import com.utils.POIUtils;
 
 /**
- * Extended by all testing objects (which are defined in "com.netdimen.model"
+ * Extended by all testing objects (which are defined in "com.model"
  * package)
  * 
  * @author martin.wang

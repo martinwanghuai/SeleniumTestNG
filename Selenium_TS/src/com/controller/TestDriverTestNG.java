@@ -1,7 +1,5 @@
 package com.controller;
 
-
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -42,8 +40,8 @@ import com.utils.WebDriverUtils;
 public class TestDriverTestNG {
 
 	private static WebDriver driver = WebDriverUtils.getWebDriver_new();
-	
-	@BeforeClass(alwaysRun=true)
+
+	@BeforeClass(alwaysRun = true)
 	public void beforeClass() {
 
 		try {
@@ -59,24 +57,24 @@ public class TestDriverTestNG {
 			e.printStackTrace();
 		}
 	}
-	
-	@AfterClass(alwaysRun=true)
+
+	@AfterClass(alwaysRun = true)
 	public void afterClass() {
 
-		try{
+		try {
 			// close the window that uses plugin container before driver.quit();
 			Runtime.getRuntime().exec("taskkill /F /IM plugin-container.exe");
 			driver.manage().deleteAllCookies(); // clear cache
 			driver.quit();
-			
-		}catch(final Exception e){
+
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private static int testSuiteNo = 1;
 	private static int totalTestSuite = 0;
-	
+
 	@Test(dataProvider = "param", dataProviderClass = TestDriverTestNG.class)
 	public static void test(final TestObject testObj) throws Exception {
 
@@ -88,7 +86,7 @@ public class TestDriverTestNG {
 	@DataProvider(name = "param")
 	public static Object[][] loadTestDataFromExcel() {
 
-		final List<Object[]> objList = Lists.newArrayList();
+		final List<Object[]> testCaseList = Lists.newArrayList();
 
 		FileInputStream file = null;
 		try {
@@ -96,8 +94,7 @@ public class TestDriverTestNG {
 					"testDataFile"));
 			final HSSFWorkbook wb = new HSSFWorkbook(file);
 
-			// load all tests: all test cases are configured in EKPMain page
-			final String sheetName_main = "EKPMain";
+			final String sheetName_main = "MainSheet";
 			final int dataRowIndex_start = 1;
 
 			HSSFSheet sheet = wb.getSheet(sheetName_main);
@@ -107,7 +104,8 @@ public class TestDriverTestNG {
 
 				sheet = wb.getSheet(excelSheetObj.getSheetName());
 				if (sheet == null) {
-					System.out.println("Cannot find file:" + sheetName_main);
+					System.out.println("Cannot find sheet:"
+							+ excelSheetObj.getSheetName());
 					continue;
 				}
 
@@ -125,8 +123,8 @@ public class TestDriverTestNG {
 						rowNumsToScan.add(Integer.parseInt(rowNum_str));
 					}
 				}
-				addTestCases(objList, wb, sheet, excelSheetObj, rowNumsToScan,
-						hasSpecifyRowNum);
+				addTestCases(testCaseList, wb, sheet, excelSheetObj,
+						rowNumsToScan, hasSpecifyRowNum);
 			}
 		} catch (final FileNotFoundException ex) {
 			ex.printStackTrace();
@@ -142,15 +140,15 @@ public class TestDriverTestNG {
 			}
 		}
 
-		final Object[][] results = new Object[objList.size()][];
-		for(int i = 0; i < objList.size(); i ++){
-			results[i] = objList.get(i);
+		final Object[][] results = new Object[testCaseList.size()][];
+		for (int i = 0; i < testCaseList.size(); i++) {
+			results[i] = testCaseList.get(i);
 		}
 		return results;
 	}
 
 	private static Collection<Object[]> addTestCases(
-			final Collection<Object[]> objList, final HSSFWorkbook wb,
+			final Collection<Object[]> testCaseList, final HSSFWorkbook wb,
 			final HSSFSheet sheet, final ExcelSheetObject excelSheetObj,
 			final List<Integer> rowNumsToScan, final boolean hasSpecifyRowNum) {
 
@@ -158,37 +156,36 @@ public class TestDriverTestNG {
 		for (final Integer rowNum : rowNumsToScan) {
 			final TestObject obj = POIUtils.loadTestCaseFromExcelRow(
 					excelSheetObj, wb);
-			found = addTestCaseToList(objList, obj);
+			found = addTestCaseToList(testCaseList, obj);
 			if (obj != null) {
 				obj.setLabel(excelSheetObj.getLabel());
 				obj.setAuthor(excelSheetObj.getAuthor());
 			} else if (hasSpecifyRowNum) {
-				System.out.println("TestDriver: data()-2:Cannot find method:"
+				System.out.println("TestDriver: Cannot find method:"
 						+ excelSheetObj.getFuncName() + " in sheet:"
 						+ excelSheetObj.getSheetName() + " row:" + rowNum);
 			}
 		}
 
 		if (!found && !hasSpecifyRowNum) {
-			System.out.println("TestDriver: data()-1: Cannot find method:"
+			System.out.println("TestDriver: Cannot find method:"
 					+ excelSheetObj.getFuncName() + " in sheet:"
 					+ excelSheetObj.getSheetName());
 		}
 
-		return objList;
+		return testCaseList;
 	}
 
 	private static boolean addTestCaseToList(
-			final Collection<Object[]> objList, final TestObject obj) {
+			final Collection<Object[]> testCaseList, final TestObject obj) {
 
 		boolean found = false;
-		if (obj != null & !objList.contains(obj)) {
-			objList.add(new Object[] { obj });
+		if (obj != null & !testCaseList.contains(obj)) {
+			testCaseList.add(new Object[] { obj });
 			found = true;
 		}
 
 		return found;
 	}
-
 
 }

@@ -35,7 +35,6 @@ public class Config {
 
 	private static final Config instance = new Config();
 
-	private final Locale defaultLocale = new Locale("en");
 	private Locale userLocale;
 
 	public Locale getUserLocale() {
@@ -123,8 +122,8 @@ public class Config {
 		loadProperties(testingProperties, "./conf/config.properties");
 		allProperties.putAll(testingProperties);
 
-		loadProperties(ekpProperties, getProperty("ekp.properties"));
+		/*loadProperties(ekpProperties, getProperty("ekp.properties"));
 		allProperties.putAll(ekpProperties);
-	}
+*/	}
 
 }

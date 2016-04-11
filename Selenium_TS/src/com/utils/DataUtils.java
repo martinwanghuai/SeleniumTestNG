@@ -194,11 +194,11 @@ public class DataUtils {
 				LINESEPARATOR);
 		sb.append("import org.openqa.selenium.support.ui.Select;").append(
 				LINESEPARATOR);
-		sb.append("import com.netdimen.abstractclasses.TestObject;").append(
+		sb.append("import com.abstractclasses.TestObject;").append(
 				LINESEPARATOR);
-		sb.append("import com.netdimen.utils.WebDriverUtils;").append(
+		sb.append("import com.utils.WebDriverUtils;").append(
 				LINESEPARATOR);
-		sb.append("import com.netdimen.view.Navigator;").append(LINESEPARATOR)
+		sb.append("import com.view.Navigator;").append(LINESEPARATOR)
 				.append(LINESEPARATOR);
 
 		sb.append("public class " + clzName + " extends " + superClz + "{")
@@ -345,9 +345,9 @@ public class DataUtils {
 
 	public static void main(final String[] args) {
 
-		final String sheetName = "KC";
-		final String packageName = "com.netdimen.model";
-		final String superClz = "com.netdimen.abstractclasses.TestObject";
+		final String sheetName = "PersonalLoan";
+		final String packageName = "com.model";
+		final String superClz = "com.abstractclasses.TestObject";
 		DataUtils.mapExcelToJavaClass(sheetName, packageName, superClz);
 	}
 }
