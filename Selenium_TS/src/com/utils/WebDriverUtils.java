@@ -54,7 +54,8 @@ public class WebDriverUtils {
 		return driver;
 	}
 
-	public static boolean textPresentInPage(final WebDriver driver, final String text) {
+	public static boolean textPresentInPage(final WebDriver driver,
+			final String text) {
 		final By by = By.xpath("//body");
 		if (getHowManyByPresntInPage(driver, by, false) > 0) {
 			return driver.findElement(by).getText().contains(text);
@@ -135,8 +136,8 @@ public class WebDriverUtils {
 	 *            present
 	 * @return
 	 */
-	public static int getHowManyByPresntInPage(final WebDriver driver, final By by,
-			final boolean hasToFindIt) {
+	public static int getHowManyByPresntInPage(final WebDriver driver,
+			final By by, final boolean hasToFindIt) {
 		if (hasToFindIt) {
 			Navigator.waitForAjax(driver, by);
 			return getHowManyByPresntInPage(by);
@@ -182,6 +183,7 @@ public class WebDriverUtils {
 	}
 
 	public static void addVisitedWin(final WebDriver driver) {
+
 		addVisitedWin(driver.getWindowHandle());
 	}
 
@@ -258,7 +260,8 @@ public class WebDriverUtils {
 	 * @param frameID
 	 *            : ID of the frame
 	 */
-	public static void switchToFrame(final WebDriver driver, final String frameID) {
+	public static void switchToFrame(final WebDriver driver,
+			final String frameID) {
 		final By by = By.id(frameID);
 		switchToFrame(driver, by);
 	}
@@ -271,7 +274,8 @@ public class WebDriverUtils {
 
 	}
 
-	public static void switchToNestedFrame(final WebDriver driver, final ArrayList<By> bys) {
+	public static void switchToNestedFrame(final WebDriver driver,
+			final ArrayList<By> bys) {
 		driver.switchTo().defaultContent();
 
 		int size = -1;
@@ -334,7 +338,8 @@ public class WebDriverUtils {
 	 * @param driver
 	 * @param keywords
 	 */
-	public static void checkSelect_CheckBox(final WebDriver driver, final String[] keywords) {
+	public static void checkSelect_CheckBox(final WebDriver driver,
+			final String[] keywords) {
 		By by = By.linkText("Expand and Display Entire Hierarchy Tree");
 		WebDriverUtils.clickLink(driver, by);
 
@@ -421,7 +426,8 @@ public class WebDriverUtils {
 	 * @param driver
 	 * @param keyword
 	 */
-	public static void checkSelect_CheckBox(final WebDriver driver, final String keyword) {
+	public static void checkSelect_CheckBox(final WebDriver driver,
+			final String keyword) {
 		By by = By
 				.linkText(Config.getInstance().getProperty("link.ExpandTree"));
 		WebDriverUtils.clickLink(driver, by);
@@ -437,7 +443,8 @@ public class WebDriverUtils {
 	 * @param driver
 	 * @param keyword
 	 */
-	public static void checkSelect_Radio(final WebDriver driver, final String keyword) {
+	public static void checkSelect_Radio(final WebDriver driver,
+			final String keyword) {
 		By by = By
 				.linkText(Config.getInstance().getProperty("link.ExpandTree"));
 		WebDriverUtils.clickLink(driver, by);
@@ -454,15 +461,17 @@ public class WebDriverUtils {
 	 * @param dateString
 	 * @param xpath_calendar
 	 */
-	public static void dateSelect_Calandar(final WebDriver driver, final String dateString,
-			final String xpath_calendar) {
+	public static void dateSelect_Calandar(final WebDriver driver,
+			final String dateString, final String xpath_calendar) {
 		if (!dateString.equals("") && !xpath_calendar.equals("")) {
 			final Calendar cal = DataUtils.strToCalendarDate(dateString);
 
 			final int year = cal.get(Calendar.YEAR);
-			final int month = cal.get(Calendar.MONTH) + 1; // the months are numbered
-														// from 0 (January) to
-														// 11 (December).
+			final int month = cal.get(Calendar.MONTH) + 1; // the months are
+															// numbered
+															// from 0 (January)
+															// to
+															// 11 (December).
 			final int day = cal.get(Calendar.DAY_OF_MONTH);
 
 			By by = By.xpath(xpath_calendar);
@@ -507,8 +516,8 @@ public class WebDriverUtils {
 		}
 	}
 
-	public static void importFile_ID(final WebDriver driver, final String HTML_ID,
-			final String fileName) {
+	public static void importFile_ID(final WebDriver driver,
+			final String HTML_ID, final String fileName) {
 		String currentPath = "";
 		try {
 			currentPath = new java.io.File(".").getCanonicalPath();
@@ -555,7 +564,8 @@ public class WebDriverUtils {
 		}
 	}
 
-	public static void fillin_textbox(final WebDriver driver, final By by, final String str) {
+	public static void fillin_textbox(final WebDriver driver, final By by,
+			final String str) {
 		Navigator.waitForAjax(driver, by);
 		WebDriverUtils.highlightElement(driver, by);
 		WebElement element = driver.findElement(by);
@@ -570,7 +580,8 @@ public class WebDriverUtils {
 		element.sendKeys(Keys.TAB);
 	}
 
-	public static void append_textbox(final WebDriver driver, final By by, final String str) {
+	public static void append_textbox(final WebDriver driver, final By by,
+			final String str) {
 
 		Navigator.waitForAjax(driver, by);
 		WebDriverUtils.highlightElement(driver, by);
@@ -578,7 +589,8 @@ public class WebDriverUtils {
 
 	}
 
-	public static void select_selector(final WebDriver driver, final By by, final String str) {
+	public static void select_selector(final WebDriver driver, final By by,
+			final String str) {
 		Navigator.waitForAjax(driver, by);
 		WebDriverUtils.highlightElement(driver, by);
 		new Select(driver.findElement(by)).selectByVisibleText(str);
@@ -594,7 +606,8 @@ public class WebDriverUtils {
 		driver.findElement(by).click();
 	}
 
-	public static void select_selector(final WebDriver driver, final By by, final int index) {
+	public static void select_selector(final WebDriver driver, final By by,
+			final int index) {
 		Navigator.waitForAjax(driver, by);
 		WebDriverUtils.highlightElement(driver, by);
 		new Select(driver.findElement(by)).selectByIndex(index);
@@ -605,13 +618,19 @@ public class WebDriverUtils {
 	}
 
 	public static void clickButton(final WebDriver driver, final By by) {
+
 		Navigator.waitForAjax(driver, by);
-		WebDriverUtils.highlightElement(driver, by);
-		driver.findElement(by).click();
+		clickButton(driver, driver.findElement(by));
+	}
+	
+	public static void clickButton(final WebDriver driver, final WebElement elem){
+		
+		WebDriverUtils.highlightElement(driver, elem);
+		elem.click();
 	}
 
-	public static String getTableRowText(final WebDriver driver, final By by_table,
-			final int rowIndex) {
+	public static String getTableRowText(final WebDriver driver,
+			final By by_table, final int rowIndex) {
 		String rowText = "";
 		final int size = driver.findElements(by_table).size();
 		if (size == 1) {
@@ -631,7 +650,8 @@ public class WebDriverUtils {
 		return size;
 	}
 
-	public static int getTableColumnCount(final WebDriver driver, final By by_columns) {
+	public static int getTableColumnCount(final WebDriver driver,
+			final By by_columns) {
 		final int size = driver.findElements(by_columns).size();
 		if (size >= 1) {
 			WebDriverUtils.highlightElement(driver, by_columns);
@@ -643,7 +663,8 @@ public class WebDriverUtils {
 		clickButton(driver, by);
 	}
 
-	public static String getTextWithoutChecking(final WebDriver driver, final By by) {
+	public static String getTextWithoutChecking(final WebDriver driver,
+			final By by) {
 		final int size = driver.findElements(by).size();
 		if (size >= 1) {
 			WebDriverUtils.highlightElement(driver, by);
@@ -666,15 +687,24 @@ public class WebDriverUtils {
 	 * @param attr
 	 * @return
 	 */
-	public static String getAttribute(final WebDriver driver, final By by, final String attr) {
+	public static String getAttributeValue(final WebDriver driver, final By by,
+			final String attr) {
+
 		String result = "";
 		final int size = getHowManyByPresntInPage(driver, by, false);
 		if (size > 0) {
-			WebDriverUtils.highlightElement(driver, by);
-			result = driver.findElement(by).getAttribute(attr);
+			result = getAttribute(driver, driver.findElement(by), attr);
 		}
 
 		return result;
+	}
+
+	public static String getAttribute(final WebDriver driver,
+			final WebElement elem, final String attr) {
+
+		WebDriverUtils.highlightElement(driver, elem);
+		return elem.getAttribute(attr);
+
 	}
 
 	public static String closeAlertAndGetItsText() {
@@ -765,7 +795,8 @@ public class WebDriverUtils {
 		mouse.mouseDown(hoverItem.getCoordinates());
 	}
 
-	public static void uploadFile(final WebDriver driver, final By by, final String path) {
+	public static void uploadFile(final WebDriver driver, final By by,
+			final String path) {
 		driver.findElement(by).sendKeys(path);
 	}
 
@@ -777,7 +808,8 @@ public class WebDriverUtils {
 	 * @param xOffset
 	 * @param yOffset
 	 */
-	public static void clickAt(final WebDriver driver, final By by, final int xOffset, final int yOffset) {
+	public static void clickAt(final WebDriver driver, final By by,
+			final int xOffset, final int yOffset) {
 		final Actions builder = new Actions(driver);
 		final WebElement toElement = driver.findElement(by);
 		builder.moveToElement(toElement, xOffset, yOffset).build().perform();
@@ -791,8 +823,8 @@ public class WebDriverUtils {
 	 * @param xOffset
 	 * @param yOffset
 	 */
-	public static void clickAt(final WebDriver driver, final By by, final String xOffset,
-			final String yOffset) {
+	public static void clickAt(final WebDriver driver, final By by,
+			final String xOffset, final String yOffset) {
 		clickAt(driver, by, Integer.parseInt(xOffset),
 				Integer.parseInt(yOffset));
 	}
@@ -805,8 +837,8 @@ public class WebDriverUtils {
 	 * @param xOffset
 	 * @param yOffset
 	 */
-	private static void mouseDownAt(final WebDriver driver, final By by, final int xOffset,
-			final int yOffset) {
+	private static void mouseDownAt(final WebDriver driver, final By by,
+			final int xOffset, final int yOffset) {
 		final Actions builder = new Actions(driver);
 		final WebElement toElement = driver.findElement(by);
 		builder.keyDown(Keys.CONTROL).click(toElement)
@@ -831,7 +863,8 @@ public class WebDriverUtils {
 	 * @param src
 	 * @param target
 	 */
-	public static void dragAndDrop(final WebDriver driver, final By src, final By target) {
+	public static void dragAndDrop(final WebDriver driver, final By src,
+			final By target) {
 		final Actions builder = new Actions(driver);
 		final WebElement srcEle = driver.findElement(src);
 		final WebElement destEle = driver.findElement(target);
@@ -865,14 +898,15 @@ public class WebDriverUtils {
 	 * @param driver
 	 * @param target
 	 */
-	public static void scrollWindowToElement(final WebDriver driver, final By target) {
+	public static void scrollWindowToElement(final WebDriver driver,
+			final By target) {
 		final JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("arguments[0].scrollIntoView();",
 				driver.findElement(target));
 	}
 
-	public static void scrollWindowToElementAt(final WebDriver driver, final By target,
-			final int xOffset) {
+	public static void scrollWindowToElementAt(final WebDriver driver,
+			final By target, final int xOffset) {
 		final Point hoverItem = driver.findElement(target).getLocation();
 		final JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("window.scrollBy(0," + (hoverItem.getX() + xOffset)
@@ -884,13 +918,18 @@ public class WebDriverUtils {
 	}
 
 	public static void highlightElement(final WebDriver driver, final By by) {
+
+		highlightElement(driver, driver.findElement(by));
+	}
+
+	public static void highlightElement(final WebDriver driver,
+			final WebElement elem) {
+
 		if (Config.getInstance().enableHighlighter) {
 			final JavascriptExecutor js = (JavascriptExecutor) driver;
-			WebElement elem = driver.findElement(by);
 			js.executeScript(
 					"arguments[0].setAttribute('style', arguments[1]);", elem,
-					"color: red; border: 2px solid red;");
-			elem = driver.findElement(by);
+					"color: black; border: 3px solid black;");
 			final String time = Config.getInstance().getProperty(
 					"HighlightElement_millis");
 			Navigator.explicitWait(Integer.parseInt(time));
@@ -912,21 +951,21 @@ public class WebDriverUtils {
 	 * @param key
 	 * @param expectedResult
 	 */
-	public static void checkAdobeFlashResults(final WebDriver driver, final By srcBy,
-			final String key, final String expectedResult) {
+	public static void checkAdobeFlashResults(final WebDriver driver,
+			final By srcBy, final String key, final String expectedResult) {
 		// 1. Interact with Adobe Flash to check poll statistics
-		final String temp = DataUtils.decodeURL(WebDriverUtils.getAttribute(driver,
-				srcBy, "value"));
+		final String temp = DataUtils.decodeURL(WebDriverUtils
+				.getAttributeValue(driver, srcBy, "value"));
 		final int index = temp.indexOf("=");
 		final String dataURL = temp.substring(index + 1);
-		final String url = "http://" + Config.getInstance().getProperty("IP") + ":"
-				+ Config.getInstance().getProperty("port") + dataURL;
+		final String url = "http://" + Config.getInstance().getProperty("IP")
+				+ ":" + Config.getInstance().getProperty("port") + dataURL;
 		WebDriverUtils.openURL(driver, url);
 
 		// 2. Check actual result
 		final By by = By.xpath("//set[@name='" + key + "']");
-		final String actualStatistic = WebDriverUtils.getAttribute(driver, by,
-				"value");
+		final String actualStatistic = WebDriverUtils.getAttributeValue(driver,
+				by, "value");
 	}
 
 	private static HashMap<String, Integer> getLevels(final String[] keys) {
@@ -935,22 +974,24 @@ public class WebDriverUtils {
 		for (final String key : keys) {
 			int level = -1;
 			By by = By.xpath("//categories/category");
-			String key_temp = WebDriverUtils.getAttribute(driver, by, "name");
+			String key_temp = WebDriverUtils.getAttributeValue(driver, by,
+					"name");
 			if (key_temp.equals(key)) {
 				level = 1;
 			} else {
 				by = By.xpath("//categories/category/category");
-				key_temp = WebDriverUtils.getAttribute(driver, by, "name");
+				key_temp = WebDriverUtils.getAttributeValue(driver, by, "name");
 				if (key_temp.equals(key)) {
 					level = 2;
 				} else {
 					by = By.xpath("//categories/category/category/category");
-					key_temp = WebDriverUtils.getAttribute(driver, by, "name");
+					key_temp = WebDriverUtils.getAttributeValue(driver, by,
+							"name");
 					if (key_temp.equals(key)) {
 						level = 3;
 					} else {
 						by = By.xpath("//categories/category/category/category/category");
-						key_temp = WebDriverUtils.getAttribute(driver, by,
+						key_temp = WebDriverUtils.getAttributeValue(driver, by,
 								"name");
 						if (key_temp.equals(key)) {
 							level = 4;
@@ -965,15 +1006,15 @@ public class WebDriverUtils {
 		return key_level;
 	}
 
-	public static void checkAdobeFlashResults(final WebDriver driver, final By srcBy,
-			final String[] keys, final String[] expectedResults) {
+	public static void checkAdobeFlashResults(final WebDriver driver,
+			final By srcBy, final String[] keys, final String[] expectedResults) {
 		// 1. Interact with Adobe Flash to check poll statistics
-		final String temp = DataUtils.decodeURL(WebDriverUtils.getAttribute(driver,
-				srcBy, "value"));
+		final String temp = DataUtils.decodeURL(WebDriverUtils
+				.getAttributeValue(driver, srcBy, "value"));
 		final int index = temp.indexOf("=");
 		final String dataURL = temp.substring(index + 1);
-		final String url = "http://" + Config.getInstance().getProperty("IP") + ":"
-				+ Config.getInstance().getProperty("port") + dataURL;
+		final String url = "http://" + Config.getInstance().getProperty("IP")
+				+ ":" + Config.getInstance().getProperty("port") + dataURL;
 		WebDriverUtils.openURL(driver, url);
 
 		// 2. Check actual result
@@ -981,13 +1022,14 @@ public class WebDriverUtils {
 		for (final String expectedResult : expectedResults) {
 			final String key = keys[counter];
 			final By by = By.xpath("//set[@name='" + key + "']");
-			final String actualStatistic = WebDriverUtils.getAttribute(driver, by,
-					"value");
+			final String actualStatistic = WebDriverUtils.getAttributeValue(
+					driver, by, "value");
 			counter++;
 		}
 	}
 
-	public static void takeScreenShot(final WebDriver driver, final String destFile) {
+	public static void takeScreenShot(final WebDriver driver,
+			final String destFile) {
 		final TakesScreenshot takesScreenshot = (TakesScreenshot) driver;
 
 		final File scrFile = takesScreenshot.getScreenshotAs(OutputType.FILE);
