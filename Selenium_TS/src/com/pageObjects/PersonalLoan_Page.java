@@ -27,7 +27,7 @@ public class PersonalLoan_Page {
 	@FindBy(how = How.PARTIAL_LINK_TEXT, using = "APPLY")
 	private List<WebElement> applyBtns;
 
-	public PersonalLoan_Page(WebDriver driver){
+	public PersonalLoan_Page(final WebDriver driver){
 		
 		this.driver = driver;
 	}
