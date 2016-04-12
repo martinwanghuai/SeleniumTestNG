@@ -65,6 +65,11 @@ public class WebDriverUtils {
 
 	}
 
+	public static void gotoPage(final WebDriver driver, final String url){
+	
+		driver.get(url);
+	}
+	
 	public static boolean textPresentInCatalogSearch(final WebDriver driver,
 			final String text) {
 		final By by = By.xpath("//div[@id='contentDivBody']");
@@ -202,6 +207,8 @@ public class WebDriverUtils {
 	}
 
 	public static void switchToPopUpWin(final WebDriver driver) {
+		
+		WebDriverUtils.addVisitedWin(driver);
 		final Set<String> wins = driver.getWindowHandles();
 		wins.removeAll(visitedWins);// remove the visited pop up windows, but
 									// not the newly pop up window
@@ -663,6 +670,10 @@ public class WebDriverUtils {
 		clickButton(driver, by);
 	}
 
+	public static void clickLink(final WebDriver driver, final WebElement elem) {
+		clickButton(driver, elem);
+	}
+	
 	public static String getTextWithoutChecking(final WebDriver driver,
 			final By by) {
 		final int size = driver.findElements(by).size();
@@ -693,13 +704,18 @@ public class WebDriverUtils {
 		String result = "";
 		final int size = getHowManyByPresntInPage(driver, by, false);
 		if (size > 0) {
-			result = getAttribute(driver, driver.findElement(by), attr);
+			result = getAttributeValue(driver, driver.findElement(by), attr);
 		}
 
 		return result;
 	}
+	
+	public static String getWindowTitle(final WebDriver driver){
+		
+		return driver.getTitle();
+	}
 
-	public static String getAttribute(final WebDriver driver,
+	public static String getAttributeValue(final WebDriver driver,
 			final WebElement elem, final String attr) {
 
 		WebDriverUtils.highlightElement(driver, elem);
