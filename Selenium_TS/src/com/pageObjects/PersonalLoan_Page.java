@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
+import com.utils.Checker;
 import com.utils.WebDriverUtils;
 import com.view.Navigator;
 
@@ -27,6 +28,12 @@ public class PersonalLoan_Page {
 	@FindBy(how = How.PARTIAL_LINK_TEXT, using = "APPLY")
 	private List<WebElement> applyBtns;
 
+	@FindBy(how = How.ID, using = "loan-amount")
+	private WebElement loanAmountTextBox;
+	
+	@FindBy(how = How.ID, using = "loan-tenure")
+	private WebElement loanTentureSelector;
+	
 	public PersonalLoan_Page(final WebDriver driver){
 		
 		this.driver = driver;
@@ -56,6 +63,21 @@ public class PersonalLoan_Page {
 		WebDriverUtils.clickButton(driver, applyBtn);
 //		Navigator.explicitWait();
 	}
+	
+	public void inputLoanAmount(final String loanAmount){
+		
+		if(!Checker.isBlank(loanAmount)){
+			WebDriverUtils.fillin_textbox(driver, loanAmountTextBox, loanAmount);	
+		}
+	}
+	
+	public void selectLoanTenture(final String loanTenture){
+
+		if(!Checker.isBlank(loanTenture)){
+			WebDriverUtils.select_selectorByValue(driver, loanTentureSelector, loanTenture);	
+		}
+	}
+	
 	
 	private String getCompanyName(final WebElement applyBtn){
 		

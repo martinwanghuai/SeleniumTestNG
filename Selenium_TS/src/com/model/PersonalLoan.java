@@ -10,8 +10,8 @@ import com.utils.WebDriverUtils;
 
 
 public class PersonalLoan extends com.abstractclasses.TestObject {
-	private String Category = "";
-
+	private String Category = "", LoanAmount = "", LoanTenture = "";
+	
 	@Override
 	public boolean equals(final com.abstractclasses.TestObject para0) {
 		final boolean result = false;
@@ -24,6 +24,22 @@ public class PersonalLoan extends com.abstractclasses.TestObject {
 
 	public String getCategory() {
 		return Category;
+	}
+	
+	public String getLoanAmount() {
+		return LoanAmount;
+	}
+
+	public String getLoanTenture() {
+		return LoanTenture;
+	}
+	
+	public void setLoanAmount(String loanAmount) {
+		LoanAmount = loanAmount;
+	}
+
+	public void setLoanTenture(String loanTenture) {
+		LoanTenture = loanTenture;
 	}
 
 	public void setCategory(final String Category) {
