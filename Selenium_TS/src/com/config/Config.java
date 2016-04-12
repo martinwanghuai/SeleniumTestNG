@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import com.google.common.collect.ImmutableMap;
 import com.utils.Checker;
@@ -62,29 +63,20 @@ public class Config {
 			prop.load(input);
 
 			if (prop.getProperty("test.report.dir") != null) {
-				final Map<String, String> map = ImmutableMap
-						.<String, String> builder()
-						.put("configDir", prop.getProperty("configDir"))
-						.put("resourceDir", prop.getProperty("resourceDir"))
-						.put("test.report.dir",
-								prop.getProperty("test.report.dir"))
-						.put("screenShotDir", prop.getProperty("screenShotDir"))
-						.put("skikuliDir", prop.getProperty("skikuliDir"))
-						.put("ImplicitWait_millis",
-								prop.getProperty("ImplicitWait_millis"))
-						.put("ExplicitWait_millis",
-								prop.getProperty("ExplicitWait_millis"))
-						.put("HighlightElement_millis",
-								prop.getProperty("HighlightElement_millis"))
-						.put("dateFormat", prop.getProperty("dateFormat"))
-						.put("enableHighlighter",
-								prop.getProperty("enableHighlighter"))
-						.put("DEBUG_MODE",
-								prop.getProperty("DEBUG_MODE"))
-						.build();
 
+				Iterator<String> keySet = prop.stringPropertyNames().iterator();
 				
-				for (final Iterator iter = prop.keySet().iterator(); iter.hasNext();) {
+				final ImmutableMap.Builder<String, String> mapBuilder = ImmutableMap
+						.<String, String> builder();
+				
+				while(keySet.hasNext()){
+					
+					final String key = keySet.next();
+					mapBuilder.put(key, prop.getProperty(key));
+				}
+				
+				final Map<String, String> map = mapBuilder.build();
+				for (final Iterator<String> iter = prop.stringPropertyNames().iterator(); iter.hasNext();) {
 					final String key = (String) iter.next();
 					prop.setProperty(key,
 							MapFormatUtils.format(prop.getProperty(key), map));
