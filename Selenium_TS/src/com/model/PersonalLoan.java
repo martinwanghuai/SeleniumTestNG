@@ -1,5 +1,6 @@
 package com.model;
 
+import static org.testng.Assert.assertTrue;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -8,6 +9,7 @@ import org.openqa.selenium.WebElement;
 
 import com.utils.WebDriverUtils;
 import com.view.Navigator;
+
 
 public class PersonalLoan extends com.abstractclasses.TestObject {
 	private String Category = "";
@@ -50,11 +52,26 @@ public class PersonalLoan extends com.abstractclasses.TestObject {
 		by = By.partialLinkText("APPLY");
 		final List<WebElement> applyBtns = driver.findElements(by);
 		
+		if(applyBtns == null){
+			return;
+		}
+		
 		for(int i = 0; i < applyBtns.size() && i < 3; i ++){
-			applyBtns.get(i).click();
+			
+			WebDriverUtils.addVisitedWin(driver);
+			
+			WebElement applyBtn = applyBtns.get(i);
+			final String companyName = WebDriverUtils.getAttribute(driver, applyBtn, "data-companyname");
+			final String productName = WebDriverUtils.getAttribute(driver, applyBtn, "data-productname");
+			WebDriverUtils.clickButton(driver, applyBtn);
 			Navigator.explicitWait();
+			
 			WebDriverUtils.switchToPopUpWin(driver);
 			Navigator.explicitWait();
+			final String winTitle = driver.getTitle();
+			assertTrue(winTitle.contains(companyName) || winTitle.contains(productName));
+			WebDriverUtils.closeAllPopUpWins(driver);
+			
 			WebDriverUtils.switchToBaseWin(driver);
 			Navigator.explicitWait();
 		}
