@@ -525,16 +525,20 @@ public class WebDriverUtils {
 //		new Actions(driver).sendKeys(Keys.CONTROL + "a").perform();
 		
 		//Method 4:
-		 Actions builder = new Actions(driver);
-		  builder.moveToElement(elem)
-		            .keyDown(Keys.CONTROL)
-		            .sendKeys("a", str)
-		            .keyUp(Keys.CONTROL)
-		            .build().perform();
-		    
+	/*	Actions builder = new Actions(driver);
+		builder.moveToElement(elem).keyDown(Keys.CONTROL).sendKeys("a")
+				.keyUp(Keys.CONTROL).build().perform();	    
 
-		elem.sendKeys(str);
+		elem.sendKeys(str);*/
 //		elem.sendKeys(Keys.TAB);
+		
+		
+	/*	final JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].click()", driver.findElement(by));
+	*/	
+		//Method 5:
+		JavascriptExecutor jse = (JavascriptExecutor) driver;
+		jse.executeScript("arguments[0].value = '"+ str +"';", elem);
 	}
 	
 	public static void fillin_textbox(final WebDriver driver, final By by,

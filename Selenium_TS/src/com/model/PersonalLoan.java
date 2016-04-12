@@ -63,7 +63,8 @@ public class PersonalLoan extends com.abstractclasses.TestObject {
 		personalLoanPage.selectCategory(this.getCategory());
 		personalLoanPage.inputLoanAmount(this.getLoanAmount());
 		personalLoanPage.selectLoanTenture(this.getLoanTenure());
-
+		personalLoanPage.clickSearchBtn();
+		
 		final int numOfApplyBtnsToCheck = 3;
 		personalLoanPage.checkProductProviderBasedOnCompanyAndProductName(numOfApplyBtnsToCheck);
 	}

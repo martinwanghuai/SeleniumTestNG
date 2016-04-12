@@ -35,6 +35,14 @@ public class PersonalLoan_Page {
 	@FindBy(how = How.ID, using = "loan-tenure")
 	private WebElement loanTenureSelector;
 	
+	@FindBy(how = How.ID, using = "searchProducts")
+	private WebElement searchBtn;
+	
+	
+	private boolean defaultLoanAmount = false;
+	
+	private boolean defaultLoanTenure = false;
+	
 	public PersonalLoan_Page(final WebDriver driver){
 		
 		this.driver = driver;
@@ -68,6 +76,7 @@ public class PersonalLoan_Page {
 	public void inputLoanAmount(final String loanAmount){
 		
 		if(!Checker.isBlank(loanAmount)){
+			defaultLoanAmount = false;
 			WebDriverUtils.fillin_textbox(driver, loanAmountTextBox, loanAmount);	
 		}
 	}
@@ -75,7 +84,15 @@ public class PersonalLoan_Page {
 	public void selectLoanTenture(final String loanTenure){
 
 		if(!Checker.isBlank(loanTenure)){
+			defaultLoanTenure = false;
 			WebDriverUtils.select_selectorByValue(driver, loanTenureSelector, loanTenure);	
+		}
+	}
+	
+	public void clickSearchBtn(){
+		
+		if(!defaultLoanAmount || !defaultLoanTenure){
+			WebDriverUtils.clickButton(driver, this.searchBtn);
 		}
 	}
 	
