@@ -514,9 +514,27 @@ public class WebDriverUtils {
 			final String str) {
 		
 		WebDriverUtils.highlightElement(driver, elem);
-		elem.clear();
+		
+		//Method 1:
+//		elem.clear();
+		
+		//Method 2:
+//		elem.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+		
+		//Method 3:
+//		new Actions(driver).sendKeys(Keys.CONTROL + "a").perform();
+		
+		//Method 4:
+		 Actions builder = new Actions(driver);
+		  builder.moveToElement(elem)
+		            .keyDown(Keys.CONTROL)
+		            .sendKeys("a", str)
+		            .keyUp(Keys.CONTROL)
+		            .build().perform();
+		    
+
 		elem.sendKeys(str);
-		elem.sendKeys(Keys.TAB);
+//		elem.sendKeys(Keys.TAB);
 	}
 	
 	public static void fillin_textbox(final WebDriver driver, final By by,
@@ -862,6 +880,17 @@ public class WebDriverUtils {
 
 	}
 
+	public static void getFocus(final WebDriver driver, final WebElement targetEle) {
+
+		if (targetEle.getTagName().equals("input")) {
+			targetEle.sendKeys("");
+		} else {
+			final Actions builder = new Actions(driver);
+			builder.moveToElement(targetEle).perform();
+		}
+
+	}
+	
 	/**
 	 * Scroll window automatically to specific web element
 	 * 
