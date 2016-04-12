@@ -13,11 +13,6 @@ import com.google.common.collect.ImmutableMap;
 import com.utils.Checker;
 import com.utils.MapFormatUtils;
 
-/**
- * @author lester.li This is config. class which is used to load all config.
- *         item with key value pair This is also a singleton class which has one
- *         instance only in whole system
- */
 public class Config {
 
 	public static boolean DEBUG_MODE = true;
