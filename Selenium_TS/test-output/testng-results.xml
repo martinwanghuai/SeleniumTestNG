@@ -1,65 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="1" total="1" passed="0">
+<testng-results skipped="0" failed="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="184323" started-at="2016-04-11T13:32:30Z" finished-at="2016-04-11T13:35:34Z">
+  <suite name="Default suite" duration-ms="89926" started-at="2016-04-12T03:38:36Z" finished-at="2016-04-12T03:40:06Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="184323" started-at="2016-04-11T13:32:30Z" finished-at="2016-04-11T13:35:34Z">
+    <test name="Default test" duration-ms="89926" started-at="2016-04-12T03:38:36Z" finished-at="2016-04-12T03:40:06Z">
       <class name="com.controller.TestDriverTestNG">
-        <test-method status="PASS" signature="beforeClass()[pri:0, instance:com.controller.TestDriverTestNG@45b88d9e]" name="beforeClass" is-config="true" duration-ms="40" started-at="2016-04-11T21:32:30Z" finished-at="2016-04-11T21:32:30Z">
+        <test-method status="PASS" signature="beforeClass()[pri:0, instance:com.controller.TestDriverTestNG@50378a4]" name="beforeClass" is-config="true" duration-ms="11" started-at="2016-04-12T11:38:36Z" finished-at="2016-04-12T11:38:36Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- beforeClass -->
-        <test-method status="FAIL" signature="test(com.abstractclasses.TestObject)[pri:0, instance:com.controller.TestDriverTestNG@45b88d9e]" name="test" duration-ms="0" started-at="2016-04-11T21:35:31Z" data-provider="param" finished-at="2016-04-11T21:35:31Z">
-          <exception class="java.lang.RuntimeException">
-            <message>
-              <![CDATA[java.lang.NumberFormatException: For input string: "2;3;4;5"]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[java.lang.RuntimeException: java.lang.NumberFormatException: For input string: "2;3;4;5"
-	at org.testng.internal.MethodInvocationHelper.invokeDataProvider(MethodInvocationHelper.java:161)
-	at org.testng.internal.Parameters.handleParameters(Parameters.java:429)
-	at org.testng.internal.Invoker.handleParameters(Invoker.java:1383)
-	at org.testng.internal.Invoker.createParameters(Invoker.java:1075)
-	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1180)
-	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:127)
-	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:111)
-	at org.testng.TestRunner.privateRun(TestRunner.java:767)
-	at org.testng.TestRunner.run(TestRunner.java:617)
-	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
-	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
-	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
-	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
-	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
-	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
-	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1224)
-	at org.testng.TestNG.runSuitesLocally(TestNG.java:1149)
-	at org.testng.TestNG.run(TestNG.java:1057)
-	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:126)
-	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:137)
-	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:58)
-Caused by: java.lang.NumberFormatException: For input string: "2;3;4;5"
-	at java.lang.NumberFormatException.forInputString(Unknown Source)
-	at java.lang.Integer.parseInt(Unknown Source)
-	at java.lang.Integer.parseInt(Unknown Source)
-	at com.utils.POIUtils.loadTestCaseFromExcelRow(POIUtils.java:409)
-	at com.controller.TestDriverTestNG.addTestCases(TestDriverTestNG.java:157)
-	at com.controller.TestDriverTestNG.loadTestDataFromExcel(TestDriverTestNG.java:126)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
-	at java.lang.reflect.Method.invoke(Unknown Source)
-	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:84)
-	at org.testng.internal.MethodInvocationHelper.invokeDataProvider(MethodInvocationHelper.java:135)
-	... 20 more
-]]>
-            </full-stacktrace>
-          </exception> <!-- java.lang.RuntimeException -->
+        <test-method status="PASS" signature="test(com.abstractclasses.TestObject)[pri:0, instance:com.controller.TestDriverTestNG@50378a4]" name="test" duration-ms="88869" started-at="2016-04-12T11:38:36Z" data-provider="param" finished-at="2016-04-12T11:40:05Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[PersonalLoan_runCheckProducts_2]]>
+              </value>
+            </param>
+          </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- test -->
-        <test-method status="PASS" signature="afterClass()[pri:0, instance:com.controller.TestDriverTestNG@45b88d9e]" name="afterClass" is-config="true" duration-ms="2844" started-at="2016-04-11T21:35:31Z" finished-at="2016-04-11T21:35:34Z">
+        <test-method status="PASS" signature="afterClass()[pri:0, instance:com.controller.TestDriverTestNG@50378a4]" name="afterClass" is-config="true" duration-ms="716" started-at="2016-04-12T11:40:05Z" finished-at="2016-04-12T11:40:06Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- afterClass -->
