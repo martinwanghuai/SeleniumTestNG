@@ -10,7 +10,7 @@ import com.utils.WebDriverUtils;
 
 
 public class PersonalLoan extends com.abstractclasses.TestObject {
-	private String Category = "", LoanAmount = "", LoanTenture = "";
+	private String Category = "", LoanAmount = "", LoanTenure = "";
 	
 	@Override
 	public boolean equals(final com.abstractclasses.TestObject para0) {
@@ -30,16 +30,22 @@ public class PersonalLoan extends com.abstractclasses.TestObject {
 		return LoanAmount;
 	}
 
-	public String getLoanTenture() {
-		return LoanTenture;
+	public String getLoanTenure() {
+		return LoanTenure;
 	}
 	
+	/**[3,000, 200,000]
+	 * 
+	 * @param loanAmount
+	 */
 	public void setLoanAmount(String loanAmount) {
+		
 		LoanAmount = loanAmount;
 	}
 
-	public void setLoanTenture(String loanTenture) {
-		LoanTenture = loanTenture;
+	public void setLoanTenure(String loanTenure) {
+		
+		LoanTenure = loanTenure;
 	}
 
 	public void setCategory(final String Category) {
@@ -55,6 +61,8 @@ public class PersonalLoan extends com.abstractclasses.TestObject {
 		personalLoanPage.enterPersonalLoanPage();
 		personalLoanPage.clickFindLoanBtn();
 		personalLoanPage.selectCategory(this.getCategory());
+		personalLoanPage.inputLoanAmount(this.getLoanAmount());
+		personalLoanPage.selectLoanTenture(this.getLoanTenure());
 
 		final int numOfApplyBtnsToCheck = 3;
 		personalLoanPage.checkProductProviderBasedOnCompanyAndProductName(numOfApplyBtnsToCheck);
