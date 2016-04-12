@@ -233,14 +233,4 @@ public class FunctionUI {
 		return xpath;
 	}
 
-	public static void setDates_UI(final WebDriver driver, final String sDate,
-			final String inputname) {
-		
-		if (!sDate.equals("")) {
-			final String xpath_calendar = FunctionUI.XpathCalendarIcon(driver,
-					inputname);
-			WebDriverUtils.dateSelect_Calandar(driver, sDate, xpath_calendar);
-		}
-	}
-
 }
