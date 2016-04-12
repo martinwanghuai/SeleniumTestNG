@@ -68,6 +68,7 @@ public class TestDriverTestNG {
 			// close the window that uses plugin container before driver.quit();
 			Runtime.getRuntime().exec("taskkill /F /IM plugin-container.exe");
 			driver.manage().deleteAllCookies(); // clear cache
+			WebDriverUtils.closeAllWins(driver);
 			driver.quit();
 
 		} catch (final Exception e) {
