@@ -32,7 +32,7 @@ public class PersonalLoan_Page {
 	private WebElement loanAmountTextBox;
 	
 	@FindBy(how = How.ID, using = "loan-tenure")
-	private WebElement loanTentureSelector;
+	private WebElement loanTenureSelector;
 	
 	public PersonalLoan_Page(final WebDriver driver){
 		
@@ -71,10 +71,10 @@ public class PersonalLoan_Page {
 		}
 	}
 	
-	public void selectLoanTenture(final String loanTenture){
+	public void selectLoanTenture(final String loanTenure){
 
-		if(!Checker.isBlank(loanTenture)){
-			WebDriverUtils.select_selectorByValue(driver, loanTentureSelector, loanTenture);	
+		if(!Checker.isBlank(loanTenure)){
+			WebDriverUtils.select_selectorByValue(driver, loanTenureSelector, loanTenure);	
 		}
 	}
 	
