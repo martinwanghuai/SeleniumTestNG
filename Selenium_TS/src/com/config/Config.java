@@ -30,6 +30,8 @@ public class Config {
 
 	private static Properties testingProperties;
 
+	private static Properties navigationProperties;
+	
 	private final Properties allProperties;
 
 	private static final Config instance = new Config();
@@ -62,33 +64,30 @@ public class Config {
 			input = new FileInputStream(sProperties);
 			prop.load(input);
 
-			if (prop.getProperty("test.report.dir") != null) {
-
-				Iterator<String> keySet = prop.stringPropertyNames().iterator();
+			Iterator<String> keySet = prop.stringPropertyNames().iterator();
+			
+			final ImmutableMap.Builder<String, String> mapBuilder = ImmutableMap
+					.<String, String> builder();
+			
+			while(keySet.hasNext()){
 				
-				final ImmutableMap.Builder<String, String> mapBuilder = ImmutableMap
-						.<String, String> builder();
-				
-				while(keySet.hasNext()){
-					
-					final String key = keySet.next();
-					mapBuilder.put(key, prop.getProperty(key));
-				}
-				
-				final Map<String, String> map = mapBuilder.build();
-				for (final Iterator<String> iter = prop.stringPropertyNames().iterator(); iter.hasNext();) {
-					final String key = (String) iter.next();
-					prop.setProperty(key,
-							MapFormatUtils.format(prop.getProperty(key), map));
-				}
-				
-				if (Boolean.parseBoolean(prop.getProperty("enableHighlighter"))) {
-					enableHighlighter = true;
-				}
-				
-				if (Boolean.parseBoolean(prop.getProperty("DEBUG_MODE"))) {
-					DEBUG_MODE = true;
-				}
+				final String key = keySet.next();
+				mapBuilder.put(key, prop.getProperty(key));
+			}
+			
+			final Map<String, String> map = mapBuilder.build();
+			for (final Iterator<String> iter = prop.stringPropertyNames().iterator(); iter.hasNext();) {
+				final String key = (String) iter.next();
+				prop.setProperty(key,
+						MapFormatUtils.format(prop.getProperty(key), map));
+			}
+			
+			if (Boolean.parseBoolean(prop.getProperty("enableHighlighter"))) {
+				enableHighlighter = true;
+			}
+			
+			if (Boolean.parseBoolean(prop.getProperty("DEBUG_MODE"))) {
+				DEBUG_MODE = true;
 			}
 
 		} catch (final IOException ex) {
@@ -106,9 +105,13 @@ public class Config {
 
 	private Config() {
 		testingProperties = new Properties();
+		navigationProperties = new Properties();
 		allProperties = new Properties();
 		loadProperties(testingProperties, "./conf/config.properties");
 		allProperties.putAll(testingProperties);
+		
+		loadProperties(navigationProperties, "./conf/navigation_hk_en.properties");
+		allProperties.putAll(navigationProperties);
 
 	}
 
