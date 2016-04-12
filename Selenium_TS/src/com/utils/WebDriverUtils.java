@@ -461,67 +461,6 @@ public class WebDriverUtils {
 		WebDriverUtils.clickButton(driver, by);
 	}
 
-	/**
-	 * Apply to choose start date and end date
-	 * 
-	 * @param driver
-	 * @param dateString
-	 * @param xpath_calendar
-	 */
-	public static void dateSelect_Calandar(final WebDriver driver,
-			final String dateString, final String xpath_calendar) {
-		if (!dateString.equals("") && !xpath_calendar.equals("")) {
-			final Calendar cal = DataUtils.strToCalendarDate(dateString);
-
-			final int year = cal.get(Calendar.YEAR);
-			final int month = cal.get(Calendar.MONTH) + 1; // the months are
-															// numbered
-															// from 0 (January)
-															// to
-															// 11 (December).
-			final int day = cal.get(Calendar.DAY_OF_MONTH);
-
-			By by = By.xpath(xpath_calendar);
-			WebDriverUtils.clickLink(driver, by);
-
-			WebDriverUtils.switchToPopUpWin(driver);
-			Navigator.explicitWait(5000);
-			by = By.name("syear");
-			final String str = year + "";
-			int size = getHowManyByPresntInPage(driver, by, false);
-			if (size == 1) {
-				WebDriverUtils.select_selector(driver, by, str);
-			} else {
-				by = By.name("year");
-				size = getHowManyByPresntInPage(driver, by, false);
-				if (size == 1) {
-					WebDriverUtils.select_selector(driver, by, str);
-				}
-			}
-
-			by = By.name("smon");
-			size = getHowManyByPresntInPage(driver, by, false);
-			if (size == 1) {
-				WebDriverUtils.select_selector(driver, by, month - 1); //
-			} else {
-				by = By.name("month");
-				size = getHowManyByPresntInPage(driver, by, false);
-				if (size == 1) {
-					WebDriverUtils.select_selector(driver, by, month - 1);
-				}
-			}
-
-			by = By.linkText(day + "");
-			size = WebDriverUtils.getHowManyByPresntInPage(driver, by, false);
-			if (size == 0) {
-				by = By.xpath("//font[contains(text(),'Today')]/a");
-			}
-			final WebElement we = driver.findElement(by);
-			((JavascriptExecutor) driver).executeScript(
-					"arguments[0].click();", we);
-			WebDriverUtils.switchToParentWin(driver);
-		}
-	}
 
 	public static void importFile_ID(final WebDriver driver,
 			final String HTML_ID, final String fileName) {
@@ -571,20 +510,20 @@ public class WebDriverUtils {
 		}
 	}
 
+	public static void fillin_textbox(final WebDriver driver, final WebElement elem,
+			final String str) {
+		
+		WebDriverUtils.highlightElement(driver, elem);
+		elem.clear();
+		elem.sendKeys(str);
+		elem.sendKeys(Keys.TAB);
+	}
+	
 	public static void fillin_textbox(final WebDriver driver, final By by,
 			final String str) {
+
 		Navigator.waitForAjax(driver, by);
-		WebDriverUtils.highlightElement(driver, by);
-		WebElement element = driver.findElement(by);
-		try {
-			element.clear();
-			element = driver.findElement(by); // AICC set revision will fail if
-												// uncomment this
-			element.sendKeys(str);
-		} catch (final StaleElementReferenceException e) {
-			e.printStackTrace();
-		}
-		element.sendKeys(Keys.TAB);
+		fillin_textbox(driver, driver.findElement(by), str);
 	}
 
 	public static void append_textbox(final WebDriver driver, final By by,
@@ -593,31 +532,46 @@ public class WebDriverUtils {
 		Navigator.waitForAjax(driver, by);
 		WebDriverUtils.highlightElement(driver, by);
 		driver.findElement(by).sendKeys(str);
-
 	}
 
-	public static void select_selector(final WebDriver driver, final By by,
+	public static void select_selectorByText(final WebDriver driver, final By by,
 			final String str) {
+		
 		Navigator.waitForAjax(driver, by);
 		WebDriverUtils.highlightElement(driver, by);
 		new Select(driver.findElement(by)).selectByVisibleText(str);
 	}
 
-	public static void select_selector_partialTexts(final WebDriver driver,
+	public static void select_selectorByPartialTexts(final WebDriver driver,
 			final String name_selector, final String str) {
+
 		final By by = By.xpath("//select[@name='" + name_selector
 				+ "']/option[contains(text(),'" + str + "')]");
 		Navigator.waitForAjax(driver, by);
 		WebDriverUtils.highlightElement(driver, by);
-		;
 		driver.findElement(by).click();
 	}
 
-	public static void select_selector(final WebDriver driver, final By by,
+	public static void select_selectorByIndex(final WebDriver driver, final By by,
 			final int index) {
+		
 		Navigator.waitForAjax(driver, by);
 		WebDriverUtils.highlightElement(driver, by);
 		new Select(driver.findElement(by)).selectByIndex(index);
+	}
+	
+	public static void select_selectorByValue(final WebDriver driver, final By by,
+			final String value) {
+		
+		Navigator.waitForAjax(driver, by);
+		select_selectorByValue(driver, driver.findElement(by), value);
+	}
+	
+	public static void select_selectorByValue(final WebDriver driver, final WebElement elem,
+			final String value) {
+		
+		WebDriverUtils.highlightElement(driver, elem);
+		new Select(elem).selectByValue(value);
 	}
 
 	public static void checkRadio(final WebDriver driver, final By by) {
