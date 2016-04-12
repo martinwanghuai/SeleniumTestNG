@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" total="1" passed="1">
+<testng-results skipped="0" failed="0" total="4" passed="4">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="89926" started-at="2016-04-12T03:38:36Z" finished-at="2016-04-12T03:40:06Z">
+  <suite name="Default suite" duration-ms="8980" started-at="2016-04-12T06:34:49Z" finished-at="2016-04-12T06:34:58Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="89926" started-at="2016-04-12T03:38:36Z" finished-at="2016-04-12T03:40:06Z">
+    <test name="Default test" duration-ms="8980" started-at="2016-04-12T06:34:49Z" finished-at="2016-04-12T06:34:58Z">
       <class name="com.controller.TestDriverTestNG">
-        <test-method status="PASS" signature="beforeClass()[pri:0, instance:com.controller.TestDriverTestNG@50378a4]" name="beforeClass" is-config="true" duration-ms="11" started-at="2016-04-12T11:38:36Z" finished-at="2016-04-12T11:38:36Z">
+        <test-method status="PASS" signature="beforeClass()[pri:0, instance:com.controller.TestDriverTestNG@50378a4]" name="beforeClass" is-config="true" duration-ms="10" started-at="2016-04-12T14:34:49Z" finished-at="2016-04-12T14:34:49Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- beforeClass -->
-        <test-method status="PASS" signature="test(com.abstractclasses.TestObject)[pri:0, instance:com.controller.TestDriverTestNG@50378a4]" name="test" duration-ms="88869" started-at="2016-04-12T11:38:36Z" data-provider="param" finished-at="2016-04-12T11:40:05Z">
+        <test-method status="PASS" signature="test(com.abstractclasses.TestObject)[pri:0, instance:com.controller.TestDriverTestNG@50378a4]" name="test" duration-ms="4723" started-at="2016-04-12T14:34:49Z" data-provider="param" finished-at="2016-04-12T14:34:54Z">
           <params>
             <param index="0">
               <value>
@@ -22,7 +22,40 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- test -->
-        <test-method status="PASS" signature="afterClass()[pri:0, instance:com.controller.TestDriverTestNG@50378a4]" name="afterClass" is-config="true" duration-ms="716" started-at="2016-04-12T11:40:05Z" finished-at="2016-04-12T11:40:06Z">
+        <test-method status="PASS" signature="test(com.abstractclasses.TestObject)[pri:0, instance:com.controller.TestDriverTestNG@50378a4]" name="test" duration-ms="1211" started-at="2016-04-12T14:34:54Z" data-provider="param" finished-at="2016-04-12T14:34:55Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[PersonalLoan_runCheckProducts_3]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- test -->
+        <test-method status="PASS" signature="test(com.abstractclasses.TestObject)[pri:0, instance:com.controller.TestDriverTestNG@50378a4]" name="test" duration-ms="905" started-at="2016-04-12T14:34:55Z" data-provider="param" finished-at="2016-04-12T14:34:56Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[PersonalLoan_runCheckProducts_4]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- test -->
+        <test-method status="PASS" signature="test(com.abstractclasses.TestObject)[pri:0, instance:com.controller.TestDriverTestNG@50378a4]" name="test" duration-ms="1500" started-at="2016-04-12T14:34:56Z" data-provider="param" finished-at="2016-04-12T14:34:57Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[PersonalLoan_runCheckProducts_5]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- test -->
+        <test-method status="PASS" signature="afterClass()[pri:0, instance:com.controller.TestDriverTestNG@50378a4]" name="afterClass" is-config="true" duration-ms="346" started-at="2016-04-12T14:34:57Z" finished-at="2016-04-12T14:34:58Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- afterClass -->
