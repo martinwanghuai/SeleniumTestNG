@@ -29,8 +29,6 @@ public class Config {
 
 	private static Properties testingProperties;
 
-	private final Properties ekpProperties;
-
 	private final Properties allProperties;
 
 	private static final Config instance = new Config();
@@ -63,20 +61,15 @@ public class Config {
 			input = new FileInputStream(sProperties);
 			prop.load(input);
 
-			if (!(prop.getProperty("test.report.dir") == null)) {
+			if (prop.getProperty("test.report.dir") != null) {
 				final Map<String, String> map = ImmutableMap
 						.<String, String> builder()
-						.put("IP", prop.getProperty("IP"))
-						.put("port", prop.getProperty("port"))
-						.put("domain", prop.getProperty("domain"))
 						.put("configDir", prop.getProperty("configDir"))
 						.put("resourceDir", prop.getProperty("resourceDir"))
 						.put("test.report.dir",
 								prop.getProperty("test.report.dir"))
 						.put("screenShotDir", prop.getProperty("screenShotDir"))
 						.put("skikuliDir", prop.getProperty("skikuliDir"))
-						.put("tomcatDir",
-								System.getenv("CATALINA_HOME") + "/webapps")
 						.put("ImplicitWait_millis",
 								prop.getProperty("ImplicitWait_millis"))
 						.put("ExplicitWait_millis",
@@ -84,20 +77,24 @@ public class Config {
 						.put("HighlightElement_millis",
 								prop.getProperty("HighlightElement_millis"))
 						.put("dateFormat", prop.getProperty("dateFormat"))
-						.put("baseURL", prop.getProperty("baseURL")).build();
+						.put("enableHighlighter",
+								prop.getProperty("enableHighlighter"))
+						.put("DEBUG_MODE",
+								prop.getProperty("DEBUG_MODE"))
+						.build();
 
-				prop.setProperty("baseURL",
-						MapFormatUtils.format(prop.getProperty("baseURL"), map));
 				
 				for (final Iterator iter = prop.keySet().iterator(); iter.hasNext();) {
 					final String key = (String) iter.next();
 					prop.setProperty(key,
 							MapFormatUtils.format(prop.getProperty(key), map));
 				}
-				if (Boolean.getBoolean(prop.getProperty("enableHighlighter"))) {
+				
+				if (Boolean.parseBoolean(prop.getProperty("enableHighlighter"))) {
 					enableHighlighter = true;
 				}
-				if (Boolean.getBoolean(prop.getProperty("DEBUG_MODE"))) {
+				
+				if (Boolean.parseBoolean(prop.getProperty("DEBUG_MODE"))) {
 					DEBUG_MODE = true;
 				}
 			}
@@ -116,14 +113,11 @@ public class Config {
 	}
 
 	private Config() {
-		ekpProperties = new Properties();
 		testingProperties = new Properties();
 		allProperties = new Properties();
 		loadProperties(testingProperties, "./conf/config.properties");
 		allProperties.putAll(testingProperties);
 
-		/*loadProperties(ekpProperties, getProperty("ekp.properties"));
-		allProperties.putAll(ekpProperties);
-*/	}
+	}
 
 }
