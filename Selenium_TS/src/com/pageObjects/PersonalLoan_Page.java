@@ -41,7 +41,7 @@ public class PersonalLoan_Page {
 	public void clickFindLoanBtn(){
 		
 		WebDriverUtils.clickLink(driver, findLoanBtn);
-		//Navigator.explicitWait();
+		Navigator.explicitWait();
 	}
 	
 	public void selectCategory(final String category){
