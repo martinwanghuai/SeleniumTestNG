@@ -93,6 +93,7 @@ public class PersonalLoan_Page {
 		
 		if(!defaultLoanAmount || !defaultLoanTenure){
 			WebDriverUtils.clickButton(driver, this.searchBtn);
+			Navigator.explicitWait();
 		}
 	}
 	
