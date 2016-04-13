@@ -932,7 +932,7 @@ public class WebDriverUtils {
 			final JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript(
 					"arguments[0].setAttribute('style', arguments[1]);", elem,
-					"color: black; border: 3px solid black;");
+					"color: red; border: 3px solid red;");
 			final String time = Config.getInstance().getProperty(
 					"HighlightElement_millis");
 			Navigator.explicitWait(Integer.parseInt(time));
